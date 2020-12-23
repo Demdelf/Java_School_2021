@@ -1,10 +1,6 @@
 package shop.service;
 
 import java.util.List;
-import java.util.Optional;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import shop.dao.Dao;
 

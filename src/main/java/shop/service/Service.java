@@ -3,7 +3,6 @@ package shop.service;
 import java.util.List;
 
 
-
 public interface Service<T> {
     T findOne(long id);
 

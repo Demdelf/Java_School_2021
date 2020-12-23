@@ -1,16 +1,5 @@
 package shop.dao;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Consumer;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Repository;
-
 //@AllArgsConstructor
 //@Repository
 public class AdminDao /*implements Dao<Admin>*/{
