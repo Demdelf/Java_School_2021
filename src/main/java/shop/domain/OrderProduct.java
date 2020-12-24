@@ -1,22 +1,23 @@
 package shop.domain;
 
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@Table(name = "ORDERS_PRODUCTS")
+public class OrderProduct extends AbstractEntity {
 
-@Table(name = "PRODUCTS")
-public class Product extends AbstractEntity{
+    @Column(name = "PRODUCT_ID")
+    private Long productId;
 
     @Column(name = "NAME")
     private String name;
@@ -24,19 +25,23 @@ public class Product extends AbstractEntity{
     @Column(name = "PRICE")
     private Double price;
 
-    @ManyToOne
-    @JoinColumn(name = "CATEGORY_ID")
-    private Category category;
-
     @Column(name = "WEIGHT")
     private Double weight;
 
     @Column(name = "VOLUME")
     private Double volume;
 
-    @Column(name = "STOCK")
-    private Integer stock;
+    @Column(name = "QUANTITY")
+    private Integer quantity;
 
-    @OneToMany(mappedBy = "id")
-    private List<PropertyValue> propertyValues;
+    @ManyToOne
+    @JoinColumn(name = "ORDER_ID")
+    private Order order;
+
+//    @Column(name = "USER_ID")
+//    private Long userId;
+//
+//    @Column(name = "CUSTOMER_ADDRESS_ID")
+//    private Long customerAddressId;
+
 }

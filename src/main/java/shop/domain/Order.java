@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Getter;
@@ -41,6 +42,9 @@ public class Order extends AbstractEntity{
 
     @Column(name = "DELIVERY_STATUS")
     private DeliveryStatus deliveryStatus;
+
+    @OneToMany(mappedBy = "id")
+    private List<OrderProduct> orderProducts;
 
 //    @OneToOne(mappedBy = "id")
 //    private Bucket bucket;

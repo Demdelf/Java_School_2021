@@ -3,7 +3,9 @@ package shop.domain;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Getter;
@@ -26,6 +28,7 @@ public class Property extends AbstractEntity{
     @OneToMany(mappedBy = "id")
     private List<PropertyValue> values;
 
-    @ManyToMany(mappedBy = "CATEGORY_ID")
-    private List<Category> categories;
+    @ManyToOne
+    @JoinColumn(name = "CATEGORY_ID")
+    private Category category;
 }

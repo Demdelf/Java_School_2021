@@ -35,11 +35,11 @@ public class User extends AbstractEntity{
     @Column(name = "BIRTHDAY")
     private LocalDate birthday;
 
-//    @OneToMany(mappedBy = "user")
-//    private List<Order> orders;
-//
-//    @OneToMany(mappedBy = "id")
-//    private List<CustomerAddress> addresses;
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
+
+    @OneToMany(mappedBy = "id")
+    private List<CustomerAddress> addresses;
 
     @ManyToOne
     @JoinColumn(name = "ROLE_ID")

@@ -25,4 +25,8 @@ public class PropertyValue extends AbstractEntity {
     @ManyToOne
     @JoinColumn(name = "PROPERTY_ID")
     private Property property;
+
+    @ManyToOne
+    @JoinColumn(name = "PRODUCT_ID")
+    private Product product;
 }
