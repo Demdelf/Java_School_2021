@@ -25,9 +25,9 @@ public class CustomerAddress extends AbstractEntity {
     private String apartment;
 
     @ManyToOne
-    @JoinColumn(name = "customer")
-    private Customer customer;
+    @JoinColumn(name = "id" )
+    private User user;
 
-    @OneToMany(mappedBy = "orders")
+    @OneToMany(mappedBy = "id")
     private List<Order> orders;
 }

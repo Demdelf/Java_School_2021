@@ -2,9 +2,9 @@ package shop.service;
 
 import org.springframework.stereotype.Service;
 import shop.dao.CustomerDao;
-import shop.domain.Customer;
+import shop.domain.User;
 
 @Service
-public class CustomerService extends AbstractService<Customer> {
+public class CustomerService extends AbstractService<User> {
     CustomerDao dao;
 }

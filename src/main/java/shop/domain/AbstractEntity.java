@@ -12,8 +12,9 @@ import lombok.Setter;
 @Setter
 @MappedSuperclass
 public abstract class AbstractEntity {
+
     @Id
-    @Column(name = "id")
+    @Column(name = "id"/*, nullable = false*/)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 }

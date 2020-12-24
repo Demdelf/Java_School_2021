@@ -1,15 +1,14 @@
 package shop.dao;
 
 import javax.persistence.EntityManager;
-import org.springframework.stereotype.Repository;
-import shop.domain.Customer;
+import shop.domain.User;
 
 
-@Repository
-public class CustomerDao extends AbstractDao<Customer> implements Dao<Customer> {
+//@Repository
+public class CustomerDao extends AbstractDao<User> implements Dao<User> {
 
     public CustomerDao(EntityManager entityManager) {
         super(entityManager);
-        setClazz(Customer.class);
+        setClazz(User.class);
     }
 }

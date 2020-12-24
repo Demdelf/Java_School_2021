@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import shop.domain.Customer;
+import shop.domain.User;
 import shop.service.CustomerService;
 
 @RestController
@@ -17,13 +17,13 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @GetMapping
-    public List<Customer> getAll(){
+    public List<User> getAll(){
         return customerService.findAll();
     }
 
     @PostMapping
-    public Long create(@RequestBody Customer customer){
-        Long id = customerService.create(customer).getId();
+    public Long create(@RequestBody User user){
+        Long id = customerService.create(user).getId();
         return id;
     }
 

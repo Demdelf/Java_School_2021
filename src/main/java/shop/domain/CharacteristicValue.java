@@ -19,6 +19,6 @@ public class CharacteristicValue extends AbstractEntity {
     private Object value;
 
     @ManyToOne
-    @JoinColumn(name = "characteristic")
+    @JoinColumn(name = "id")
     private Characteristic characteristic;
 }

@@ -19,9 +19,9 @@ public class Characteristic extends AbstractEntity{
     private String name;
     private String type;
 
-    @OneToMany(mappedBy = "characteristic")
+    @OneToMany(mappedBy = "id")
     private List<CharacteristicValue> values;
 
-    @ManyToMany(mappedBy = "categories")
+    @ManyToMany(mappedBy = "id")
     private List<Category> categories;
 }
