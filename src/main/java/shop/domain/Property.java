@@ -1,6 +1,7 @@
 package shop.domain;
 
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -13,14 +14,17 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "CHARACTERISTICS")
-public class Characteristic extends AbstractEntity{
+@Table(name = "PROPERTIES")
+public class Property extends AbstractEntity{
 
+    @Column(name = "NAME")
     private String name;
+
+    @Column(name = "TYPE")
     private String type;
 
     @OneToMany(mappedBy = "id")
-    private List<CharacteristicValue> values;
+    private List<PropertyValue> values;
 
     @ManyToMany(mappedBy = "id")
     private List<Category> categories;

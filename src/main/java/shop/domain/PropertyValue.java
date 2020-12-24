@@ -1,5 +1,6 @@
 package shop.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -12,13 +13,16 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "CHARACTERISTICVALUES")
-public class CharacteristicValue extends AbstractEntity {
+@Table(name = "PROPERTY_VALUES")
+public class PropertyValue extends AbstractEntity {
 
+    @Column(name = "NAME")
     private String name;
+
+    @Column(name = "VALUE")
     private Object value;
 
     @ManyToOne
-    @JoinColumn(name = "id")
-    private Characteristic characteristic;
+    @JoinColumn(name = "PROPERTY_ID")
+    private Property property;
 }
