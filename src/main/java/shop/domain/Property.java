@@ -26,6 +26,6 @@ public class Property extends AbstractEntity{
     @OneToMany(mappedBy = "id")
     private List<PropertyValue> values;
 
-    @ManyToMany(mappedBy = "id")
+    @ManyToMany(mappedBy = "CATEGORY_ID")
     private List<Category> categories;
 }

@@ -20,7 +20,7 @@ public class Category extends AbstractEntity {
     @Column(name = "NAME")
     private String name;
 
-    @ManyToMany(mappedBy = "id")
+    @ManyToMany(mappedBy = "PROPERTY_ID")
     private List<Property> properties;
 
     @OneToMany(mappedBy = "id")

@@ -14,7 +14,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
+
 @Table(name = "PRODUCTS")
 public class Product extends AbstractEntity{
 
@@ -37,8 +37,8 @@ public class Product extends AbstractEntity{
     @Column(name = "STOCK")
     private Integer stock;
 
-    @ManyToMany(mappedBy = "id")
-    private List<Bucket> bucket;
+    @ManyToMany(mappedBy = "products")
+    private List<Bucket> buckets;
 
 //    @ManyToMany(mappedBy = "id")
 //    private List<Order> orders;

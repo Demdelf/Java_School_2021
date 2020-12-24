@@ -13,14 +13,14 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
+
 @Table(name = "BUCKETS")
 public class Bucket extends AbstractEntity{
 
-    @ManyToMany(mappedBy = "id")
+    @ManyToMany(mappedBy = "buckets")
     private List<Product> products;
 
-    @OneToOne(mappedBy = "id")
-    @JoinColumn(name = "ORDER_ID")
-    private Order order;
+//    @OneToOne(mappedBy = "id")
+//    @JoinColumn(name = "ORDER_ID")
+//    private Order order;
 }

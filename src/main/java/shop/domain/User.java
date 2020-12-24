@@ -42,7 +42,7 @@ public class User extends AbstractEntity{
 //    private List<CustomerAddress> addresses;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "ROLE_ID")
     private Role role;
 
 }

@@ -12,7 +12,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
+
 @Table(name = "PROPERTY_VALUES")
 public class PropertyValue extends AbstractEntity {
 
@@ -20,7 +20,7 @@ public class PropertyValue extends AbstractEntity {
     private String name;
 
     @Column(name = "VALUE")
-    private Object value;
+    private String value;
 
     @ManyToOne
     @JoinColumn(name = "PROPERTY_ID")

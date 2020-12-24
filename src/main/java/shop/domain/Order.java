@@ -24,7 +24,7 @@ public class Order extends AbstractEntity{
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "ADDRESS_ID")
+    @JoinColumn(name = "CUSTOMER_ADDRESS_ID")
     private CustomerAddress address;
 
     @Column(name = "PAYMENT_METHOD")
@@ -42,6 +42,6 @@ public class Order extends AbstractEntity{
     @Column(name = "DELIVERY_STATUS")
     private DeliveryStatus deliveryStatus;
 
-    @OneToOne(mappedBy = "id")
-    private Bucket bucket;
+//    @OneToOne(mappedBy = "id")
+//    private Bucket bucket;
 }
