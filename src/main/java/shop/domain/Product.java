@@ -8,7 +8,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
@@ -38,7 +37,7 @@ public class Product extends AbstractEntity{
     private Integer stock;
 
     @ManyToMany(mappedBy = "products")
-    private List<Bucket> buckets;
+    private List<Cart> carts;
 
 //    @ManyToMany(mappedBy = "id")
 //    private List<Order> orders;

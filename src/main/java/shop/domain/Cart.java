@@ -14,10 +14,10 @@ import lombok.Setter;
 @Getter
 @Setter
 
-@Table(name = "BUCKETS")
-public class Bucket extends AbstractEntity{
+@Table(name = "CARTS")
+public class Cart extends AbstractEntity{
 
-    @ManyToMany(mappedBy = "buckets")
+    @ManyToMany(mappedBy = "carts")
     private List<Product> products;
 
 //    @OneToOne(mappedBy = "id")
