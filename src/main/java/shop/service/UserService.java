@@ -1,0 +1,22 @@
+package shop.service;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+import shop.dao.UserDao;
+import shop.domain.User;
+
+@Service
+//@Transactional(readOnly = true)
+@RequiredArgsConstructor
+public class UserService extends AbstractService<User> implements UserDetailsService {
+
+    public final UserDao dao;
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return dao.getUserByEmail(email);
+    }
+}

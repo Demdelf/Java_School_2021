@@ -7,7 +7,7 @@ public interface Dao<T> {
 
     Optional<T> findOne(long id);
 
-    List<T> findAll();
+    List<T> findAll(int pageSize);
 
     T create(T t);
 

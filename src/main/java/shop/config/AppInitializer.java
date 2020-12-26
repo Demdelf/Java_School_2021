@@ -1,12 +1,13 @@
 package shop.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+import shop.config.security.SecurityConfig;
 
 public class AppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { HibernateConfig.class };
+        return new Class[] { DBconfig.class, SecurityConfig.class  };
     }
 
     @Override

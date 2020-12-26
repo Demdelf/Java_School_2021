@@ -17,8 +17,8 @@ public abstract class AbstractService<T> {
         return dao.findOne(id).get();
     }
 
-    public List<T> findAll() {
-        return dao.findAll();
+    public List<T> findAll(int pageSize) {
+        return dao.findAll(pageSize);
     }
 
     public T create(final T entity) {

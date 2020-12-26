@@ -3,6 +3,7 @@ package shop.dao;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -13,7 +14,7 @@ public abstract class AbstractDao<T> {
 
     private Class<T> clazz;
 
-    private final EntityManager entityManager;
+    protected final EntityManager entityManager;
 
     public final void setClazz(final Class<T> clazzToSet) {
         this.clazz = clazzToSet;
@@ -23,14 +24,18 @@ public abstract class AbstractDao<T> {
         return Optional.ofNullable(entityManager.find(clazz, id));
     }
 
-    public List<T> findAll() {
+    public List<T> findAll(int pageSize) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<T> query = criteriaBuilder.createQuery(clazz);
 
         Root<T> root = query.from(clazz);
         query.select(root);
 
-        return entityManager.createQuery(query).getResultList();
+        TypedQuery<T> typedQuery = entityManager.createQuery(query);
+        typedQuery.setFirstResult(0);
+        typedQuery.setMaxResults(pageSize);
+
+        return typedQuery.getResultList();
     }
 
     public T create(final T entity) {
