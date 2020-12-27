@@ -27,17 +27,17 @@
 		<form:form action="addUser" method="post" modelAttribute="user">
 			<table>
 				<tr>
-					<td>Name</td>
+					<td>Email</td>
 					<td>
 						<form:input path="email" /> <br />
 						<form:errors path="email" cssClass="error" />
 					</td>
 				</tr>
 				<tr>
-					<td>Email</td>
+					<td>Password</td>
 					<td>
-						<form:input path="firstName" /> <br />
-						<form:errors path="firstName" cssClass="error" />
+						<form:input path="password" /> <br />
+						<form:errors path="password" cssClass="error" />
 					</td>
 				</tr>
 				<tr>

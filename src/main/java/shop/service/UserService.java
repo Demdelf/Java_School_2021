@@ -6,7 +6,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import shop.dao.UserDao;
 import shop.dao.UserDaoImp;
 import shop.domain.User;
@@ -28,6 +30,7 @@ public class UserService implements UserDetailsService {
     }
     @Transactional
     public User create(final User entity) {
+        TransactionStatus transactionStatus = TransactionAspectSupport.currentTransactionStatus();
         return dao.create(entity);
     }
 }
