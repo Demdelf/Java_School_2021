@@ -17,7 +17,7 @@ import shop.service.UserService;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@ComponentScans(value = { @ComponentScan("shop")})
+//@ComponentScans(value = { @ComponentScan("shop")})
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserService userService;

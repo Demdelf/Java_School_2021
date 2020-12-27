@@ -12,11 +12,11 @@ import shop.dao.UserDaoImp;
 import shop.domain.User;
 
 @Service
-//@Transactional(readOnly = true)
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
-    private final UserDao dao;
+    private final UserDaoImp dao;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
