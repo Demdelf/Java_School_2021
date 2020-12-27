@@ -1,6 +1,5 @@
 package shop.service;
 
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,20 +12,12 @@ import shop.domain.User;
 @Service
 //@Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class UserService implements UserDetailsService {
+public class UserServiceImp extends AbstractService<User> implements UserDetailsService {
 
-    private final UserDao dao;
+    private final UserDaoImp dao;
 
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return dao.getUserByEmail(s);
-    }
-
-    public List<User> findAll(int pageSize) {
-        return dao.findAll(pageSize);
-    }
-
-    public User create(final User entity) {
-        return dao.create(entity);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return dao.getUserByEmail(email);
     }
 }
