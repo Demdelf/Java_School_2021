@@ -7,8 +7,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+import shop.dao.Dao;
+import shop.dao.DaoInt;
 import shop.dao.UserDao;
 import shop.dao.UserDaoImp;
 import shop.domain.User;
@@ -16,9 +19,9 @@ import shop.domain.User;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class UserService implements UserDetailsService {
+public class UserService implements UserServiceInterface {
 
-    private final UserDaoImp dao;
+    private final DaoInt dao;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
@@ -28,6 +31,7 @@ public class UserService implements UserDetailsService {
     public List<User> findAll(int pageSize) {
         return dao.findAll(pageSize);
     }
+
     @Transactional
     public User create(final User entity) {
         TransactionStatus transactionStatus = TransactionAspectSupport.currentTransactionStatus();

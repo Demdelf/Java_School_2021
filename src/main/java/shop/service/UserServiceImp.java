@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import shop.dao.DaoInt;
 import shop.dao.UserDao;
 import shop.dao.UserDaoImp;
 import shop.domain.User;
@@ -14,7 +15,7 @@ import shop.domain.User;
 @RequiredArgsConstructor
 public class UserServiceImp extends AbstractService<User> implements UserDetailsService {
 
-    private final UserDaoImp dao;
+    private final DaoInt dao;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

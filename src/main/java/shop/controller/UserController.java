@@ -12,12 +12,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import shop.domain.User;
 import shop.service.UserService;
+import shop.service.UserServiceInterface;
 
 @Controller
 //@RequestMapping("api/users")
 @RequiredArgsConstructor
 public class UserController {
-    private final UserService userService;
+    private final UserServiceInterface userService;
 
     @GetMapping("/get-all")
     public List<User> getAll(int pageSize){

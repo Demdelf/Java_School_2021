@@ -10,14 +10,16 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import shop.domain.User;
 
 @Repository
 @RequiredArgsConstructor
-public class UserDaoImp implements Dao<User>{
+public class UserDaoImp implements DaoInt{
     private final EntityManager entityManager;
 
-    @Override
+
     public Optional<User> findOne(long id) {
         return Optional.ofNullable(entityManager.find(User.class, id));
     }
@@ -38,21 +40,22 @@ public class UserDaoImp implements Dao<User>{
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public User create(User user) {
 
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
         entityManager.persist(user);
         transaction.commit();
-//        entityManager.flush();
         return user;
     }
 
-    @Override
+
     public void delete(User user) {
         entityManager.remove(user);
     }
 
+    @Override
     public User getUserByEmail(String email){
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<User> query = criteriaBuilder.createQuery(User.class);

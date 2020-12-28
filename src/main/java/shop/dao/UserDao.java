@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import shop.domain.User;
 
 
-@Repository
+//@Repository
 public class UserDao extends AbstractDao<User> implements Dao<User> {
 
     public UserDao(EntityManager entityManager) {

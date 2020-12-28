@@ -19,7 +19,7 @@ import org.springframework.web.servlet.view.JstlView;
 @ComponentScan(basePackages = "shop.controller")
 //@ComponentScan(basePackages = { "shop"})
 //@ComponentScans(value = { @ComponentScan("shop")})
-//@EnableTransactionManagement(proxyTargetClass = true)
+@EnableTransactionManagement
 public class WebMvcConfig implements WebMvcConfigurer {
 
     @Bean

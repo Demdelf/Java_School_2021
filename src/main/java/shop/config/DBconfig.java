@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @ComponentScan(basePackages = "shop")
-@EnableTransactionManagement(proxyTargetClass = true)
+//@EnableTransactionManagement(proxyTargetClass = true)
 public class DBconfig {
 
     @Bean

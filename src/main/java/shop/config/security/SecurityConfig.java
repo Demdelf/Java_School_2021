@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import shop.service.UserService;
+import shop.service.UserServiceInterface;
 
 @Configuration
 @EnableWebSecurity
@@ -20,7 +21,7 @@ import shop.service.UserService;
 //@ComponentScans(value = { @ComponentScan("shop")})
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserService userService;
+    private final UserServiceInterface userService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
