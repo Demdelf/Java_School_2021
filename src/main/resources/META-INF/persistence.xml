@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+    version="2.0">
+    <persistence-unit name="shop">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <!--        Сущности сб базовым маппингом-->
+        <class>shop.domain.CustomerAddress</class>
+        <class>shop.domain.Property</class>
+        <class>shop.domain.PropertyValue</class>
+        <class>shop.domain.Category</class>
+        <class>shop.domain.Product</class>
+
+        <properties>
+            <!-- Configuring The Database Connection Details -->
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/mms?useUnicode=true&amp;serverTimezone=UTC" />
+            <property name="javax.persistence.jdbc.user" value="mms" />
+<!--            <property name="javax.persistence.jdbc.password" value="${MMS_MYSQL_DB_PASSWORD}" />-->
+            <property name="javax.persistence.jdbc.password" value="1userForMMS" />
+            <property name="hibernate.hbm2ddl.auto" value="validate" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+        </properties>
+    </persistence-unit>
+</persistence>
