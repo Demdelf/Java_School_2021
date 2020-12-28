@@ -40,7 +40,6 @@ public class UserDaoImp implements DaoInt{
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED)
     public User create(User user) {
 
         EntityTransaction transaction = entityManager.getTransaction();

@@ -10,8 +10,8 @@ import shop.dao.UserDao;
 import shop.dao.UserDaoImp;
 import shop.domain.User;
 
-@Service
-//@Transactional(readOnly = true)
+//@Service
+////@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class UserServiceImp extends AbstractService<User> implements UserDetailsService {
 
