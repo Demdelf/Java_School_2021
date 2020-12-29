@@ -1,15 +1,13 @@
 package shop.dao;
 
-import javax.persistence.EntityManager;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 import shop.domain.PropertyValue;
-import shop.domain.User;
 
-@Repository
-public class PropertyValueDao  extends AbstractDao<PropertyValue> implements Dao<PropertyValue>{
-
-    public PropertyValueDao(EntityManager entityManager) {
-        super(entityManager);
-        setClazz(PropertyValue.class);
-    }
+public interface PropertyValueDao {
+    List<PropertyValue> getAll();
+    PropertyValue getById(int id);
+    PropertyValue getByName(String name);
+    void create(String name);
+    void update(PropertyValue value);
+    void delete(PropertyValue value);
 }

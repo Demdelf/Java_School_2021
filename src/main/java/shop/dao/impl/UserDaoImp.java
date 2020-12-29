@@ -1,22 +1,20 @@
-package shop.dao;
+package shop.dao.impl;
 
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+import shop.dao.UserDaoInt;
 import shop.domain.User;
 
 @Repository
 @RequiredArgsConstructor
-public class UserDaoImp implements DaoInt{
+public class UserDaoImp implements UserDaoInt {
     private final EntityManager entityManager;
 
 
@@ -42,10 +40,10 @@ public class UserDaoImp implements DaoInt{
     @Override
     public User create(User user) {
 
-        EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
+//        EntityTransaction transaction = entityManager.getTransaction();
+//        transaction.begin();
         entityManager.persist(user);
-        transaction.commit();
+//        transaction.commit();
         return user;
     }
 

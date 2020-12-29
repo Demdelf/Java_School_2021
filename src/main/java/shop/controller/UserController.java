@@ -36,7 +36,7 @@ public class UserController {
         return new User();
     }
 
-    @GetMapping("/")
+    @GetMapping("/all")
     public String userForm(Locale locale, Model model) {
         model.addAttribute("users", userService.findAll(10));
         return "editUsers";

@@ -1,14 +1,14 @@
 package shop.dao;
 
-import javax.persistence.EntityManager;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 import shop.domain.Property;
 
-@Repository
-public class PropertyDao extends AbstractDao<Property> implements Dao<Property>{
+public interface PropertyDao {
 
-    public PropertyDao(EntityManager entityManager) {
-        super(entityManager);
-        setClazz(Property.class);
-    }
+    List<Property> getAll();
+    Property getByName(String name);
+    Property getById(int id);
+    void create(Property property);
+    void update(Property property);
+    void delete(String name);
 }

@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
     version="2.0">
-    <persistence-unit name="shop">
+    <persistence-unit name="shop-persistence-unit">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
         <!--        Сущности сб базовым маппингом-->
@@ -12,6 +12,11 @@
         <class>shop.domain.PropertyValue</class>
         <class>shop.domain.Category</class>
         <class>shop.domain.Product</class>
+        <class>shop.domain.User</class>
+        <class>shop.domain.Cart</class>
+        <class>shop.domain.Order</class>
+        <class>shop.domain.OrderProduct</class>
+        <class>shop.domain.Role</class>
 
         <properties>
             <!-- Configuring The Database Connection Details -->

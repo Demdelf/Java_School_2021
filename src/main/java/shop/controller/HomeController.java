@@ -19,7 +19,7 @@ import shop.domain.User;
 @Controller
 public class HomeController 
 {
-	@GetMapping("/home")
+	@GetMapping("/")
 	public String homeInit(Locale locale, Model model) {
 
 		return "home";

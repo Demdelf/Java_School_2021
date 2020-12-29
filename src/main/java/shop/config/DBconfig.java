@@ -11,13 +11,12 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@ComponentScan(basePackages = "shop")
-//@EnableTransactionManagement(proxyTargetClass = true)
+@EnableTransactionManagement
 public class DBconfig {
 
     @Bean
     public EntityManagerFactory getEntityManagerFactory(){
-        return Persistence.createEntityManagerFactory("shop");
+        return Persistence.createEntityManagerFactory("shop-persistence-unit");
     }
 
     @Bean

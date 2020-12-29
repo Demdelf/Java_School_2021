@@ -1,14 +1,14 @@
 package shop.dao;
 
-import javax.persistence.EntityManager;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 import shop.domain.Category;
 
-@Repository
-public class CategoryDao extends AbstractDao<Category> implements Dao<Category>{
+public interface CategoryDao {
 
-    public CategoryDao(EntityManager entityManager) {
-        super(entityManager);
-        setClazz(Category.class);
-    }
+    List<Category> getAll();
+    Category getById(int id);
+    Category getByName(String name);
+    void create(String name);
+    void update(Category category);
+    void delete(Category category);
 }

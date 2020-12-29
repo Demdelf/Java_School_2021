@@ -18,7 +18,7 @@ import shop.service.UserServiceInterface;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-//@ComponentScans(value = { @ComponentScan("shop")})
+@ComponentScan(basePackages = "shop")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserServiceInterface userService;
@@ -51,8 +51,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
         .antMatchers("/login")
             .permitAll()
-        .antMatchers("/**")
+        .antMatchers("/account/**")
             .hasAnyRole("ADMIN", "USER")
+        .antMatchers("/manage/**")
+             .hasAnyRole("ADMIN")
         .and()
             .formLogin()
             .loginPage("/login")

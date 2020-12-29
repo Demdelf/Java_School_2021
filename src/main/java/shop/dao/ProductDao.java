@@ -1,12 +1,18 @@
 package shop.dao;
 
-import javax.persistence.EntityManager;
+import java.util.List;
+import java.util.Map;
+import shop.domain.Category;
 import shop.domain.Product;
 
-public class ProductDao  extends AbstractDao<Product> implements Dao<Product>{
 
-    public ProductDao(EntityManager entityManager) {
-        super(entityManager);
-        setClazz(Product.class);
-    }
+public interface ProductDao {
+
+    void create(Product productEntity);
+    void update(Product productEntity);
+    void deleteById(long id);
+    Product getById(long id);
+    List<Product> getAll();
+    List<Product> getProductsByCategory(Category category);
+    List<Product> getTopProducts();
 }
