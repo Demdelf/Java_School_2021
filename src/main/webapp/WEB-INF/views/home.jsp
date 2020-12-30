@@ -10,6 +10,10 @@
         <tr>
             <td colspan='2'><input name="submit" type="submit" value="values" /></td>
         </tr>
+
+        <tr>
+            <td colspan='2'><input name="submit" type="submit" value="products" /></td>
+        </tr>
     </table>
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 </form>
