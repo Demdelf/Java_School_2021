@@ -2,6 +2,7 @@ package shop.service;
 
 import java.util.List;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import shop.domain.Category;
 
 
 public interface Service<T> {
@@ -12,4 +13,6 @@ public interface Service<T> {
     T create(T t);
 
     void delete(T t);
+
+    T findByName(String name);
 }

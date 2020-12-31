@@ -31,7 +31,7 @@
 </head>
 <body>
 <h1>Input Form</h1>
-<form:form action="create" method="post" modelAttribute="product">
+<form:form action="create" method="post" modelAttribute="productDto">
     <table>
         <tr>
             <td>Name</td>
@@ -52,9 +52,9 @@
             <td>
                 <select id="dropdown">
                     <c:forEach var="category" items="${categories}">
-                        <option value="<c:out value='${category.name}' />"
+                        <option value="<c:out value='${category}' />"
                                 <c:if test="${param.selectValue == category})"> selected </c:if>  >
-                            <c:out value="${category}" />
+                            <c:out value="${category.name}" />
                         </option>
                     </c:forEach>
                 </select>
@@ -66,13 +66,14 @@
     </table>
 </form:form>
 
-<h2>Values List</h2>
+<h2>Product List</h2>
 <table>
     <tr>
         <td><strong>Name</strong></td>
-        <td><strong>Value</strong></td>
+        <td><strong>Price</strong></td>
+        <td><strong>Category</strong></td>
     </tr>
-    <c:forEach items="${products}" var="value">
+    <c:forEach items="${products}" var="product">
         <tr>
             <td>${product.name}</td>
             <td>${product.price}</td>

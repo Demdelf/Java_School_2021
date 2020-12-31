@@ -3,6 +3,7 @@ package shop.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import shop.dao.Dao;
 import shop.dao.impl.ProductDao;
@@ -15,11 +16,14 @@ import shop.dto.ProductDto;
 
 @Service
 @RequiredArgsConstructor
-public class ProductService implements shop.service.Service<Product> {
+
+public class ProductService implements shop.service.ProductService {
 
     private final ProductDao dao;
-    private final CategoryService categoryService;
-    private final PropertyValueService propertyValueService;
+    @Autowired
+    private shop.service.Service<Category> categoryService;
+    @Autowired
+    private shop.service.Service<PropertyValue> propertyValueService;
 
     @Override
     public Product findOne(long id) {
@@ -36,9 +40,27 @@ public class ProductService implements shop.service.Service<Product> {
         return dao.create(product);
     }
 
-    public Product create(ProductDto dto) {
+    @Override
+    public ProductDto create(ProductDto dto) {
         Product product = convertProductDtoToProduct(dto);
-        return create(product);
+        create(product);
+        return convertProductToDto(product);
+    }
+
+    private ProductDto convertProductToDto(Product product) {
+        ProductDto productDto = new ProductDto();
+        productDto.setName(product.getName());
+        productDto.setPrice(product.getPrice());
+        productDto.setStock(product.getStock());
+        productDto.setVolume(product.getVolume());
+        productDto.setWeight(product.getWeight());
+        productDto.setCategory(product.getCategory().getName());
+        List<String> propertyValues = new ArrayList<>();
+        for (PropertyValue p: product.getPropertyValues()){
+            propertyValues.add(p.getName());
+        }
+        productDto.setPropertyValues(propertyValues);
+        return productDto;
     }
 
     private Product convertProductDtoToProduct(ProductDto dto) {

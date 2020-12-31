@@ -30,7 +30,7 @@ public class User/* extends AbstractEntity*/ implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "EMAIL", nullable = false)
+    @Column(name = "EMAIL", nullable = false, unique = true)
     private String email;
 
     @Column(name = "PASSWORD", nullable = false)
