@@ -50,7 +50,7 @@ public class ProductController {
     }
 
     @PostMapping("/create")
-    public String saveUser(@ModelAttribute("product") @Valid Product product, BindingResult result, Model model) {
+    public String create(@ModelAttribute("productDto") @Valid ProductDto product, BindingResult result, Model model) {
 
         if (result.hasErrors()) {
             model.addAttribute("products", productService.findAll(10));

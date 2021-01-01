@@ -13,7 +13,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>Property Values</title>
+    <title>Products</title>
     <style type="text/css">
         .error {
             color: red;
@@ -52,8 +52,8 @@
             <td>
                 <select id="dropdown">
                     <c:forEach var="category" items="${categories}">
-                        <option value="<c:out value='${category}' />"
-                                <c:if test="${param.selectValue == category})"> selected </c:if>  >
+                        <option value="<c:out value='${category.name}' />"
+                                <c:if test="${param.selectValue == category.name})"> selected </c:if>  >
                             <c:out value="${category.name}" />
                         </option>
                     </c:forEach>
@@ -61,8 +61,11 @@
             </td>
         </tr>
         <tr>
-            <td colspan="2"><button type="submit">Submit</button></td>
+            <td><input type="submit" value="Submit"></td>
         </tr>
+<%--        <tr>--%>
+<%--            <td colspan="2"><button type="submit">Submit</button></td>--%>
+<%--        </tr>--%>
     </table>
 </form:form>
 
@@ -77,7 +80,7 @@
         <tr>
             <td>${product.name}</td>
             <td>${product.price}</td>
-            <td>${product.category}</td>
+            <td>${product.category.name}</td>
         </tr>
     </c:forEach>
 </table>
