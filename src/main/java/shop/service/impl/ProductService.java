@@ -73,14 +73,16 @@ public class ProductService implements shop.service.ProductService {
         Category category = categoryService.findByName(dto.getCategory());
         product.setCategory(category);
         List<PropertyValue> propertyValues = new ArrayList<>();
-        for (String p: dto.getPropertyValues()){
-            PropertyValue propertyValue = propertyValueService.findByName(p);
-            if (propertyValue != null){
-                propertyValues.add(propertyValue);
+        if(dto.getPropertyValues()!=null){
+            for (String p: dto.getPropertyValues()){
+                PropertyValue propertyValue = propertyValueService.findByName(p);
+                if (propertyValue != null){
+                    propertyValues.add(propertyValue);
+                }
             }
         }
-        product.setPropertyValues(propertyValues);
 
+        product.setPropertyValues(propertyValues);
 
         return product;
     }

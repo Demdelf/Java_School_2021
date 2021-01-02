@@ -50,7 +50,7 @@
         <tr>
             <td>Category</td>
             <td>
-                <select id="dropdown">
+                <select id="dropdown" name="category">
                     <c:forEach var="category" items="${categories}">
                         <option value="<c:out value='${category.name}' />"
                                 <c:if test="${param.selectValue == category.name})"> selected </c:if>  >

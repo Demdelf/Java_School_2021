@@ -17,8 +17,6 @@ import shop.domain.PropertyValue;
 import shop.dto.ProductDto;
 import shop.service.ProductService;
 import shop.service.Service;
-import shop.service.impl.CategoryService;
-import shop.service.impl.PropertyValueService;
 
 @Controller
 @RequestMapping("products")
@@ -46,7 +44,7 @@ public class ProductController {
         model.addAttribute("products", productService.findAll(10));
         model.addAttribute("categories", categoryService.findAll(10));
         model.addAttribute("values", propertyValueService.findAll(10));
-        return "editProducts";
+        return "products";
     }
 
     @PostMapping("/create")
@@ -56,7 +54,7 @@ public class ProductController {
             model.addAttribute("products", productService.findAll(10));
             model.addAttribute("categories", categoryService.findAll(10));
             model.addAttribute("values", propertyValueService.findAll(10));
-            return "editProducts";
+            return "products";
         }
 
         productService.create(product);
