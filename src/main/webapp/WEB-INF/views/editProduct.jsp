@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: User
-  Date: 30.12.2020
-  Time: 14:45
+  Date: 02.01.2021
+  Time: 20:49
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -13,7 +13,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>Products</title>
+    <title>Product</title>
     <style type="text/css">
         .error {
             color: red;
@@ -30,22 +30,18 @@
     </style>
 </head>
 <body>
-<h1>Add product</h1>
-<form:form action="create" method="post" modelAttribute="productDto">
+<h1>Edit product</h1>
+<form:form action="editOne" method="post" modelAttribute="productDto">
     <table>
         <tr>
-            <td>Name</td>
-            <td>
-                <form:input path="name" /> <br />
-                <form:errors path="name" cssClass="error" />
-            </td>
+            <td><strong>Name</strong></td>
+            <td><strong>Price</strong></td>
+            <td><strong>Category</strong></td>
         </tr>
         <tr>
-            <td>Price</td>
-            <td>
-                <form:input path="price" /> <br />
-                <form:errors path="price" cssClass="error" />
-            </td>
+            <td>${product.name}</td>
+            <td>${product.price}</td>
+            <td>${product.category.name}</td>
         </tr>
         <tr>
             <td>Category</td>
@@ -60,32 +56,26 @@
                 </select>
             </td>
         </tr>
-        <table>
+
+        <c:forEach items="${properties}" var="property">
             <tr>
-                <td><strong>Name</strong></td>
-                <td><strong>Price</strong></td>
-                <td><strong>Category</strong></td>
+                <td> property.name </td>
+                <td>
+                    <form:input path="type" /> <br />
+                    <form:errors path="type" cssClass="error" />
+                </td>
             </tr>
-            <c:forEach items="${products}" var="product">
-                <tr>
-                    <td>${product.name}</td>
-                    <td>${product.price}</td>
-                    <td>${product.category.name}</td>
-                </tr>
-            </c:forEach>
-        </table>
+        </c:forEach>
 
         <tr>
             <td><input type="submit" value="Submit"></td>
         </tr>
-<%--        <tr>--%>
-<%--            <td colspan="2"><button type="submit">Submit</button></td>--%>
-<%--        </tr>--%>
+            <%--        <tr>--%>
+            <%--            <td colspan="2"><button type="submit">Submit</button></td>--%>
+            <%--        </tr>--%>
     </table>
 </form:form>
 
 
 </body>
 </html>
-
-

@@ -7,19 +7,20 @@ import shop.dao.Dao;
 import shop.dao.impl.CategoryDao;
 import shop.domain.Category;
 import shop.domain.Product;
+import shop.domain.Property;
 import shop.domain.PropertyValue;
 import shop.dto.CategoryDto;
 import shop.dto.ProductDto;
 
 @Service
 @RequiredArgsConstructor
-public class CategoryService implements shop.service.Service<Category> {
+public class CategoryService implements shop.service.CategoryService {
 
     private final CategoryDao dao;
 
     @Override
     public Category findOne(long id) {
-        return null;
+        return dao.findOne(id).orElse(null);
     }
 
     @Override
@@ -50,5 +51,10 @@ public class CategoryService implements shop.service.Service<Category> {
 
     public Category findByName(String name){
         return dao.findByName(name);
+    }
+
+    @Override
+    public List<Property> getAllProperties(Long categoryId) {
+        return dao.getAllProperties(categoryId);
     }
 }

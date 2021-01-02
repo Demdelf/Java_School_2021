@@ -9,12 +9,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import shop.domain.Category;
 import shop.domain.Product;
 import shop.domain.PropertyValue;
 import shop.dto.ProductDto;
+import shop.service.CategoryService;
 import shop.service.ProductService;
 import shop.service.Service;
 
@@ -25,7 +27,7 @@ public class ProductController {
 
     private final ProductService productService;
     @Autowired
-    private Service<Category> categoryService;
+    private CategoryService categoryService;
     @Autowired
     private Service<PropertyValue> propertyValueService;
 
@@ -47,6 +49,18 @@ public class ProductController {
         return "products";
     }
 
+    @GetMapping("/edit/{id}")
+    public String editOne(
+            @PathVariable("id") Long id, Locale locale, Model model,
+            @ModelAttribute("productDto") @Valid ProductDto product
+    ) {
+        Long categoryId = productService.findOne(id).getCategory().getId();
+        Category category = categoryService.findOne(categoryId);
+        model.addAttribute("category", category);
+        model.addAttribute("properties", category.getProperties());
+        return "editProduct";
+    }
+
     @PostMapping("/create")
     public String create(@ModelAttribute("productDto") @Valid ProductDto product, BindingResult result, Model model) {
 
@@ -57,7 +71,9 @@ public class ProductController {
             return "products";
         }
 
-        productService.create(product);
-        return "redirect:/products/all";
+        ProductDto productDto = productService.create(product);
+        Long id = productDto.getId();
+        model.addAttribute("productDto", productDto);
+        return "redirect:/products/edit/" + id;
     }
 }

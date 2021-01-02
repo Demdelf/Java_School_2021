@@ -27,7 +27,7 @@ public class ProductService implements shop.service.ProductService {
 
     @Override
     public Product findOne(long id) {
-        return null;
+        return dao.findOne(id).orElse(null);
     }
 
     @Override
@@ -49,6 +49,7 @@ public class ProductService implements shop.service.ProductService {
 
     private ProductDto convertProductToDto(Product product) {
         ProductDto productDto = new ProductDto();
+        productDto.setId(product.getId());
         productDto.setName(product.getName());
         productDto.setPrice(product.getPrice());
         productDto.setStock(product.getStock());
