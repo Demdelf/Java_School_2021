@@ -57,14 +57,17 @@ public class ProductController {
             @ModelAttribute("productDtoFlash") ProductDto productDtoFlash
             ,RedirectAttributes redirectAttributes
     ) {
-        Long categoryId = productService.findOne(id).getCategory().getId();
+        Product product = productService.findOne(id);
+        Long categoryId = product.getCategory().getId();
         Category category = categoryService.findOne(categoryId);
-        model.addAttribute("productDto", productDtoFlash);
-        model.addAttribute("category", category);
-        model.addAttribute("categories", categoryService.findAll(10));
-        model.addAttribute("properties", category.getProperties());
-        model.addAttribute("map", productDtoFlash.getPropertyValues());
-        redirectAttributes.addFlashAttribute("productDtoFlash", productDtoFlash);
+        ProductDto productDto = productService.convertProductToDto(product);
+        model.addAttribute("productDto", productDto);
+//        model.addAttribute("productDto", productDtoFlash);
+//        model.addAttribute("category", category);
+//        model.addAttribute("categories", categoryService.findAll(10));
+//        model.addAttribute("properties", category.getProperties());
+//        model.addAttribute("map", productDtoFlash.getPropertyValues());
+//        redirectAttributes.addFlashAttribute("productDtoFlash", productDtoFlash);
         return "editProduct";
     }
 

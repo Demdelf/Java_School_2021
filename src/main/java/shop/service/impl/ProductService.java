@@ -70,8 +70,8 @@ public class ProductService implements shop.service.ProductService {
         dao.update(product);
         return convertProductToDto(product);
     }
-
-    private ProductDto convertProductToDto(Product product) {
+    @Override
+    public ProductDto convertProductToDto(Product product) {
         ProductDto productDto = new ProductDto();
         productDto.setId(product.getId());
         productDto.setName(product.getName());
@@ -82,7 +82,7 @@ public class ProductService implements shop.service.ProductService {
         productDto.setCategory(product.getCategory().getName());
         Map<Long, String> propertyValues = new HashMap<>();
         for (PropertyValue p: product.getPropertyValues()){
-            propertyValues.put(p.getId(), "");
+            propertyValues.put(p.getId(), p.getValue());
         }
         productDto.setPropertyValues(propertyValues);
         return productDto;
