@@ -5,5 +5,7 @@ import shop.dto.ProductDto;
 
 public interface ProductService extends Service<Product> {
 
-    ProductDto create(ProductDto dto);
+    Product create(ProductDto dto);
+
+    ProductDto update(ProductDto productDtoFlash);
 }

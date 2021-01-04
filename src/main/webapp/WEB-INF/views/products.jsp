@@ -60,6 +60,13 @@
                 </select>
             </td>
         </tr>
+
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Submit"></td>
+            <td></td>
+        </tr>
+
         <table>
             <tr>
                 <td><strong>Name</strong></td>
@@ -75,9 +82,7 @@
             </c:forEach>
         </table>
 
-        <tr>
-            <td><input type="submit" value="Submit"></td>
-        </tr>
+
 <%--        <tr>--%>
 <%--            <td colspan="2"><button type="submit">Submit</button></td>--%>
 <%--        </tr>--%>

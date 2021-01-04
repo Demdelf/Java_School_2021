@@ -1,7 +1,10 @@
 package shop.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +27,8 @@ public class ProductService implements shop.service.ProductService {
     private shop.service.Service<Category> categoryService;
     @Autowired
     private shop.service.Service<PropertyValue> propertyValueService;
+    @Autowired
+    private shop.service.Service<Property> propertyService;
 
     @Override
     public Product findOne(long id) {
@@ -41,9 +46,28 @@ public class ProductService implements shop.service.ProductService {
     }
 
     @Override
-    public ProductDto create(ProductDto dto) {
+    public Product create(ProductDto dto) {
+        Map<Long, String> map = new HashMap<>();
+        Category category = categoryService.findByName(dto.getCategory());
+        for (Property p: category.getProperties()
+        ) {
+            map.put(p.getId(), p.getType());
+        }
+        dto.setPropertyValues(map);
         Product product = convertProductDtoToProduct(dto);
         create(product);
+        for (PropertyValue p: product.getPropertyValues()
+        ) {
+            p.setProduct(product);
+            propertyValueService.create(p);
+        }
+        return product;
+    }
+
+    @Override
+    public ProductDto update(ProductDto productDtoFlash) {
+        Product product = convertProductDtoToProduct(productDtoFlash);
+        dao.update(product);
         return convertProductToDto(product);
     }
 
@@ -56,9 +80,9 @@ public class ProductService implements shop.service.ProductService {
         productDto.setVolume(product.getVolume());
         productDto.setWeight(product.getWeight());
         productDto.setCategory(product.getCategory().getName());
-        List<String> propertyValues = new ArrayList<>();
+        Map<Long, String> propertyValues = new HashMap<>();
         for (PropertyValue p: product.getPropertyValues()){
-            propertyValues.add(p.getName());
+            propertyValues.put(p.getId(), "");
         }
         productDto.setPropertyValues(propertyValues);
         return productDto;
@@ -75,16 +99,15 @@ public class ProductService implements shop.service.ProductService {
         product.setCategory(category);
         List<PropertyValue> propertyValues = new ArrayList<>();
         if(dto.getPropertyValues()!=null){
-            for (String p: dto.getPropertyValues()){
-                PropertyValue propertyValue = propertyValueService.findByName(p);
-                if (propertyValue != null){
-                    propertyValues.add(propertyValue);
-                }
+            for (Map.Entry<Long, String> e: dto.getPropertyValues().entrySet()
+            ) {
+                PropertyValue propertyValue = new PropertyValue();
+                propertyValue.setProperty(propertyService.findOne(e.getKey()));
+                propertyValue.setValue(e.getValue());
+                propertyValues.add(propertyValue);
             }
         }
-
         product.setPropertyValues(propertyValues);
-
         return product;
     }
 

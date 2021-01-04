@@ -31,17 +31,20 @@
 </head>
 <body>
 <h1>Edit product</h1>
-<form:form action="editOne" method="post" modelAttribute="productDto">
+<form:form method="post" modelAttribute="productDto" action="/products/edit/${productDto.id}">
     <table>
         <tr>
             <td><strong>Name</strong></td>
-            <td><strong>Price</strong></td>
-            <td><strong>Category</strong></td>
+            <td>${productDto.name}</td>
         </tr>
         <tr>
-            <td>${product.name}</td>
-            <td>${product.price}</td>
-            <td>${product.category.name}</td>
+            <td><strong>Price</strong></td>
+            <td>${productDto.price}</td>
+        </tr>
+
+        <tr>
+            <td><strong>Category</strong></td>
+            <td>${productDto.category}</td>
         </tr>
         <tr>
             <td>Category</td>
@@ -57,23 +60,48 @@
             </td>
         </tr>
 
-        <c:forEach items="${properties}" var="property">
+<%--        <c:forEach items="${properties}" var="property">--%>
+<%--            <tr>--%>
+<%--                <td>property.name</td>--%>
+<%--                <td>--%>
+<%--                    <form:input path="propertyValues" /> <br />--%>
+<%--                    <form:errors path="name" cssClass="error" />--%>
+<%--                </td>--%>
+<%--            </tr>--%>
+<%--        </c:forEach>--%>
+
+<%--        <c:forEach items="${properties}" var="property">--%>
+<%--            <tr>--%>
+<%--                <td>${property.name}</td>--%>
+<%--                <td>--%>
+<%--                    <form:input path="${propertyValues.value}" /> <br />--%>
+<%--&lt;%&ndash;                <td><input type="text" name="" value="${configParams.value}" /></td>&ndash;%&gt;--%>
+<%--                    <form:errors path="propertyValues" cssClass="error" />--%>
+<%--                </td>--%>
+<%--            </tr>--%>
+<%--        </c:forEach>--%>
+
+        <c:forEach var="p" items="${map}">
+            <!--  KEY: ${configParams.key}  - VALUE: ${configParams.value} -->
+
             <tr>
-                <td> property.name </td>
                 <td>
-                    <form:input path="type" /> <br />
-                    <form:errors path="type" cssClass="error" />
+                    <c:out value="${map.key}" />
                 </td>
+                <td><input type="text" name="" value="${map.value}" /></td>
+
             </tr>
         </c:forEach>
 
-        <tr>
-            <td><input type="submit" value="Submit"></td>
-        </tr>
+
             <%--        <tr>--%>
             <%--            <td colspan="2"><button type="submit">Submit</button></td>--%>
             <%--        </tr>--%>
     </table>
+
+    <tr>
+        <td><input type="submit" value="Submit"></td>
+    </tr>
 </form:form>
 
 

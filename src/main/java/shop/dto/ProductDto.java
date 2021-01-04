@@ -1,6 +1,7 @@
 package shop.dto;
 
 import java.util.List;
+import java.util.Map;
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -32,6 +33,6 @@ public class ProductDto {
 
     private Integer stock;
 
-    private List<String> propertyValues;
+    private Map<Long, String> propertyValues;
 
 }

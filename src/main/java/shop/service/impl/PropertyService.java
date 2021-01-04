@@ -20,22 +20,22 @@ public class PropertyService implements shop.service.Service<Property> {
 
     @Override
     public Property findOne(long id) {
-        return null;
+        return dao.findOne(id).orElse(null);
     }
 
     @Override
     public List<Property> findAll(int pageSize) {
-        return null;
+        return dao.findAll(pageSize);
     }
 
     @Override
     public Property create(Property property) {
-        return null;
+        return dao.create(property);
     }
 
     @Override
     public void delete(Property property) {
-
+        dao.delete(property);
     }
 
     public Property create(PropertyDto dto) {

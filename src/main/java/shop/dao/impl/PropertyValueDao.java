@@ -1,6 +1,7 @@
 package shop.dao.impl;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -24,6 +25,12 @@ public class PropertyValueDao  extends AbstractDao<PropertyValue> implements Dao
         CriteriaQuery<PropertyValue> query = criteriaBuilder.createQuery(PropertyValue.class);
         Root<PropertyValue> root = query.from(PropertyValue.class);
         query.select(root).where(criteriaBuilder.equal(root.get("name"), name));
-        return entityManager.createQuery(query).getSingleResult();
+        PropertyValue propertyValue = null;
+        try {
+            propertyValue = entityManager.createQuery(query).getSingleResult();
+        }
+        catch (NoResultException nre){
+                    }
+        return propertyValue;
     }
 }

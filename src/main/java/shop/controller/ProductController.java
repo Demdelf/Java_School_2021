@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import shop.domain.Category;
 import shop.domain.Product;
 import shop.domain.PropertyValue;
@@ -52,17 +53,36 @@ public class ProductController {
     @GetMapping("/edit/{id}")
     public String editOne(
             @PathVariable("id") Long id, Locale locale, Model model,
-            @ModelAttribute("productDto") @Valid ProductDto product
+//            @ModelAttribute("productDto") @Valid ProductDto product,
+            @ModelAttribute("productDtoFlash") ProductDto productDtoFlash
+            ,RedirectAttributes redirectAttributes
     ) {
         Long categoryId = productService.findOne(id).getCategory().getId();
         Category category = categoryService.findOne(categoryId);
+        model.addAttribute("productDto", productDtoFlash);
         model.addAttribute("category", category);
+        model.addAttribute("categories", categoryService.findAll(10));
         model.addAttribute("properties", category.getProperties());
+        model.addAttribute("map", productDtoFlash.getPropertyValues());
+        redirectAttributes.addFlashAttribute("productDtoFlash", productDtoFlash);
         return "editProduct";
     }
 
+    @PostMapping("/edit/{id}")
+    public String saveEditOne(
+            @PathVariable("id") Long id, Locale locale, Model model
+            ,@ModelAttribute("productDto") @Valid ProductDto product
+            ,@ModelAttribute("productDtoFlash") ProductDto productDtoFlash
+    ) {
+        productService.update(product);
+        return "redirect:/products/all";
+    }
+
     @PostMapping("/create")
-    public String create(@ModelAttribute("productDto") @Valid ProductDto product, BindingResult result, Model model) {
+    public String create(
+            @ModelAttribute("productDto") @Valid ProductDto productDto, BindingResult result, Model model,
+            RedirectAttributes redirectAttributes
+    ) {
 
         if (result.hasErrors()) {
             model.addAttribute("products", productService.findAll(10));
@@ -71,9 +91,10 @@ public class ProductController {
             return "products";
         }
 
-        ProductDto productDto = productService.create(product);
-        Long id = productDto.getId();
-        model.addAttribute("productDto", productDto);
+        Product product = productService.create(productDto);
+        Long id = product.getId();
+        productDto.setId(product.getId());
+        redirectAttributes.addFlashAttribute("productDtoFlash", productDto);
         return "redirect:/products/edit/" + id;
     }
 }
