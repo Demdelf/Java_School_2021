@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import shop.dao.Dao;
 import shop.dao.impl.ProductDao;
 import shop.domain.Category;
@@ -19,7 +20,7 @@ import shop.dto.ProductDto;
 
 @Service
 @RequiredArgsConstructor
-
+@Transactional
 public class ProductService implements shop.service.ProductService {
 
     private final ProductDao dao;

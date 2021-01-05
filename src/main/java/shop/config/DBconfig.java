@@ -38,7 +38,7 @@ public class DBconfig {
     }
 
     @Bean
-    public EntityManager getEntityManager(LocalContainerEntityManagerFactoryBean entityManagerFactory){
+    public EntityManager entityManager(LocalContainerEntityManagerFactoryBean entityManagerFactory){
         return getEntityManagerFactory().getObject().createEntityManager();
     }
 
