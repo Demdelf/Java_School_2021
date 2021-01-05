@@ -3,6 +3,7 @@ package shop.domain;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -36,6 +37,6 @@ public class Product extends AbstractEntity{
     @Column(name = "STOCK")
     private Integer stock;
 
-    @OneToMany(mappedBy = "id")
+    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
     private List<PropertyValue> propertyValues;
 }

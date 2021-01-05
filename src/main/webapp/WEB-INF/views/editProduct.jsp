@@ -49,12 +49,12 @@
             <td>${productDto.category}</td>
         </tr>
 
-        <c:forEach var="p" items="${productDto.propertyValues}">
+        <c:forEach var="map" items="${productDto.propertyValues}">
             <tr>
                 <td>
-                    <c:out value="${p.key}"/>
+                    <c:out value="${map.key}"/>
                 </td>
-                <td><input type="text" name="propertyValues" value="${p.value}"/></td>
+                <td><input type="text" name="map['${map.value}']" value="${map.value}"/></td>
 
             </tr>
         </c:forEach>
