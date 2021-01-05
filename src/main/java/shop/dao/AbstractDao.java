@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -15,6 +16,7 @@ public abstract class AbstractDao<T> {
 
     private Class<T> clazz;
 
+    @PersistenceContext
     protected final EntityManager entityManager;
 
     public final void setClazz(final Class<T> clazzToSet) {
@@ -40,12 +42,12 @@ public abstract class AbstractDao<T> {
     }
 
     public T create(final T entity) {
-        EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
-        entityManager.persist(entity);
-        transaction.commit();
-
+//        EntityTransaction transaction = entityManager.getTransaction();
+//        transaction.begin();
 //        entityManager.persist(entity);
+//        transaction.commit();
+
+        entityManager.persist(entity);
 
         return entity;
     }

@@ -29,6 +29,11 @@
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
+<!--            #flyway.baseline-on-migrate=true #used if database has some already table-->
+<!--            flyway.enabled=true-->
+<!--            flyway.url=jdbc:mysql://localhost/demo_database_1-->
+<!--            flyway.user=root-->
+<!--            flyway.password=-->
         </properties>
     </persistence-unit>
 </persistence>

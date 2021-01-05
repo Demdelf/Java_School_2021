@@ -3,6 +3,7 @@ package shop.dao.impl;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -15,6 +16,8 @@ import shop.domain.User;
 @Repository
 @RequiredArgsConstructor
 public class UserDaoImp implements UserDaoInt {
+
+    @PersistenceContext
     private final EntityManager entityManager;
 
 
