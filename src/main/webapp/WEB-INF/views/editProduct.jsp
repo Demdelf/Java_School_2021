@@ -44,21 +44,36 @@
             <td><input type="text" name="price" value="${productDto.price}"/></td>
         </tr>
 
-        <tr>
-            <td><strong>Category</strong></td>
-            <td>${productDto.category}</td>
-        </tr>
+<%--        <tr>--%>
+<%--            <td><strong>Category</strong></td>--%>
+<%--            <td>${productDto.category}</td>--%>
+<%--        </tr>--%>
 
+        <tr>
+            <td>Category</td>
+            <td>
+                <select id="dropdown" name="category">
+                    <c:forEach var="category" items="${categories}">
+                        <option value="<c:out value='${category.name}' />"
+                                <c:if test="${param.selectValue == category.name})"> selected </c:if>  >
+                            <c:out value="${category.name}" />
+                        </option>
+                    </c:forEach>
+                </select>
+            </td>
+        </tr>
+        <table>
+            <tr>
+                <th>Property</th>
+                <th>Value</th>
+            </tr>
         <c:forEach var="map" items="${productDto.propertyValues}">
             <tr>
-                <td>
-                    <c:out value="${map.key}"/>
-                </td>
-                <td><input type="text" name="map['${map.value}']" value="${map.value}"/></td>
-
+                <td>${map.key}</td>
+                <td><input type="text" name="map['${map.key}']" value="${map.value}"/></td>
             </tr>
         </c:forEach>
-
+        </table>
     </table>
 
     <tr>

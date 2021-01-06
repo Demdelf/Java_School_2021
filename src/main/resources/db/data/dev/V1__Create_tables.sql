@@ -24,7 +24,7 @@ USE `mms` ;
 -- Table `mydb`.`ROLES`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mms`.`ROLES` (
-  `ID` BIGINT NOT NULL,
+  `ID` BIGINT NOT NULL AUTO_INCREMENT,
   `NAME` VARCHAR(45) NULL,
   PRIMARY KEY (`ID`))
 ENGINE = InnoDB;
@@ -34,7 +34,7 @@ ENGINE = InnoDB;
 -- Table `mydb`.`USERS`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mms`.`USERS` (
-  `ID` BIGINT NOT NULL,
+  `ID` BIGINT NOT NULL AUTO_INCREMENT,
   `FIRST_NAME` VARCHAR(45) NULL,
   `LAST_NAME` VARCHAR(45) NULL,
   `BIRTHDAY` DATE NULL,
@@ -55,7 +55,7 @@ ENGINE = InnoDB;
 -- Table `mydb`.`CUSTOMERS_ADDRESSES`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mms`.`CUSTOMERS_ADDRESSES` (
-  `ID` BIGINT NOT NULL,
+  `ID` BIGINT NOT NULL AUTO_INCREMENT,
   `COUNTRY` VARCHAR(45) NULL,
   `CITY` VARCHAR(45) NULL,
   `POSTCODE` VARCHAR(45) NULL,
@@ -77,7 +77,7 @@ ENGINE = InnoDB;
 -- Table `mydb`.`ORDERS`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mms`.`ORDERS` (
-  `ID` BIGINT NOT NULL,
+  `ID` BIGINT NOT NULL AUTO_INCREMENT,
   `PAYMENT_METHOD` INTEGER NULL,
   `DELIVERY_METHOD` INTEGER NULL,
   `PAYMENT_STATUS` INTEGER NULL,
@@ -103,7 +103,7 @@ ENGINE = InnoDB;
 -- Table `mydb`.`ORDER_PRODUCTS`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mms`.`ORDER_PRODUCTS` (
-    `ID` BIGINT NOT NULL,
+    `ID` BIGINT NOT NULL AUTO_INCREMENT,
     `NAME` VARCHAR(45) NULL,
     `PRICE` DOUBLE NULL,
     `WEIGHT` DOUBLE NULL,
@@ -123,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `mms`.`ORDER_PRODUCTS` (
 -- Table `mydb`.`CATEGORIES`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mms`.`CATEGORIES` (
-  `ID` BIGINT NOT NULL,
+  `ID` BIGINT NOT NULL AUTO_INCREMENT,
   `NAME` VARCHAR(45) NULL,
   PRIMARY KEY (`ID`))
 ENGINE = InnoDB;
@@ -133,7 +133,7 @@ ENGINE = InnoDB;
 -- Table `mydb`.`PRODUCTS`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mms`.`PRODUCTS` (
-  `ID` BIGINT NOT NULL,
+  `ID` BIGINT NOT NULL AUTO_INCREMENT,
   `NAME` VARCHAR(45) NULL,
   `PRICE` DOUBLE NULL,
   `WEIGHT` DOUBLE NULL,
@@ -154,7 +154,7 @@ ENGINE = InnoDB;
 -- Table `mydb`.`CARTS`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mms`.`CARTS` (
-  `ID` BIGINT UNSIGNED NOT NULL,
+  `ID` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `ORDER_ID` BIGINT NULL,
   `PRODUCT_ID` BIGINT NOT NULL,
   `PRODUCT_CATEGORY_ID` BIGINT NOT NULL,
@@ -172,7 +172,7 @@ ENGINE = InnoDB;
 -- Table `mydb`.`PROPERTIES`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mms`.`PROPERTIES` (
-  `ID` BIGINT NOT NULL,
+  `ID` BIGINT NOT NULL AUTO_INCREMENT,
   `NAME` VARCHAR(45) NULL,
   `TYPE` VARCHAR(45) NULL,
   `CATEGORY_ID` BIGINT NOT NULL,
@@ -190,7 +190,7 @@ ENGINE = InnoDB;
 -- Table `mydb`.`PROPERTY_VALUES`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mms`.`PROPERTY_VALUES` (
-  `ID` BIGINT NOT NULL,
+  `ID` BIGINT NOT NULL AUTO_INCREMENT,
   `NAME` VARCHAR(45) NULL,
   `VALUE` VARCHAR(45) NULL,
   `PROPERTY_ID` BIGINT NOT NULL,
@@ -215,7 +215,7 @@ ENGINE = InnoDB;
 -- Table `mydb`.`ORDER_PRODUCTS`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mms`.`ORDER_PRODUCTS` (
-  `ID` BIGINT NOT NULL,
+  `ID` BIGINT NOT NULL AUTO_INCREMENT,
   `NAME` VARCHAR(45) NULL,
   `PRICE` DOUBLE NULL,
   `WEIGHT` DOUBLE NULL,

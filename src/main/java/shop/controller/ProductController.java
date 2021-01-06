@@ -62,6 +62,7 @@ public class ProductController {
         Category category = categoryService.findOne(categoryId);
         ProductDto productDto = productService.convertProductToDto(product);
         model.addAttribute("productDto", productDto);
+        model.addAttribute("categories", categoryService.findAll(10));
 //        model.addAttribute("productDto", productDtoFlash);
 //        model.addAttribute("category", category);
 //        model.addAttribute("categories", categoryService.findAll(10));
