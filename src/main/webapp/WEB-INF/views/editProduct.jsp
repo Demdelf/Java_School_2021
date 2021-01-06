@@ -67,10 +67,10 @@
                 <th>Property</th>
                 <th>Value</th>
             </tr>
-        <c:forEach var="map" items="${productDto.propertyValues}">
+        <c:forEach var="propertyValues" items="${productDto.propertyValues}">
             <tr>
-                <td>${map.key}</td>
-                <td><input type="text" name="map['${map.key}']" value="${map.value}"/></td>
+                <td>${propertyValues.key}</td>
+                <td><input type="text" name="propertyValues['${propertyValues.key}']" value="${propertyValues.value}"/></td>
             </tr>
         </c:forEach>
         </table>
