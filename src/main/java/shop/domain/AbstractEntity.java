@@ -14,7 +14,7 @@ import lombok.Setter;
 public abstract class AbstractEntity {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 }

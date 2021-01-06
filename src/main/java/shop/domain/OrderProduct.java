@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "ORDERS_PRODUCTS")
+@Table(name = "ORDER_PRODUCTS")
 public class OrderProduct extends AbstractEntity {
 
     @Column(name = "PRODUCT_ID")

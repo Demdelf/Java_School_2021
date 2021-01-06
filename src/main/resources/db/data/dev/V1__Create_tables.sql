@@ -78,10 +78,10 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mms`.`ORDERS` (
   `ID` BIGINT NOT NULL,
-  `PAYMENT_METHOD` VARCHAR(45) NULL,
-  `DELIVERY_METHOD` VARCHAR(45) NULL,
-  `PAYMENT_STATUS` VARCHAR(45) NULL,
-  `DELIVERY_STATUS` VARCHAR(45) NULL,
+  `PAYMENT_METHOD` INTEGER NULL,
+  `DELIVERY_METHOD` INTEGER NULL,
+  `PAYMENT_STATUS` INTEGER NULL,
+  `DELIVERY_STATUS` INTEGER NULL,
   `USER_ID` BIGINT NOT NULL,
   `CUSTOMER_ADDRESS_ID` BIGINT NOT NULL,
   PRIMARY KEY (`ID`, `USER_ID`, `CUSTOMER_ADDRESS_ID`),
@@ -99,7 +99,26 @@ CREATE TABLE IF NOT EXISTS `mms`.`ORDERS` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-
+-- -----------------------------------------------------
+-- Table `mydb`.`ORDER_PRODUCTS`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mms`.`ORDER_PRODUCTS` (
+    `ID` BIGINT NOT NULL,
+    `NAME` VARCHAR(45) NULL,
+    `PRICE` DOUBLE NULL,
+    `WEIGHT` DOUBLE NULL,
+    `VOLUME` DOUBLE NULL,
+    `QUANTITY` INT NULL,
+    `ORDER_ID` BIGINT NOT NULL,
+    `PRODUCT_ID` BIGINT NULL,
+    PRIMARY KEY (`ID`, `ORDER_ID`),
+    INDEX `fk_PRODUCTS_copy1_ORDERS1_idx` (`ORDER_ID` ASC) VISIBLE,
+    CONSTRAINT `fk_PRODUCTS_copy1_ORDERS1`
+        FOREIGN KEY (`ORDER_ID`)
+            REFERENCES `mms`.`ORDERS` (`ID`)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION)
+    ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `mydb`.`CATEGORIES`
 -- -----------------------------------------------------
