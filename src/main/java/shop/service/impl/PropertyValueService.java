@@ -3,18 +3,16 @@ package shop.service.impl;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import shop.dao.Dao;
 import shop.dao.impl.PropertyValueDao;
 import shop.domain.Product;
 import shop.domain.Property;
 import shop.domain.PropertyValue;
-import shop.dto.ProductDto;
 import shop.dto.PropertyValueDto;
 
 
 @Service
 @RequiredArgsConstructor
-public class PropertyValueService implements shop.service.Service<PropertyValue> {
+public class PropertyValueService implements shop.service.PropertyValueService {
 
     private final PropertyValueDao dao;
     private final PropertyService propertyService;
@@ -58,5 +56,14 @@ public class PropertyValueService implements shop.service.Service<PropertyValue>
 
     public PropertyValue findByName(String p) {
         return dao.findByName(p);
+    }
+
+    public PropertyValue update(PropertyValue propertyValue) {
+        return dao.update(propertyValue);
+    }
+
+    @Override
+    public PropertyValue findByProductAndProperty(Product product, Property property) {
+        return dao.findByCategoryAndProperty(product, property);
     }
 }

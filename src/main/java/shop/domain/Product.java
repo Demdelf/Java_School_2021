@@ -10,6 +10,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
 @Getter
@@ -37,6 +39,7 @@ public class Product extends AbstractEntity{
     @Column(name = "STOCK")
     private Integer stock;
 
-    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "id")
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<PropertyValue> propertyValues;
 }

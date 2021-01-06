@@ -56,4 +56,9 @@ public class PropertyService implements shop.service.Service<Property> {
         return dao.findByName(name);
     }
 
+    @Override
+    public Property update(Property p) {
+        return dao.update(p);
+    }
+
 }

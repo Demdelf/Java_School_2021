@@ -15,4 +15,6 @@ public interface Service<T> {
     void delete(T t);
 
     T findByName(String name);
+
+    T update(T p);
 }

@@ -54,6 +54,11 @@ public class CategoryService implements shop.service.CategoryService {
     }
 
     @Override
+    public Category update(Category p) {
+        return dao.update(p);
+    }
+
+    @Override
     public List<Property> getAllProperties(Long categoryId) {
         return dao.getAllProperties(categoryId);
     }
