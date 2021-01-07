@@ -39,7 +39,7 @@ public class Product extends AbstractEntity{
     @Column(name = "STOCK")
     private Integer stock;
 
-    @OneToMany(mappedBy = "id")
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+//    @LazyCollection(LazyCollectionOption.FALSE)
     private List<PropertyValue> propertyValues;
 }

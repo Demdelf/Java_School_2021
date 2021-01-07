@@ -1,7 +1,9 @@
 package shop.service;
 
+import org.springframework.transaction.annotation.Transactional;
 import shop.domain.Product;
 import shop.dto.ProductDto;
+
 
 public interface ProductService extends Service<Product> {
 

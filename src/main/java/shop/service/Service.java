@@ -2,6 +2,7 @@ package shop.service;
 
 import java.util.List;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.transaction.annotation.Transactional;
 import shop.domain.Category;
 
 

@@ -18,7 +18,7 @@ import shop.dto.ProductDto;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class ProductService implements shop.service.ProductService {
 
     private final ProductDao dao;
@@ -30,8 +30,10 @@ public class ProductService implements shop.service.ProductService {
     private shop.service.Service<Property> propertyService;
 
     @Override
+    @Transactional
     public Product findOne(long id) {
-        return dao.findOne(id).orElse(null);
+        Product product = dao.findOne(id).orElse(null);
+        return product;
     }
 
     @Override
@@ -40,11 +42,13 @@ public class ProductService implements shop.service.ProductService {
     }
 
     @Override
+    @Transactional
     public Product create(Product product) {
         return dao.create(product);
     }
 
     @Override
+    @Transactional
     public Product create(ProductDto dto) {
         Product product = convertProductDtoToNewProduct(dto);
         create(product);
@@ -52,6 +56,7 @@ public class ProductService implements shop.service.ProductService {
         return product;
     }
 
+    @Transactional
     private void setProductForPropertyValues(Product product) {
         for (PropertyValue p: product.getPropertyValues()
         ) {
@@ -61,6 +66,7 @@ public class ProductService implements shop.service.ProductService {
     }
 
     @Override
+    @Transactional
     public ProductDto update(ProductDto productDtoFlash) {
         Product product = convertProductDtoToExistProduct(productDtoFlash);
 //        for (PropertyValue p: product.getPropertyValues()
@@ -72,6 +78,7 @@ public class ProductService implements shop.service.ProductService {
         return convertProductToDto(product);
     }
 
+    @Transactional
     private Product convertProductDtoToExistProduct(ProductDto dto) {
         Product product = dao.findOne(dto.getId()).get();
         product.setName(dto.getName());
@@ -99,6 +106,7 @@ public class ProductService implements shop.service.ProductService {
     }
 
     @Override
+    @Transactional
     public ProductDto convertProductToDto(Product product) {
         ProductDto productDto = new ProductDto();
         productDto.setId(product.getId());
@@ -110,12 +118,13 @@ public class ProductService implements shop.service.ProductService {
         productDto.setCategory(product.getCategory().getName());
         Map<Long, String> propertyValues = new HashMap<>();
         for (PropertyValue p: product.getPropertyValues()){
-            propertyValues.put(p.getId(), p.getValue());
+            propertyValues.put(p.getProperty().getId(), p.getValue());
         }
         productDto.setPropertyValues(propertyValues);
         return productDto;
     }
 
+    @Transactional
     private Product convertProductDtoToNewProduct(ProductDto dto) {
 
         Product product = new Product();
@@ -151,6 +160,7 @@ public class ProductService implements shop.service.ProductService {
 
 
     @Override
+    @Transactional
     public void delete(Product product) {
 
     }
@@ -160,6 +170,7 @@ public class ProductService implements shop.service.ProductService {
     }
 
     @Override
+    @Transactional
     public Product update(Product p) {
         return dao.update(p);
     }

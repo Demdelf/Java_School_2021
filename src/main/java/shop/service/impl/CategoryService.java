@@ -3,6 +3,7 @@ package shop.service.impl;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import shop.dao.Dao;
 import shop.dao.impl.CategoryDao;
 import shop.domain.Category;
@@ -14,6 +15,7 @@ import shop.dto.ProductDto;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CategoryService implements shop.service.CategoryService {
 
     private final CategoryDao dao;
@@ -29,20 +31,24 @@ public class CategoryService implements shop.service.CategoryService {
     }
 
     @Override
+    @Transactional
     public Category create(Category category) {
         return dao.create(category);
     }
 
     @Override
+    @Transactional
     public void delete(Category category) {
 
     }
 
+    @Transactional
     public Category create(CategoryDto dto) {
         Category category = convertCategoryDtoToCategory(dto);
         return create(category);
     }
 
+    @Transactional
     private Category convertCategoryDtoToCategory(CategoryDto dto) {
         Category category = new Category();
         category.setName(category.getName());
@@ -54,6 +60,7 @@ public class CategoryService implements shop.service.CategoryService {
     }
 
     @Override
+    @Transactional
     public Category update(Category p) {
         return dao.update(p);
     }

@@ -3,6 +3,7 @@ package shop.service.impl;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import shop.dao.impl.PropertyValueDao;
 import shop.domain.Product;
 import shop.domain.Property;
@@ -12,6 +13,7 @@ import shop.dto.PropertyValueDto;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class PropertyValueService implements shop.service.PropertyValueService {
 
     private final PropertyValueDao dao;
@@ -29,20 +31,24 @@ public class PropertyValueService implements shop.service.PropertyValueService {
     }
 
     @Override
+    @Transactional
     public PropertyValue create(PropertyValue propertyValue) {
         return dao.create(propertyValue);
     }
 
     @Override
+    @Transactional
     public void delete(PropertyValue propertyValue) {
         dao.delete(propertyValue);
     }
 
+    @Transactional
     public PropertyValue create(PropertyValueDto dto) {
         PropertyValue propertyValue = convertPropertyValueDtoToPropertyValue(dto);
         return create(propertyValue);
     }
 
+    @Transactional
     private PropertyValue convertPropertyValueDtoToPropertyValue(PropertyValueDto dto) {
         PropertyValue propertyValue = new PropertyValue();
         propertyValue.setName(dto.getName());
@@ -58,6 +64,7 @@ public class PropertyValueService implements shop.service.PropertyValueService {
         return dao.findByName(p);
     }
 
+    @Transactional
     public PropertyValue update(PropertyValue propertyValue) {
         return dao.update(propertyValue);
     }

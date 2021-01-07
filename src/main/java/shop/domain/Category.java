@@ -23,11 +23,11 @@ public class Category extends AbstractEntity {
     @Column(name = "NAME")
     private String name;
 
-    @OneToMany(mappedBy = "id")
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
+//    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Property> properties;
 
-    @OneToMany(mappedBy = "id")
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
+//    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Product> products;
 }

@@ -28,8 +28,7 @@ public class Property extends AbstractEntity{
     @Column(name = "TYPE")
     private String type;
 
-    @OneToMany(mappedBy = "id")
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
     private List<PropertyValue> values;
 
     @ManyToOne
