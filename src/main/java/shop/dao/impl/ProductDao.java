@@ -18,11 +18,11 @@ public class ProductDao  extends AbstractDao<Product> implements Dao<Product> {
         setClazz(Product.class);
     }
 
-    public Product findByName(String name) {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Product> query = criteriaBuilder.createQuery(Product.class);
-        Root<Product> root = query.from(Product.class);
-        query.select(root).where(criteriaBuilder.equal(root.get("name"), name));
-        return entityManager.createQuery(query).getSingleResult();
-    }
+//    public Product findByName(String name) {
+//        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+//        CriteriaQuery<Product> query = criteriaBuilder.createQuery(Product.class);
+//        Root<Product> root = query.from(Product.class);
+//        query.select(root).where(criteriaBuilder.equal(root.get("name"), name));
+//        return entityManager.createQuery(query).getSingleResult();
+//    }
 }

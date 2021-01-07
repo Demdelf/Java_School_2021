@@ -20,13 +20,13 @@ public class CategoryDao extends AbstractDao<Category> implements Dao<Category> 
         setClazz(Category.class);
     }
 
-    public Category findByName(String name) {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Category> query = criteriaBuilder.createQuery(Category.class);
-        Root<Category> root = query.from(Category.class);
-        query.select(root).where(criteriaBuilder.equal(root.get("name"), name));
-        return entityManager.createQuery(query).getSingleResult();
-    }
+//    public Category findByName(String name) {
+//        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+//        CriteriaQuery<Category> query = criteriaBuilder.createQuery(Category.class);
+//        Root<Category> root = query.from(Category.class);
+//        query.select(root).where(criteriaBuilder.equal(root.get("name"), name));
+//        return entityManager.createQuery(query).getSingleResult();
+//    }
 
     public List<Property> getAllProperties(Long categoryId) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();

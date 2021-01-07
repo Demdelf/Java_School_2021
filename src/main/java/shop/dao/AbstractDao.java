@@ -10,6 +10,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
+import shop.domain.Product;
 
 @RequiredArgsConstructor
 public abstract class AbstractDao<T> {
@@ -63,6 +64,14 @@ public abstract class AbstractDao<T> {
     public void deleteById(final long entityId) {
         final T entity = findOne(entityId).get();
         delete(entity);
+    }
+
+    public T findByName(String name) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<T> query = criteriaBuilder.createQuery(clazz);
+        Root<T> root = query.from(clazz);
+        query.select(root).where(criteriaBuilder.equal(root.get("name"), name));
+        return entityManager.createQuery(query).getSingleResult();
     }
 
 }

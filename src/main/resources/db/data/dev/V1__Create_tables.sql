@@ -72,32 +72,98 @@ CREATE TABLE IF NOT EXISTS `mms`.`CUSTOMERS_ADDRESSES` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `mms`.`PAYMENT_METHOD`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mms`.`PAYMENT_METHODS` (
+    `ID` BIGINT NOT NULL AUTO_INCREMENT,
+    `NAME` VARCHAR(45) NULL,
+    PRIMARY KEY (`ID`))
+    ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
--- Table `mydb`.`ORDERS`
+-- Table `mms`.`PAYMENT_STATUS`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mms`.`ORDERS` (
-  `ID` BIGINT NOT NULL AUTO_INCREMENT,
-  `PAYMENT_METHOD` INTEGER NULL,
-  `DELIVERY_METHOD` INTEGER NULL,
-  `PAYMENT_STATUS` INTEGER NULL,
-  `DELIVERY_STATUS` INTEGER NULL,
-  `USER_ID` BIGINT NOT NULL,
-  `CUSTOMER_ADDRESS_ID` BIGINT NOT NULL,
-  PRIMARY KEY (`ID`, `USER_ID`, `CUSTOMER_ADDRESS_ID`),
-  INDEX `fk_ORDERS_USER1_idx` (`USER_ID` ASC) VISIBLE,
-  INDEX `fk_ORDERS_CUSTOMERS_ADDRESSES1_idx` (`CUSTOMER_ADDRESS_ID` ASC) VISIBLE,
-  CONSTRAINT `fk_ORDERS_USER1`
-    FOREIGN KEY (`USER_ID`)
-    REFERENCES `mms`.`USERS` (`ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_ORDERS_CUSTOMERS_ADDRESSES1`
-    FOREIGN KEY (`CUSTOMER_ADDRESS_ID`)
-    REFERENCES `mms`.`CUSTOMERS_ADDRESSES` (`ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `mms`.`PAYMENT_STATUSES` (
+    `ID` BIGINT NOT NULL AUTO_INCREMENT,
+    `Name` VARCHAR(45) NULL,
+    PRIMARY KEY (`ID`))
+    ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mms`.`DELIVERY_METHOD`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mms`.`DELIVERY_METHODS` (
+    `ID` BIGINT NOT NULL AUTO_INCREMENT,
+    `NAME` VARCHAR(45) NULL,
+    PRIMARY KEY (`ID`))
+    ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mms`.`DELIVERY_STATUS`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mms`.`DELIVERY_STATUSES` (
+    `ID` BIGINT NOT NULL AUTO_INCREMENT,
+    `NAME` VARCHAR(45) NULL,
+    PRIMARY KEY (`ID`))
+    ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mms`.`ORDERS`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mms`.`ORDERS`
+(
+    `ID`                  BIGINT NOT NULL,
+    `USER_ID`             BIGINT NOT NULL,
+    `CUSTOMER_ADDRESS_ID` BIGINT NOT NULL,
+    `PAYMENT_METHOD_ID`   BIGINT NOT NULL,
+    `PAYMENT_STATUS_ID`   BIGINT NOT NULL,
+    `DELIVERY_METHOD_ID`  BIGINT NOT NULL,
+    `DELIVERY_STATUS_ID`  BIGINT NOT NULL,
+    PRIMARY KEY (`ID`, `USER_ID`, `CUSTOMER_ADDRESS_ID`, `PAYMENT_METHOD_ID`, `PAYMENT_STATUS_ID`, `DELIVERY_METHOD_ID`,
+                 `DELIVERY_STATUS_ID`),
+    INDEX `fk_ORDERS_USER1_idx` (`USER_ID` ASC) VISIBLE,
+    INDEX `fk_ORDERS_CUSTOMERS_ADDRESSES1_idx` (`CUSTOMER_ADDRESS_ID` ASC) VISIBLE,
+    INDEX `fk_ORDERS_PAYMENT_METHOD1_idx` (`PAYMENT_METHOD_ID` ASC) VISIBLE,
+    INDEX `fk_ORDERS_PAYMENT_STATUS1_idx` (`PAYMENT_STATUS_ID` ASC) VISIBLE,
+    INDEX `fk_ORDERS_DELIVERY_METHOD1_idx` (`DELIVERY_METHOD_ID` ASC) VISIBLE,
+    INDEX `fk_ORDERS_DELIVERY_STATUS1_idx` (`DELIVERY_STATUS_ID` ASC) VISIBLE,
+    CONSTRAINT `fk_ORDERS_USER1`
+        FOREIGN KEY (`USER_ID`)
+            REFERENCES `mms`.`USERS` (`ID`)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION,
+    CONSTRAINT `fk_ORDERS_CUSTOMERS_ADDRESSES1`
+        FOREIGN KEY (`CUSTOMER_ADDRESS_ID`)
+            REFERENCES `mms`.`CUSTOMERS_ADDRESSES` (`ID`)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION,
+    CONSTRAINT `fk_ORDERS_PAYMENT_METHOD1`
+        FOREIGN KEY (`PAYMENT_METHOD_ID`)
+            REFERENCES `mms`.`PAYMENT_METHOD` (`ID`)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION,
+    CONSTRAINT `fk_ORDERS_PAYMENT_STATUS1`
+        FOREIGN KEY (`PAYMENT_STATUS_ID`)
+            REFERENCES `mms`.`PAYMENT_STATUS` (`ID`)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION,
+    CONSTRAINT `fk_ORDERS_DELIVERY_METHOD1`
+        FOREIGN KEY (`DELIVERY_METHOD_ID`)
+            REFERENCES `mms`.`DELIVERY_METHOD` (`ID`)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION,
+    CONSTRAINT `fk_ORDERS_DELIVERY_STATUS1`
+        FOREIGN KEY (`DELIVERY_STATUS_ID`)
+            REFERENCES `mms`.`DELIVERY_STATUS` (`ID`)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION
+)
+    ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `mydb`.`ORDER_PRODUCTS`

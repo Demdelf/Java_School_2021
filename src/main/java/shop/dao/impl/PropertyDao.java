@@ -18,11 +18,11 @@ public class PropertyDao extends AbstractDao<Property> implements Dao<Property> 
         setClazz(Property.class);
     }
 
-    public Property findByName(String name) {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Property> query = criteriaBuilder.createQuery(Property.class);
-        Root<Property> root = query.from(Property.class);
-        query.select(root).where(criteriaBuilder.equal(root.get("name"), name));
-        return entityManager.createQuery(query).getSingleResult();
-    }
+//    public Property findByName(String name) {
+//        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+//        CriteriaQuery<Property> query = criteriaBuilder.createQuery(Property.class);
+//        Root<Property> root = query.from(Property.class);
+//        query.select(root).where(criteriaBuilder.equal(root.get("name"), name));
+//        return entityManager.createQuery(query).getSingleResult();
+//    }
 }

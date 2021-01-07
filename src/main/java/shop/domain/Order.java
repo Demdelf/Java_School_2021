@@ -28,19 +28,23 @@ public class Order extends AbstractEntity{
     @JoinColumn(name = "CUSTOMER_ADDRESS_ID")
     private CustomerAddress address;
 
-    @Column(name = "PAYMENT_METHOD")
+    @ManyToOne
+    @JoinColumn(name = "PAYMENT_METHOD_ID")
     private PaymentMethod paymentMethod;
 
-    @Column(name = "DELIVERY_METHOD")
+    @ManyToOne
+    @JoinColumn(name = "DELIVERY_METHOD_ID")
     private DeliveryMethod deliveryMethod;
 
 //    @ManyToMany(mappedBy = "ID")
 //    private List<Product> products;
 
-    @Column(name = "PAYMENT_STATUS")
+    @ManyToOne
+    @JoinColumn(name = "PAYMENT_STATUS_ID")
     private PaymentStatus paymentStatus;
 
-    @Column(name = "DELIVERY_STATUS")
+    @ManyToOne
+    @JoinColumn(name = "DELIVERY_STATUS_ID")
     private DeliveryStatus deliveryStatus;
 
     @OneToMany(mappedBy = "id")

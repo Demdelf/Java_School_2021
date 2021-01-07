@@ -22,19 +22,19 @@ public class PropertyValueDao  extends AbstractDao<PropertyValue> implements Dao
         setClazz(PropertyValue.class);
     }
 
-    public PropertyValue findByName(String name) {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<PropertyValue> query = criteriaBuilder.createQuery(PropertyValue.class);
-        Root<PropertyValue> root = query.from(PropertyValue.class);
-        query.select(root).where(criteriaBuilder.equal(root.get("name"), name));
-        PropertyValue propertyValue = null;
-        try {
-            propertyValue = entityManager.createQuery(query).getSingleResult();
-        }
-        catch (NoResultException nre){
-                    }
-        return propertyValue;
-    }
+//    public PropertyValue findByName(String name) {
+//        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+//        CriteriaQuery<PropertyValue> query = criteriaBuilder.createQuery(PropertyValue.class);
+//        Root<PropertyValue> root = query.from(PropertyValue.class);
+//        query.select(root).where(criteriaBuilder.equal(root.get("name"), name));
+//        PropertyValue propertyValue = null;
+//        try {
+//            propertyValue = entityManager.createQuery(query).getSingleResult();
+//        }
+//        catch (NoResultException nre){
+//                    }
+//        return propertyValue;
+//    }
 
     public PropertyValue findByCategoryAndProperty(Product product, Property property) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
