@@ -12,4 +12,6 @@ public interface ProductService extends Service<Product> {
     ProductDto update(ProductDto productDtoFlash);
 
     ProductDto convertProductToDto(Product product);
+
+    ProductDto getDtoById(long id);
 }

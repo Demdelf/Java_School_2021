@@ -37,6 +37,13 @@ public class ProductService implements shop.service.ProductService {
     }
 
     @Override
+    @Transactional
+    public ProductDto getDtoById(long id){
+        Product product = dao.findOne(id).orElse(null);
+        return convertProductToDto(product);
+    }
+
+    @Override
     public List<Product> findAll(int pageSize) {
         return dao.findAll(pageSize);
     }

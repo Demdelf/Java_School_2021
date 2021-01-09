@@ -1,5 +1,6 @@
 package shop.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ public class CategoryService implements shop.service.CategoryService {
     }
 
     @Override
+    @Transactional
     public List<Category> findAll(int pageSize) {
         return dao.findAll(pageSize);
     }
@@ -55,6 +57,14 @@ public class CategoryService implements shop.service.CategoryService {
         return create(category);
     }
 
+    @Transactional
+    private CategoryDto convertCategoryToDto(Category category){
+        CategoryDto dto = new CategoryDto();
+        dto.setId(category.getId());
+        dto.setName(category.getName());
+        return dto;
+    }
+
     public Category findByName(String name){
         return dao.findByName(name);
     }
@@ -68,5 +78,17 @@ public class CategoryService implements shop.service.CategoryService {
     @Override
     public List<Property> getAllProperties(Long categoryId) {
         return dao.getAllProperties(categoryId);
+    }
+
+    @Override
+    @Transactional
+    public List<CategoryDto> getAllCategoryDto(int pageSize) {
+        List<Category> categories = findAll(pageSize);
+        List<CategoryDto> dtos = new ArrayList<>();
+        for (Category c: categories
+        ) {
+            dtos.add(convertCategoryToDto(c));
+        }
+        return dtos;
     }
 }

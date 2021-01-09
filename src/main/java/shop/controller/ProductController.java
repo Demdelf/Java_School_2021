@@ -52,23 +52,13 @@ public class ProductController {
 
     @GetMapping("/edit/{id}")
     public String editOne(
-            @PathVariable("id") Long id, Locale locale, Model model,
-//            @ModelAttribute("productDto") @Valid ProductDto product,
-            @ModelAttribute("productDtoFlash") ProductDto productDtoFlash
-            ,RedirectAttributes redirectAttributes
+            @PathVariable("id") Long id, Locale locale, Model model
     ) {
-        Product product = productService.findOne(id);
-        Long categoryId = product.getCategory().getId();
-        Category category = categoryService.findOne(categoryId);
-        ProductDto productDto = productService.convertProductToDto(product);
+        ProductDto productDto = productService.getDtoById(id);
+
         model.addAttribute("productDto", productDto);
-        model.addAttribute("categories", categoryService.findAll(10));
-//        model.addAttribute("productDto", productDtoFlash);
-//        model.addAttribute("category", category);
-//        model.addAttribute("categories", categoryService.findAll(10));
-//        model.addAttribute("properties", category.getProperties());
-//        model.addAttribute("map", productDtoFlash.getPropertyValues());
-//        redirectAttributes.addFlashAttribute("productDtoFlash", productDtoFlash);
+        model.addAttribute("categories", categoryService.getAllCategoryDto(10));
+
         return "editProduct";
     }
 
