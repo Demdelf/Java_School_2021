@@ -1,8 +1,8 @@
 <html>
 <head><title>Spring 5 Web MVC Example</title></head>
 <body>
-<h1>HowToDoInJava.com</h1>
-<h2>Spring 5 Web MVC DispatcherServlet Example</h2>
+<h1>Drytooling holds shop</h1>
+<h2>Holds for World Cup and for garage</h2>
 </body>
 <form name='all' action="/property/values/all" method='Get'>
     <table>
