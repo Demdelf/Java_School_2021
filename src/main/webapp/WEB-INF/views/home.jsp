@@ -21,4 +21,14 @@
     </table>
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 </form>
+
+<form name='all' action="/categories/all" method='Get'>
+    <table>
+        <tr>
+            <td colspan='2'><input name="submit" type="submit" value="categories" /></td>
+        </tr>
+    </table>
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+</form>
+
 </html>

@@ -52,8 +52,13 @@ public class CategoryService implements shop.service.CategoryService {
 
     @Transactional
     private Category convertCategoryDtoToCategory(CategoryDto dto) {
-        Category category = new Category();
-        category.setName(category.getName());
+        Category category;
+        if (dto.getId() == null){
+            category = new Category();
+        }else {
+            category = dao.findOne(dto.getId()).orElse(new Category());
+        }
+        category.setName(dto.getName());
         return create(category);
     }
 
@@ -90,5 +95,20 @@ public class CategoryService implements shop.service.CategoryService {
             dtos.add(convertCategoryToDto(c));
         }
         return dtos;
+    }
+
+    @Override
+    @Transactional
+    public CategoryDto getDtoById(Long id) {
+        Category category = findOne(id);
+        return convertCategoryToDto(category);
+    }
+
+    @Override
+    @Transactional
+    public CategoryDto update(CategoryDto dto) {
+        Category category = convertCategoryDtoToCategory(dto);
+        dao.update(category);
+        return convertCategoryToDto(category);
     }
 }

@@ -11,4 +11,10 @@ public interface CategoryService extends Service<Category> {
 
     List<Property> getAllProperties(Long categoryId);
     List<CategoryDto> getAllCategoryDto(int pageSize);
+
+    CategoryDto getDtoById(Long id);
+
+    CategoryDto update(CategoryDto dto);
+
+    Category create(CategoryDto categoryDto);
 }
