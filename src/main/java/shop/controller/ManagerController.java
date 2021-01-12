@@ -16,15 +16,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import shop.domain.Category;
 import shop.domain.Product;
 import shop.domain.PropertyValue;
+import shop.dto.CategoryDto;
 import shop.dto.ProductDto;
 import shop.service.CategoryService;
 import shop.service.ProductService;
 import shop.service.Service;
 
 @Controller
-@RequestMapping("products")
+@RequestMapping("manage")
 @RequiredArgsConstructor
-public class ProductController {
+public class ManagerController {
 
     private final ProductService productService;
     @Autowired
@@ -42,15 +43,20 @@ public class ProductController {
         return new ProductDto();
     }
 
-    @GetMapping("/all")
+    @GetMapping("")
+    public String homeInit(Locale locale, Model model) {
+        return "manage/manage";
+    }
+
+    @GetMapping("/products/all")
     public String userForm(Locale locale, Model model) {
         model.addAttribute("products", productService.findAll(10));
         model.addAttribute("categories", categoryService.findAll(10));
         model.addAttribute("values", propertyValueService.findAll(10));
-        return "products";
+        return "manage/products";
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("/products/edit/{id}")
     public String editOne(
             @PathVariable("id") Long id, Locale locale, Model model
     ) {
@@ -59,21 +65,21 @@ public class ProductController {
         model.addAttribute("productDto", productDto);
         model.addAttribute("categories", categoryService.getAllCategoryDto(10));
 
-        return "editProduct";
+        return "manage/editProduct";
     }
 
-    @PostMapping("/edit/{id}")
+    @PostMapping("/products/edit/{id}")
     public String saveEditOne(
             @PathVariable("id") Long id, Locale locale, Model model
             ,@ModelAttribute("productDto") @Valid ProductDto product
             ,@ModelAttribute("productDtoFlash") ProductDto productDtoFlash
     ) {
         productService.update(product);
-        return "redirect:/products/all";
+        return "redirect:/manage/products/all";
     }
 
-    @PostMapping("/create")
-    public String create(
+    @PostMapping("/products/create")
+    public String createProduct(
             @ModelAttribute("productDto") @Valid ProductDto productDto, BindingResult result, Model model,
             RedirectAttributes redirectAttributes
     ) {
@@ -82,13 +88,59 @@ public class ProductController {
             model.addAttribute("products", productService.findAll(10));
             model.addAttribute("categories", categoryService.findAll(10));
             model.addAttribute("values", propertyValueService.findAll(10));
-            return "products";
+            return "manage/products";
         }
 
         Product product = productService.create(productDto);
         Long id = product.getId();
         productDto.setId(product.getId());
         redirectAttributes.addFlashAttribute("productDtoFlash", productDto);
-        return "redirect:/products/edit/" + id;
+        return "redirect:/manage/products/edit/" + id;
+    }
+
+    @ModelAttribute("categoryDto")
+    public CategoryDto getNewCategoryDto() {
+        return new CategoryDto();
+    }
+
+    @GetMapping("/categories/all")
+    public String getAllCategories(Locale locale, Model model) {
+        model.addAttribute("categories", categoryService.findAll(10));
+        return "manage/categories";
+    }
+
+    @GetMapping("/categories/edit/{id}")
+    public String getEditCategoryPage(
+            @PathVariable("id") Long id, Locale locale, Model model
+    ) {
+        CategoryDto categoryDto = categoryService.getDtoById(id);
+
+        model.addAttribute("categoryDto", categoryDto);
+        model.addAttribute("categories", categoryService.getAllCategoryDto(10));
+
+        return "manage/editCategory";
+    }
+
+    @PostMapping("/categories/edit/{id}")
+    public String saveEditCategory(
+            @PathVariable("id") Long id, Locale locale, Model model
+            ,@ModelAttribute("categoryDto") @Valid CategoryDto dto
+    ) {
+        dto.setId(id);
+        categoryService.update(dto);
+        return "redirect:/manage/categories/all";
+    }
+
+    @PostMapping("/categories/create")
+    public String createCategory(
+            @ModelAttribute("categoryDto") @Valid CategoryDto categoryDto, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("categories", categoryService.findAll(10));
+            return "manage/categories";
+        }
+        Category category = categoryService.create(categoryDto);
+        Long id = category.getId();
+        categoryDto.setId(id);
+        return "redirect:/manage/categories/all";
     }
 }

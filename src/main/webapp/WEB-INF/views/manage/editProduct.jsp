@@ -33,7 +33,7 @@
 </head>
 <body>
 <h1>Edit product</h1>
-<form:form method="post" modelAttribute="productDto" action="/products/edit/${productDto.id}">
+<form:form method="post" modelAttribute="productDto" action="/manage/products/edit/${productDto.id}">
     <table>
         <tr>
             <td><strong>Name</strong></td>
