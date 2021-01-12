@@ -124,10 +124,13 @@ public class ProductService implements shop.service.ProductService {
         productDto.setWeight(product.getWeight());
         productDto.setCategory(product.getCategory().getName());
         Map<Long, String> propertyValues = new HashMap<>();
+        Map<Long, String> properties = new HashMap<>();
         for (PropertyValue p: product.getPropertyValues()){
             propertyValues.put(p.getProperty().getId(), p.getValue());
+            properties.put(p.getProperty().getId(), p.getProperty().getName());
         }
         productDto.setPropertyValues(propertyValues);
+        productDto.setProperties(properties);
         return productDto;
     }
 

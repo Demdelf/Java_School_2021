@@ -67,12 +67,18 @@
                 <th>Property</th>
                 <th>Value</th>
             </tr>
-        <c:forEach var="propertyValues" items="${productDto.propertyValues}">
             <tr>
-                <td>${propertyValues.key}</td>
-                <td><input type="text" name="propertyValues['${propertyValues.key}']" value="${propertyValues.value}"/></td>
+                <c:forEach var="properties" items="${productDto.properties}">
+
+                    <td>${properties.name}</td>
+
+                </c:forEach>
+                <c:forEach var="propertyValues" items="${productDto.propertyValues}">
+
+                    <td><input type="text" name="propertyValues['${propertyValues.key}']" value="${propertyValues.value}"/></td>
+
+                </c:forEach>
             </tr>
-        </c:forEach>
         </table>
     </table>
 

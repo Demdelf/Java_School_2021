@@ -59,6 +59,15 @@ public class CustomerController {
         return "products";
     }
 
+    @GetMapping("/products/{id}")
+    public String showProduct(
+            @PathVariable("id") Long id, Locale locale, Model model
+    ) {
+        ProductDto productDto = productService.getDtoById(id);
+        model.addAttribute("productDto", productDto);
+        return "customer/product";
+    }
+
     @GetMapping("/categories/all")
     public String getAllCategories(Locale locale, Model model) {
         model.addAttribute("categories", categoryService.findAll(10));
@@ -66,7 +75,7 @@ public class CustomerController {
     }
 
     @GetMapping("/categories/{id}")
-    public String saveEditCategory(
+    public String showCategory(
             @PathVariable("id") Long id, Locale locale, Model model
     ) {
         return "customer/category";

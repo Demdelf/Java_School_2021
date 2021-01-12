@@ -34,5 +34,6 @@ public class ProductDto {
     private Integer stock;
 
     private Map<Long, String> propertyValues;
+    private Map<Long, String> properties;
 
 }

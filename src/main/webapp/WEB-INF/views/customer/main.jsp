@@ -54,9 +54,20 @@
             </tr>
             <c:forEach items="${products}" var="product">
                 <tr>
-                    <td>${product.name}</td>
+                    <td>
+                        <form name='addToCart' action="/customer/products/${product.id}" method='Get'>
+                            <input name="submit" type="submit" value="${product.name}" />
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                        </form>
+                    </td>
                     <td>${product.price}</td>
                     <td>${product.category.name}</td>
+                    <td>
+                        <form name='addToCart' action="/customer/products/${product.id}/add-to-cart" method='Get'>
+                            <input name="submit" type="submit" value="add to cart" />
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                        </form>
+                    </td>
                 </tr>
             </c:forEach>
         </table>
