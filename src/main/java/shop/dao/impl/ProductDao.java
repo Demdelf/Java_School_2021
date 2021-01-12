@@ -1,5 +1,6 @@
 package shop.dao.impl;
 
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -16,6 +17,14 @@ public class ProductDao  extends AbstractDao<Product> implements Dao<Product> {
     public ProductDao(EntityManager entityManager) {
         super(entityManager);
         setClazz(Product.class);
+    }
+
+    public List<Product> findAllByCategory(Long categoryId){
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Product> query = criteriaBuilder.createQuery(Product.class);
+        Root<Product> root = query.from(Product.class);
+        query.select(root).where(criteriaBuilder.equal(root.get("category"), categoryId));
+        return entityManager.createQuery(query).getResultList();
     }
 
 //    public Product findByName(String name) {

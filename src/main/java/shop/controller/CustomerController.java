@@ -1,5 +1,6 @@
 package shop.controller;
 
+import java.util.List;
 import java.util.Locale;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import shop.domain.Category;
 import shop.domain.Product;
 import shop.domain.PropertyValue;
 import shop.dto.CategoryDto;
@@ -74,10 +76,22 @@ public class CustomerController {
         return "categories";
     }
 
+
+    /**
+     * Show all products of category
+     *
+     * @param id category id
+     *
+     * @return category page
+     */
     @GetMapping("/categories/{id}")
     public String showCategory(
             @PathVariable("id") Long id, Locale locale, Model model
     ) {
+        CategoryDto categoryDto = categoryService.getDtoById(id);
+        model.addAttribute("categoryDto", categoryDto);
+        List<Product> products = productService.findAllByCategoryId(id);
+        model.addAttribute("products", products);
         return "customer/category";
     }
 

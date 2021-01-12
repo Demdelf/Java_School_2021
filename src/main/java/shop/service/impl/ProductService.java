@@ -44,6 +44,11 @@ public class ProductService implements shop.service.ProductService {
     }
 
     @Override
+    public List<Product> findAllByCategoryId(Long categoryId) {
+        return dao.findAllByCategory(categoryId);
+    }
+
+    @Override
     public List<Product> findAll(int pageSize) {
         return dao.findAll(pageSize);
     }
