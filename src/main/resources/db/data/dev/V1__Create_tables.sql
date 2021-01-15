@@ -219,25 +219,24 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `mms`.`CARTS`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mms`.`CARTS`
-(
-    `ID`         BIGINT UNSIGNED NOT NULL,
-    `PRODUCT_ID` BIGINT          NOT NULL,
-    `USER_ID`   BIGINT          NULL,
+CREATE TABLE IF NOT EXISTS `mms`.`CARTS`(
+    `ID` BIGINT UNSIGNED NOT NULL,
+    `PRODUCT_ID` BIGINT NOT NULL,
+    `USER_ID` BIGINT NULL,
+    `QUANTITY` INT NULL,
     PRIMARY KEY (`ID`),
     INDEX `fk_CARTS_PRODUCTS1_idx` (`PRODUCT_ID` ASC) VISIBLE,
     INDEX `fk_CARTS_USERS1_idx` (`USER_ID` ASC) VISIBLE,
     CONSTRAINT `fk_CARTS_PRODUCTS1`
-        FOREIGN KEY (`PRODUCT_ID`)
-            REFERENCES `mms`.`PRODUCTS` (`ID`)
-            ON DELETE NO ACTION
-            ON UPDATE NO ACTION,
-    CONSTRAINT `fk_CARTS_USERS1`
-        FOREIGN KEY (`USER_ID`)
-            REFERENCES `mms`.`USERS` (`ID`)
-            ON DELETE NO ACTION
-            ON UPDATE NO ACTION
-)
+    FOREIGN KEY (`PRODUCT_ID`)
+    REFERENCES `mms`.`PRODUCTS` (`ID`)
+    ON DELETE NO ACTION
+       ON UPDATE NO ACTION,
+              CONSTRAINT `fk_CARTS_USERS1`
+              FOREIGN KEY (`USER_ID`)
+              REFERENCES `mms`.`USERS` (`ID`)
+          ON DELETE NO ACTION
+             ON UPDATE NO ACTION)
     ENGINE = InnoDB;
 
 

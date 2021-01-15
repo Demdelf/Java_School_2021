@@ -31,6 +31,18 @@
 </head>
 <body>
 
+<table>
+    <tr>
+        <td>
+            <form name='get' action="/cart" method='Get'>
+                <input name="submit" type="submit" value="CART" />
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+            </form>
+        </td>
+        <td><strong>${cart.quantity}</strong></td>
+    </tr>
+</table>
+
 
 <table>
     <tr>
@@ -63,7 +75,7 @@
                     <td>${product.price}</td>
                     <td>${product.category.name}</td>
                     <td>
-                        <form name='addToCart' action="/customer/products/${product.id}/add-to-cart" method='Get'>
+                        <form name='addToCart' action="/cart/add/${product.id}" method='Post'>
                             <input name="submit" type="submit" value="add to cart" />
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                         </form>

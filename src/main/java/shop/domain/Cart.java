@@ -1,6 +1,7 @@
 package shop.domain;
 
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
@@ -26,5 +27,7 @@ public class Cart extends AbstractEntity{
     @JoinColumn(name = "USER_ID")
     private User user;
 
+    @Column(name = "QUANTITY")
+    private Integer quantity;
 
 }

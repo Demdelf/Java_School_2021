@@ -36,4 +36,9 @@ public class ProductDto {
     private Map<Long, String> propertyValues;
     private Map<Long, String> properties;
 
+    @Override
+    public boolean equals(Object obj) {
+        ProductDto dto = (ProductDto) obj;
+        return this.id.equals(dto.getId());
+    }
 }
