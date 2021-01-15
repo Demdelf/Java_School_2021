@@ -75,7 +75,7 @@ public class CustomerController {
         model.addAttribute("categories", categoryService.findAll(10));
         model.addAttribute("cart", cartDTO);
         String path = "customer";
-        redirectAttributes.addFlashAttribute("path", path);
+        redirectAttributes.addFlashAttribute("rePath", path);
         return "customer/main";
     }
 

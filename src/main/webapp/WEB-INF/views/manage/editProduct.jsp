@@ -68,9 +68,9 @@
                 <th>Value</th>
             </tr>
             <tr>
-                <c:forEach var="properties" items="${productDto.properties}">
+                <c:forEach var="property" items="${productDto.properties}">
 
-                    <td>${properties.name}</td>
+                    <td>${property.value}</td>
 
                 </c:forEach>
                 <c:forEach var="propertyValues" items="${productDto.propertyValues}">

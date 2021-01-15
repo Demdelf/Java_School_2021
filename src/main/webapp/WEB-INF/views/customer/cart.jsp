@@ -13,7 +13,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>Product</title>
+    <title>Cart</title>
     <style type="text/css">
         .error {
             color: red;
@@ -32,27 +32,41 @@
     </style>
 </head>
 <body>
-<h1>${categoryDto.name}</h1>
+<h1>Cart</h1>
 
 <table>
     <tr>
         <td><strong>Name</strong></td>
         <td><strong>Price</strong></td>
         <td><strong>Category</strong></td>
+        <td><strong>Quantity</strong></td>
     </tr>
-    <c:forEach items="${products}" var="product">
+    <c:forEach items="${cart.products}" var="product">
         <tr>
             <td>
-                <form name='addToCart' action="/customer/products/${product.id}" method='Get'>
-                    <input name="submit" type="submit" value="${product.name}" />
+                <form name='addToCart' action="/customer/products/${product.key.id}" method='Get'>
+                    <input name="submit" type="submit" value="${product.key.name}" />
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                 </form>
             </td>
-            <td>${product.price}</td>
-            <td>${product.category.name}</td>
+            <td>${product.key.price}</td>
+            <td>${product.key.category}</td>
+            <td>${product.value}</td>
             <td>
-                <form name='addToCart' action="/customer/products/${product.id}/add-to-cart" method='Get'>
-                    <input name="submit" type="submit" value="add to cart" />
+                <form name='addToCart' action="/cart/add/${product.key.id}" method='Post'>
+                    <input name="submit" type="submit" value="+" />
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                </form>
+            </td>
+            <td>
+                <form name='addToCart' action="/cart/minus/${product.key.id}" method='Post'>
+                    <input name="submit" type="submit" value="-" />
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                </form>
+            </td>
+            <td>
+                <form name='addToCart' action="/cart/delete/${product.key.id}" method='Post'>
+                    <input name="submit" type="submit" value="delete" />
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                 </form>
             </td>
