@@ -31,7 +31,7 @@ public class CartService implements shop.service.CartService {
     @Transactional
     public CartDTO getCartDtoByUserIdOrCreate(User user) {
         List<Cart> carts = cartDao.getAllCartsByUserId(user.getId());
-        if (carts == null){
+        if (carts == null) {
             return convertCartToCartDto(createCart(user));
         }
         return convertCartsToCartDto(carts);
@@ -50,8 +50,7 @@ public class CartService implements shop.service.CartService {
     @Transactional
     public CartDTO clearCart(User user) {
         List<Cart> carts = cartDao.getAllCartsByUserId(user.getId());
-        for (Cart c: carts
-        ) {
+        for (Cart c : carts) {
             cartDao.delete(c);
         }
         return convertCartToCartDto(createCart(user));
@@ -61,8 +60,7 @@ public class CartService implements shop.service.CartService {
     @Transactional
     public void updateCartByUser(User user, CartDTO dto) {
         clearCart(user);
-        for (Entry<ProductDto, Integer> e: dto.getProducts().entrySet()
-        ) {
+        for (Entry<ProductDto, Integer> e : dto.getProducts().entrySet()) {
             Cart cart = new Cart();
             cart.setUser(user);
             cart.setProduct(productService.findOne(e.getKey().getId()));
@@ -76,21 +74,50 @@ public class CartService implements shop.service.CartService {
     public void addToCartByUser(User user, ProductDto productDto) {
         List<Cart> carts = cartDao.getAllCartsByUserId(user.getId());
         boolean haveProduct = false;
-        for (Cart c: carts
-        ) {
-            if(c.getProduct().getId().equals(productDto.getId())){
+        for (Cart c : carts) {
+            if (c.getProduct().getId().equals(productDto.getId())) {
                 c.setQuantity(c.getQuantity() + 1);
                 update(c);
                 haveProduct = true;
                 break;
             }
         }
-        if (!haveProduct){
+        if (!haveProduct) {
             Cart cart = new Cart();
             cart.setUser(user);
             cart.setProduct(productService.findOne(productDto.getId()));
             cart.setQuantity(1);
             create(cart);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void subFromCartByUser(User user, ProductDto productDto) {
+        List<Cart> carts = cartDao.getAllCartsByUserId(user.getId());
+        for (Cart c : carts) {
+            if (c.getProduct().getId().equals(productDto.getId())) {
+                int quantity = c.getQuantity();
+                if (quantity == 1) {
+                    delete(c);
+                } else {
+                    c.setQuantity(c.getQuantity() - 1);
+                    update(c);
+                }
+                break;
+            }
+        }
+    }
+
+    @Override
+    @Transactional
+    public void deleteFromCartByUser(User user, ProductDto productDto) {
+        List<Cart> carts = cartDao.getAllCartsByUserId(user.getId());
+        for (Cart c : carts) {
+            if (c.getProduct().getId().equals(productDto.getId())) {
+                delete(c);
+                break;
+            }
         }
     }
 
@@ -104,12 +131,11 @@ public class CartService implements shop.service.CartService {
     private CartDTO convertCartsToCartDto(List<Cart> carts) {
         CartDTO cartDTO = new CartDTO();
         Map<ProductDto, Integer> products = new HashMap<>();
-        for (Cart c: carts
-        ) {
-            if (cartDTO.getId() == null){
+        for (Cart c : carts) {
+            if (cartDTO.getId() == null) {
                 cartDTO.setId(c.getId());
             }
-            if (cartDTO.getUserId() == null && c.getUser() != null){
+            if (cartDTO.getUserId() == null && c.getUser() != null) {
                 cartDTO.setUserId(c.getUser().getId());
             }
 
@@ -136,8 +162,9 @@ public class CartService implements shop.service.CartService {
     }
 
     @Override
+    @Transactional
     public void delete(Cart cart) {
-
+        cartDao.delete(cart);
     }
 
     @Override

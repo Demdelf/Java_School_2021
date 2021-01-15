@@ -31,7 +31,8 @@ import shop.service.Service;
 @Controller
 @RequestMapping("customer")
 @RequiredArgsConstructor
-@SessionAttributes("cart")
+@SessionAttributes({"cart", "path"})
+
 public class CustomerController {
     private final ProductService productService;
     @Autowired
@@ -54,6 +55,11 @@ public class CustomerController {
         return new CategoryDto();
     }
 
+    @ModelAttribute("path")
+    public String getPath() {
+        return "customer";
+    }
+
     @ModelAttribute("cart")
     public CartDTO cartDTO(){
         CartDTO cartDTO = new CartDTO();
@@ -70,32 +76,36 @@ public class CustomerController {
 
     @GetMapping("")
     public String homeInit(Locale locale, Model model, @ModelAttribute("cart") CartDTO cartDTO
+            , @ModelAttribute("path") String path
             , RedirectAttributes redirectAttributes) {
         model.addAttribute("products", productService.findAll(10));
         model.addAttribute("categories", categoryService.findAll(10));
         model.addAttribute("cart", cartDTO);
-        String path = "customer";
-        redirectAttributes.addFlashAttribute("rePath", path);
-        redirectAttributes.addFlashAttribute(path);
+        model.addAttribute("path", "customer");
         return "customer/main";
     }
 
     @GetMapping("/products/all")
-    public String showAllProducts(Locale locale, Model model, @ModelAttribute("cart") CartDTO cartDTO) {
+    public String showAllProducts(Locale locale, Model model, @ModelAttribute("cart") CartDTO cartDTO
+            , @ModelAttribute("path") String path
+    ) {
         model.addAttribute("products", productService.findAll(10));
         model.addAttribute("categories", categoryService.findAll(10));
         model.addAttribute("values", propertyValueService.findAll(10));
         model.addAttribute("cart", cartDTO);
+        model.addAttribute("path", "customer/products/all");
         return "products";
     }
 
     @GetMapping("/products/{id}")
     public String showProduct(
             @PathVariable("id") Long id, Locale locale, Model model, @ModelAttribute("cart") CartDTO cartDTO
+            , @ModelAttribute("path") String path
     ) {
         ProductDto productDto = productService.getDtoById(id);
         model.addAttribute("productDto", productDto);
         model.addAttribute("cart", cartDTO);
+        model.addAttribute("path", "customer/products/" + id);
         return "customer/product";
     }
 
@@ -116,12 +126,14 @@ public class CustomerController {
     @GetMapping("/categories/{id}")
     public String showCategory(
             @PathVariable("id") Long id, Locale locale, Model model, @ModelAttribute("cart") CartDTO cartDTO
+            , @ModelAttribute("path") String path
     ) {
         CategoryDto categoryDto = categoryService.getDtoById(id);
         model.addAttribute("categoryDto", categoryDto);
         List<Product> products = productService.findAllByCategoryId(id);
         model.addAttribute("products", products);
         model.addAttribute("cart", cartDTO);
+        model.addAttribute("path", "customer/categories/" + id);
         return "customer/category";
     }
 

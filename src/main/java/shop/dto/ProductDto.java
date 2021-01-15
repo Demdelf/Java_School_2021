@@ -38,7 +38,18 @@ public class ProductDto {
 
     @Override
     public boolean equals(Object obj) {
+        if(this == obj)
+
+        if(obj == null || obj.getClass()!= this.getClass())
+            return false;
+
         ProductDto dto = (ProductDto) obj;
-        return this.id.equals(dto.getId());
+
+        return (dto.id.equals(this.id));
+    }
+    @Override
+    public int hashCode()
+    {
+        return Math.toIntExact(this.id);
     }
 }

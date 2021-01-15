@@ -14,4 +14,8 @@ public interface CartService extends Service<Cart>{
     void updateCartByUser(User user, CartDTO dto);
 
     void addToCartByUser(User user, ProductDto productDto);
+
+    void subFromCartByUser(User user, ProductDto productDto);
+
+    void deleteFromCartByUser(User user, ProductDto productDto);
 }

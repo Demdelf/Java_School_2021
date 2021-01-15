@@ -4,6 +4,13 @@
 <h1>Drytooling holds shop</h1>
 <h2>Holds for World Cup and for garage</h2>
 </body>
-
+<form name='catalog' action="/customer" method='Get'>
+    <table>
+        <tr>
+            <td colspan='2'><input name="submit" type="submit" value="Catalog" /></td>
+        </tr>
+    </table>
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+</form>
 
 </html>

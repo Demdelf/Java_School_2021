@@ -49,6 +49,7 @@ public class CartController {
         } else {
             model.addAttribute("cart", cartDto);
         }
+        model.addAttribute("path", "cart");
         return CART_BASE;
     }
 
@@ -67,7 +68,7 @@ public class CartController {
             newCartDto.setProducts(map);
             model.addAttribute("cart", newCartDto);
         }
-        return "redirect:/" + CART_BASE;
+        return CART_BASE;
     }
 
     @PostMapping("/update")
@@ -82,14 +83,14 @@ public class CartController {
 
         model.addAttribute("cart", cartDto);
 
-        return "redirect:/" + CART_BASE;
+        return CART_BASE;
     }
 
     @PostMapping("/add/{id}")
     public String addToCart(
             Principal principal, Model model,
             @SessionAttribute(value = "cart") CartDTO cartDto, @PathVariable("id") Long id
-            , @ModelAttribute(value = "path") String path)
+            , @SessionAttribute(value = "path") String path)
     {
         ProductDto productDto = productService.getDtoById(id);
         if (isAuthorized(principal)) {
@@ -97,11 +98,43 @@ public class CartController {
             cartService.addToCartByUser(user, productDto);
         }
         cartDto.addProductDto(productDto);
-
         model.addAttribute("cart", cartDto);
 
         return "redirect:/" + path;
-//        return "redirect:/customer";
+    }
+
+    @PostMapping("/sub/{id}")
+    public String subFromCart(
+            Principal principal, Model model,
+            @SessionAttribute(value = "cart") CartDTO cartDto, @PathVariable("id") Long id
+            , @SessionAttribute(value = "path") String path)
+    {
+        ProductDto productDto = productService.getDtoById(id);
+        if (isAuthorized(principal)) {
+            User user = (User) userService.loadUserByUsername(principal.getName());
+            cartService.subFromCartByUser(user, productDto);
+        }
+        cartDto.subProductDto(productDto);
+        model.addAttribute("cart", cartDto);
+
+        return "redirect:/" + path;
+    }
+
+    @PostMapping("/delete/{id}")
+    public String deleteFromCart(
+            Principal principal, Model model,
+            @SessionAttribute(value = "cart") CartDTO cartDto, @PathVariable("id") Long id
+            , @SessionAttribute(value = "path") String path)
+    {
+        ProductDto productDto = productService.getDtoById(id);
+        if (isAuthorized(principal)) {
+            User user = (User) userService.loadUserByUsername(principal.getName());
+            cartService.deleteFromCartByUser(user, productDto);
+        }
+        cartDto.deleteProductDto(productDto);
+        model.addAttribute("cart", cartDto);
+
+        return "redirect:/" + path;
     }
 
     private boolean isAuthorized(Principal principal) {

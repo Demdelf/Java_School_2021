@@ -34,6 +34,33 @@
 <body>
 <h1>Cart</h1>
 
+<form name='clear' action="/cart/clear" method='Post'>
+    <table>
+        <tr>
+            <td colspan='2'><input name="submit" type="submit" value="Clear cart" /></td>
+        </tr>
+    </table>
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+</form>
+
+<form name='create' action="/order" method='Post'>
+    <table>
+        <tr>
+            <td colspan='2'><input name="submit" type="submit" value="Create order" /></td>
+        </tr>
+    </table>
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+</form>
+
+<form name='create' action="/customer" method='Get'>
+    <table>
+        <tr>
+            <td colspan='2'><input name="submit" type="submit" value="To catalog" /></td>
+        </tr>
+    </table>
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+</form>
+
 <table>
     <tr>
         <td><strong>Name</strong></td>
@@ -59,7 +86,7 @@
                 </form>
             </td>
             <td>
-                <form name='addToCart' action="/cart/minus/${product.key.id}" method='Post'>
+                <form name='addToCart' action="/cart/sub/${product.key.id}" method='Post'>
                     <input name="submit" type="submit" value="-" />
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                 </form>

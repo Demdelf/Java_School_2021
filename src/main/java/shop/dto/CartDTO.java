@@ -21,4 +21,20 @@ public class CartDTO {
 
         quantity++;
     }
+
+    public void subProductDto(ProductDto productDto) {
+        int q = products.get(productDto);
+        if (q == 1){
+            products.remove(productDto);
+        }else {
+            products.put(productDto, q - 1);
+        }
+        quantity--;
+    }
+
+    public void deleteProductDto(ProductDto productDto) {
+        int q = products.get(productDto);
+        products.remove(productDto);
+        quantity -= q;
+    }
 }
