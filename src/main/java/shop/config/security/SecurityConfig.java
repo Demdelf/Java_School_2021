@@ -25,12 +25,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-        .passwordEncoder(passwordEncoder())
-        .withUser("user").password(passwordEncoder().encode("123456")).roles("USER")
-        .and()
-        .withUser("admin").password(passwordEncoder().encode("123456")).roles("USER", "ADMIN");
-//        auth.authenticationProvider(authenticationProvider());
+//        auth.inMemoryAuthentication()
+//        .passwordEncoder(passwordEncoder())
+//        .withUser("user").password(passwordEncoder().encode("123456")).roles("USER")
+//        .and()
+//        .withUser("admin").password(passwordEncoder().encode("123456")).roles("USER", "ADMIN");
+        auth.authenticationProvider(authenticationProvider());
     }
  
     @Bean
@@ -52,11 +52,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/login")
             .permitAll()
         .antMatchers("/account/**")
-            .hasAnyRole("ADMIN", "USER")
+            .hasAnyRole("ROLE_ADMIN", "Customer")
         .antMatchers("/manage/**")
-             .hasAnyRole("ADMIN")
+             .hasAnyRole("ROLE_ADMIN")
         .antMatchers("/products/create")
-             .hasAnyRole("ADMIN")
+             .hasAnyRole("ROLE_ADMIN")
         .and()
             .formLogin()
             .loginPage("/login")

@@ -7,3 +7,4 @@ insert into PRODUCTS (ID, NAME, PRICE, CATEGORY_ID) values (1, 'CASUS', 105, 1);
 insert into PRODUCTS (ID, NAME, PRICE, CATEGORY_ID) values (2, 'START PACK 1', 150, 2);
 insert into ROLES (ID, NAME) values (1, 'Customer');
 insert into ROLES (ID, NAME) values (2, 'Manager');
+insert into USERS (ID, EMAIL, PASSWORD, ROLE_ID) values (1, 'manager@mms.com', '$2y$12$kS27RcsQxs40Ttwz7JB3suLjIhlaO9BbQw4RN3VwC/BaOo/fVeL6m', 2);

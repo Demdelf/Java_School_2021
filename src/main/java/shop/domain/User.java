@@ -1,6 +1,7 @@
 package shop.domain;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.persistence.Column;
@@ -16,6 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
@@ -24,7 +26,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Setter
 @NoArgsConstructor
 @Table(name = "USERS")
-public class User/* extends AbstractEntity*/ implements UserDetails {
+public class User implements UserDetails {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,7 +59,11 @@ public class User/* extends AbstractEntity*/ implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
+
+        list.add(new SimpleGrantedAuthority(role.getName()));
+
+        return list;
     }
 
     @Override
@@ -84,4 +90,6 @@ public class User/* extends AbstractEntity*/ implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 }
