@@ -61,6 +61,8 @@ public class UserDaoImp implements UserDaoInt {
         CriteriaQuery<User> query = criteriaBuilder.createQuery(User.class);
         Root<User> root = query.from(User.class);
         query.select(root).where(criteriaBuilder.equal(root.get("email"), email));
-        return entityManager.createQuery(query).getSingleResult();
+        Optional<User> optionalUser = Optional.ofNullable(entityManager.createQuery(query).getResultList()
+                .stream().findFirst().orElse(null));
+        return optionalUser.orElse(null);
     }
 }

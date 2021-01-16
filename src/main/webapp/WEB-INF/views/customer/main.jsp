@@ -44,6 +44,17 @@
 </table>
 
 
+    <tr>
+        <td>
+            <form name='get' action="/customer/new" method='Get'>
+                <input name="submit" type="submit" value="Registration" />
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+            </form>
+        </td>
+    </tr>
+
+
+
 <table>
     <tr>
 <c:forEach items="${categories}" var="category">

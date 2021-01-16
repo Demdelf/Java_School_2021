@@ -36,7 +36,7 @@ public class CartController {
     private final CartService cartService;
     private final UserService userService;
     private final ProductService productService;
-    static boolean fromCart = false;
+
 
 
     @GetMapping
@@ -48,11 +48,12 @@ public class CartController {
             User user = (User) userService.loadUserByUsername(principal.getName());
             CartDTO carDtoFromDB = cartService.getCartDtoByUserIdOrCreate(user);
             request.getSession().setAttribute("cartDto", carDtoFromDB);
+            carDtoFromDB.setFromCart(true);
             model.addAttribute("cart", carDtoFromDB);
         } else {
+            cartDto.setFromCart(true);
             model.addAttribute("cart", cartDto);
         }
-        fromCart = true;
         return CART_BASE;
     }
 
@@ -100,8 +101,8 @@ public class CartController {
         }
         cartDto.addProductDto(productDto);
         model.addAttribute("cart", cartDto);
-        String redirect = fromCart ? "cart" : path;
-        fromCart = false;
+        String redirect = cartDto.isFromCart() ? "cart" : path;
+        cartDto.setFromCart(false);
 
         return "redirect:/" + redirect;
     }
@@ -120,8 +121,8 @@ public class CartController {
         cartDto.subProductDto(productDto);
         model.addAttribute("cart", cartDto);
 
-        String redirect = fromCart ? "cart" : path;
-        fromCart = false;
+        String redirect = cartDto.isFromCart() ? "cart" : path;
+        cartDto.setFromCart(false);
 
         return "redirect:/" + redirect;
     }
@@ -140,8 +141,8 @@ public class CartController {
         cartDto.deleteProductDto(productDto);
         model.addAttribute("cart", cartDto);
 
-        String redirect = fromCart ? "cart" : path;
-        fromCart = false;
+        String redirect = cartDto.isFromCart() ? "cart" : path;
+        cartDto.setFromCart(false);
 
         return "redirect:/" + redirect;
     }

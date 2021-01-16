@@ -5,3 +5,5 @@ insert into PROPERTIES (ID, NAME, TYPE, CATEGORY_ID) values (2, 'Quantity', 'in'
 insert into PROPERTIES (ID, NAME, CATEGORY_ID) values (3, 'Color', 2);
 insert into PRODUCTS (ID, NAME, PRICE, CATEGORY_ID) values (1, 'CASUS', 105, 1);
 insert into PRODUCTS (ID, NAME, PRICE, CATEGORY_ID) values (2, 'START PACK 1', 150, 2);
+insert into ROLES (ID, NAME) values (1, 'Customer');
+insert into ROLES (ID, NAME) values (2, 'Manager');

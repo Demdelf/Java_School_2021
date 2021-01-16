@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import shop.dao.UserDaoInt;
 import shop.domain.User;
+import shop.dto.UserRegDto;
+import shop.util.exception.EmailExistsException;
 
 @Service
 @Transactional
@@ -17,6 +19,7 @@ import shop.domain.User;
 public class UserService implements UserServiceInterface {
 
     private final UserDaoInt dao;
+    private final RoleService roleService;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
@@ -32,4 +35,22 @@ public class UserService implements UserServiceInterface {
         TransactionStatus transactionStatus = TransactionAspectSupport.currentTransactionStatus();
         return dao.create(entity);
     }
+
+    public User convertUserRegDtoToUser(UserRegDto dto) throws EmailExistsException {
+        if (loadUserByUsername(dto.getEmail()) != null){
+            throw new EmailExistsException();
+        }
+
+        User user = new User();
+        user.setEmail(dto.getEmail());
+        user.setPassword(dto.getPassword());
+        user.setRole(roleService.findOne(1));
+        return user;
+    }
+
+    public User saveUserFromUserRegDto(UserRegDto dto) throws EmailExistsException {
+        User user = convertUserRegDtoToUser(dto);
+        return dao.create(user);
+    }
+
 }

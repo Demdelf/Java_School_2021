@@ -11,6 +11,7 @@ public class CartDTO {
     private Long userId;
     private Integer quantity;
     private Map<ProductDto, Integer> products;
+    private boolean fromCart = false;
 
     public void addProductDto(ProductDto dto){
         if (products.containsKey(dto)){
