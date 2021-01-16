@@ -78,6 +78,12 @@
                     <td>${product.name}</td>
                     <td>${product.price}</td>
                     <td>${product.category.name}</td>
+                    <td>
+                        <form name='edit' action="/manage/products/edit/${product.id}" method='Get'>
+                            <input name="submit" type="submit" value="Edit" />
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                        </form>
+                    </td>
                 </tr>
             </c:forEach>
         </table>

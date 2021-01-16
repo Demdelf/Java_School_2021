@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import shop.domain.User;
 import shop.dto.CartDTO;
 import shop.dto.ProductDto;
@@ -35,6 +36,8 @@ public class CartController {
     private final CartService cartService;
     private final UserService userService;
     private final ProductService productService;
+    static boolean fromCart = false;
+
 
     @GetMapping
     public String getCart(
@@ -49,26 +52,24 @@ public class CartController {
         } else {
             model.addAttribute("cart", cartDto);
         }
-        model.addAttribute("path", "cart");
+        fromCart = true;
         return CART_BASE;
     }
 
     @PostMapping("/clear")
     public String clearCart(
             Principal principal, Model model,
-            @SessionAttribute(value = "cart") CartDTO cartDto)
+            @SessionAttribute(value = "cart") CartDTO cartDto, @SessionAttribute(value = "path") String path)
     {
         if (isAuthorized(principal)) {
             User user = (User) userService.loadUserByUsername(principal.getName());
             CartDTO clearedCartDto = cartService.clearCart(user);
             model.addAttribute("cart", clearedCartDto);
         } else {
-            Map<ProductDto, Integer> map = new HashMap<>();
-            CartDTO newCartDto = new CartDTO();
-            newCartDto.setProducts(map);
-            model.addAttribute("cart", newCartDto);
+            cartDto.clear();
+            model.addAttribute("cart", cartDto);
         }
-        return CART_BASE;
+        return "redirect:/" + path;
     }
 
     @PostMapping("/update")
@@ -99,8 +100,10 @@ public class CartController {
         }
         cartDto.addProductDto(productDto);
         model.addAttribute("cart", cartDto);
+        String redirect = fromCart ? "cart" : path;
+        fromCart = false;
 
-        return "redirect:/" + path;
+        return "redirect:/" + redirect;
     }
 
     @PostMapping("/sub/{id}")
@@ -117,7 +120,10 @@ public class CartController {
         cartDto.subProductDto(productDto);
         model.addAttribute("cart", cartDto);
 
-        return "redirect:/" + path;
+        String redirect = fromCart ? "cart" : path;
+        fromCart = false;
+
+        return "redirect:/" + redirect;
     }
 
     @PostMapping("/delete/{id}")
@@ -134,8 +140,16 @@ public class CartController {
         cartDto.deleteProductDto(productDto);
         model.addAttribute("cart", cartDto);
 
-        return "redirect:/" + path;
+        String redirect = fromCart ? "cart" : path;
+        fromCart = false;
+
+        return "redirect:/" + redirect;
     }
+
+//    @ModelAttribute("cartPath")
+//    public String getCartPath() {
+//        return "cart";
+//    }
 
     private boolean isAuthorized(Principal principal) {
         return principal != null;

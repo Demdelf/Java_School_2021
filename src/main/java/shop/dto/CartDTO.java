@@ -37,4 +37,9 @@ public class CartDTO {
         products.remove(productDto);
         quantity -= q;
     }
+
+    public void clear() {
+        quantity = 0;
+        products.clear();
+    }
 }

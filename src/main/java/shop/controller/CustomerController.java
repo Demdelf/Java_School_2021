@@ -82,6 +82,7 @@ public class CustomerController {
         model.addAttribute("categories", categoryService.findAll(10));
         model.addAttribute("cart", cartDTO);
         model.addAttribute("path", "customer");
+        CartController.fromCart = false;
         return "customer/main";
     }
 
@@ -94,6 +95,7 @@ public class CustomerController {
         model.addAttribute("values", propertyValueService.findAll(10));
         model.addAttribute("cart", cartDTO);
         model.addAttribute("path", "customer/products/all");
+        CartController.fromCart = false;
         return "products";
     }
 
@@ -106,12 +108,14 @@ public class CustomerController {
         model.addAttribute("productDto", productDto);
         model.addAttribute("cart", cartDTO);
         model.addAttribute("path", "customer/products/" + id);
+        CartController.fromCart = false;
         return "customer/product";
     }
 
     @GetMapping("/categories/all")
     public String getAllCategories(Locale locale, Model model) {
         model.addAttribute("categories", categoryService.findAll(10));
+        CartController.fromCart = false;
         return "categories";
     }
 
@@ -134,6 +138,7 @@ public class CustomerController {
         model.addAttribute("products", products);
         model.addAttribute("cart", cartDTO);
         model.addAttribute("path", "customer/categories/" + id);
+        CartController.fromCart = false;
         return "customer/category";
     }
 
