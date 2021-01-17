@@ -1,4 +1,4 @@
-package shop.controller;
+package shop.controller.customer;
 
 import java.security.Principal;
 import java.util.HashMap;
