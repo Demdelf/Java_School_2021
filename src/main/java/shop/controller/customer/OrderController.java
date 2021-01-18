@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import shop.domain.Product;
@@ -30,27 +31,37 @@ public class OrderController {
 
 
     @GetMapping("/{id}")
-    public String showProduct(
-            @PathVariable("id") Long id, Locale locale, Model model, @ModelAttribute("cart") CartDTO cartDTO
+    public String showOrder(
+            @PathVariable("id") Long id, Locale locale, Model model, @SessionAttribute("cart") CartDTO cartDTO
             , @ModelAttribute("path") String path
     ) {
         OrderDto orderDto = orderService.getDtoById(id);
+        model.addAttribute("paymentMethods", orderService.getAllPaymentMethods());
         model.addAttribute("orderDto", orderDto);
         return "customer/order";
     }
 
     @PostMapping("/create")
-    public String createOrder(
-            @ModelAttribute("cart") CartDTO cartDTO, BindingResult result, Model model,
-            Principal principal,
-            RedirectAttributes redirectAttributes
+    public String createOrder(Model model,
+            Principal principal
     ) {
         if (isAuthorized(principal)) {
-            Long id = orderService.create(principal, cartDTO);
+            Long id = orderService.create(principal);
             return "redirect:/customer/orders/" + id;
         }else {
             return "login";
         }
+    }
+
+    @PostMapping("/update/{id}")
+    public String createOrder(@PathVariable("id") Long id, Locale locale, Model model
+            , @ModelAttribute("updateOrderDto") OrderDto updateOrderDto
+    ) {
+        OrderDto orderDto = orderService.updateDtoById(id, updateOrderDto);
+
+        model.addAttribute("paymentMethods", orderService.getAllPaymentMethods());
+        model.addAttribute("orderDto", orderDto);
+        return "customer/order";
     }
 
     private boolean isAuthorized(Principal principal) {

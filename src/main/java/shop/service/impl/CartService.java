@@ -1,22 +1,22 @@
 package shop.service.impl;
 
-import java.util.ArrayList;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.dao.impl.CartDao;
 import shop.domain.Cart;
-import shop.domain.Product;
-import shop.domain.Property;
 import shop.domain.User;
 import shop.dto.CartDTO;
 import shop.dto.ProductDto;
 import shop.service.ProductService;
+import shop.service.UserService;
 
 @Service
 @RequiredArgsConstructor
@@ -24,14 +24,15 @@ import shop.service.ProductService;
 public class CartService implements shop.service.CartService {
 
     private final CartDao cartDao;
+    private final UserService userService;
     @Autowired
     private ProductService productService;
 
     @Override
     @Transactional
-    public CartDTO getCartDtoByUserIdOrCreate(User user) {
+    public CartDTO getCartDtoByUserOrCreate(User user) {
         List<Cart> carts = cartDao.getAllCartsByUserId(user.getId());
-        if (carts == null) {
+        if (carts.isEmpty()) {
             return convertCartToCartDto(createCart(user));
         }
         return convertCartsToCartDto(carts);
@@ -40,6 +41,7 @@ public class CartService implements shop.service.CartService {
     @Transactional
     private CartDTO convertCartToCartDto(Cart cart) {
         CartDTO cartDTO = new CartDTO();
+        cartDTO.setQuantity(cart.getQuantity());
         cartDTO.setProducts(new HashMap<>());
         cartDTO.setId(cart.getId());
         cartDTO.setUserId(cart.getUser().getId());
@@ -88,6 +90,7 @@ public class CartService implements shop.service.CartService {
             cart.setProduct(productService.findOne(productDto.getId()));
             cart.setQuantity(1);
             create(cart);
+//            update(cart);
         }
     }
 
@@ -121,27 +124,50 @@ public class CartService implements shop.service.CartService {
         }
     }
 
+    @Override
+    public CartDTO getCartDtoForPrincipal(
+            Principal principal, CartDTO cartDto, HttpServletRequest request
+    ) {
+        if (isAuthorized(principal)) {
+            User user = (User) userService.loadUserByUsername(principal.getName());
+            CartDTO carDtoFromDB = getCartDtoByUserOrCreate(user);
+            carDtoFromDB.addProductsFromAnotherDto(cartDto);
+            updateCartByUser(user,carDtoFromDB);
+            request.getSession().setAttribute("cartDto", carDtoFromDB);
+            carDtoFromDB.setFromCart(true);
+            return carDtoFromDB;
+        } else {
+            cartDto.setFromCart(true);
+            return cartDto;
+        }
+    }
+
     private Cart createCart(User user) {
         Cart cart = new Cart();
         cart.setUser(user);
-        return cartDao.create(cart);
+        cart.setQuantity(0);
+        return cart;
+//        return cartDao.create(cart);
     }
 
     @Transactional
     private CartDTO convertCartsToCartDto(List<Cart> carts) {
         CartDTO cartDTO = new CartDTO();
         Map<ProductDto, Integer> products = new HashMap<>();
+        int q = 0;
         for (Cart c : carts) {
-            if (cartDTO.getId() == null) {
-                cartDTO.setId(c.getId());
-            }
+//            if (cartDTO.getId() == null) {
+//                cartDTO.setId(c.getId());
+//            }
             if (cartDTO.getUserId() == null && c.getUser() != null) {
                 cartDTO.setUserId(c.getUser().getId());
             }
 
             ProductDto productDto = productService.getDtoById(c.getProduct().getId());
             products.put(productDto, c.getQuantity());
+            q += c.getQuantity();
         }
+        cartDTO.setQuantity(q);
         cartDTO.setProducts(products);
         return cartDTO;
     }
@@ -158,7 +184,7 @@ public class CartService implements shop.service.CartService {
 
     @Override
     public Cart create(Cart cart) {
-        return null;
+        return cartDao.create(cart);
     }
 
     @Override

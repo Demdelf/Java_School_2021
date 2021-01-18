@@ -9,7 +9,7 @@ public interface OrderService extends Service<Order>{
 
     OrderDto getDtoById(Long id);
 
-    OrderDto createOrderFromCartDto(CartDTO cartDTO);
+    OrderDto createOrderDtoFromCartDto(CartDTO cartDTO);
 
-    Long create(Principal principal, CartDTO cartDTO);
+    Long create(Principal principal);
 }

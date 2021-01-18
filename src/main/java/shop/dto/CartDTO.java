@@ -1,6 +1,7 @@
 package shop.dto;
 
 import java.util.Map;
+import java.util.Map.Entry;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,6 +24,16 @@ public class CartDTO {
         quantity++;
     }
 
+    public void addProductDto(ProductDto dto, Integer q){
+        if (products.containsKey(dto)){
+            products.put(dto, products.get(dto) + q);
+        }else {
+            products.put(dto, q);
+        }
+
+        quantity += q;
+    }
+
     public void subProductDto(ProductDto productDto) {
         int q = products.get(productDto);
         if (q == 1){
@@ -42,5 +53,12 @@ public class CartDTO {
     public void clear() {
         quantity = 0;
         products.clear();
+    }
+
+    public void addProductsFromAnotherDto(CartDTO cartDto) {
+        for (Entry<ProductDto, Integer> map: cartDto.products.entrySet()
+        ) {
+            addProductDto(map.getKey(), map.getValue());
+        }
     }
 }

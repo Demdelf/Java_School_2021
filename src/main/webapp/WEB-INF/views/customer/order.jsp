@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: User
-  Date: 15.01.2021
-  Time: 13:32
+  Date: 18.01.2021
+  Time: 14:23
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -32,21 +32,12 @@
     </style>
 </head>
 <body>
-<h1>Cart</h1>
+<h1>Order</h1>
 
-<form name='clear' action="/cart/clear" method='Post'>
+<form name='clear' action="/order/delete" method='Post'>
     <table>
         <tr>
-            <td colspan='2'><input name="submit" type="submit" value="Clear cart" /></td>
-        </tr>
-    </table>
-    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-</form>
-
-<form name='create' action="/customer/orders/create" method='Post'>
-    <table>
-        <tr>
-            <td colspan='2'><input name="submit" type="submit" value="Create order" /></td>
+            <td colspan='2'><input name="submit" type="submit" value="Delete order" /></td>
         </tr>
     </table>
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
@@ -62,13 +53,45 @@
 </form>
 
 <table>
+
+    <form:form action="update/${orderDto.id}" method="post" modelAttribute="updateOrderDto">
+        <table>
+            <tr>
+                <td>Payment Method</td>
+                <td>
+                    <select id="dropdownPM" name="paymentMethod">
+                        <c:forEach var="paymentMethod" items="${paymentMethods}">
+                            <option value="<c:out value='${paymentMethod.name}' />"
+                                    <c:if test="${param.selectValue == paymentMethod.name})"> selected </c:if>  >
+                                <c:out value="${paymentMethod.name}" />
+                            </option>
+                        </c:forEach>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Save"></td>
+                <td></td>
+            </tr>
+
+        </table>
+    </form:form>
+
+
+
+    <tr>
+        <td>Products</td>
+    </tr>
+
     <tr>
         <td><strong>Name</strong></td>
         <td><strong>Price</strong></td>
         <td><strong>Category</strong></td>
         <td><strong>Quantity</strong></td>
     </tr>
-    <c:forEach items="${cart.products}" var="product">
+    <c:forEach items="${orderDto.orderProducts}" var="product">
         <tr>
             <td>
                 <form name='addToCart' action="/customer/products/${product.key.id}" method='Get'>

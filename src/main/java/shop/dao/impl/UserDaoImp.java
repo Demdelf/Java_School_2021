@@ -41,6 +41,18 @@ public class UserDaoImp implements UserDaoInt {
     }
 
     @Override
+    public User find(Long id) {
+//        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+//        CriteriaQuery<User> query = criteriaBuilder.createQuery(User.class);
+//        Root<User> root = query.from(User.class);
+//        query.select(root).where(criteriaBuilder.equal(root.get("id"), id));
+//        Optional<User> optionalUser = Optional.ofNullable(entityManager.createQuery(query).getResultList()
+//                .stream().findFirst().orElse(null));
+//        return optionalUser.orElse(null);
+        return entityManager.find(User.class, id);
+    }
+
+    @Override
     public User create(User user) {
 
 //        EntityTransaction transaction = entityManager.getTransaction();

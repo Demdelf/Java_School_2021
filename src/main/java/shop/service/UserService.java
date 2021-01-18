@@ -29,6 +29,9 @@ public class UserService implements UserServiceInterface {
     public List<User> findAll(int pageSize) {
         return dao.findAll(pageSize);
     }
+    public User find(Long id) {
+        return dao.find(id);
+    }
 
 
     public User create(final User entity) {

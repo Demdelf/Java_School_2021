@@ -3,22 +3,15 @@ package shop.controller;
 import static java.util.stream.Collectors.toMap;
 
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import shop.domain.User;
 import shop.dto.CartDTO;
 import shop.dto.ProductDto;
@@ -44,16 +37,10 @@ public class CartController {
             Principal principal, HttpServletRequest request, Model model,
             @SessionAttribute(value = "cart") CartDTO cartDto)
     {
-        if (isAuthorized(principal)) {
-            User user = (User) userService.loadUserByUsername(principal.getName());
-            CartDTO carDtoFromDB = cartService.getCartDtoByUserIdOrCreate(user);
-            request.getSession().setAttribute("cartDto", carDtoFromDB);
-            carDtoFromDB.setFromCart(true);
-            model.addAttribute("cart", carDtoFromDB);
-        } else {
-            cartDto.setFromCart(true);
-            model.addAttribute("cart", cartDto);
-        }
+
+        cartDto = cartService.getCartDtoForPrincipal(principal, cartDto, request);
+        model.addAttribute("cart", cartDto);
+
         return CART_BASE;
     }
 
@@ -62,7 +49,7 @@ public class CartController {
             Principal principal, Model model,
             @SessionAttribute(value = "cart") CartDTO cartDto, @SessionAttribute(value = "path") String path)
     {
-        if (isAuthorized(principal)) {
+        if (cartService.isAuthorized(principal)) {
             User user = (User) userService.loadUserByUsername(principal.getName());
             CartDTO clearedCartDto = cartService.clearCart(user);
             model.addAttribute("cart", clearedCartDto);
@@ -78,7 +65,8 @@ public class CartController {
             Principal principal, Model model,
             @SessionAttribute(value = "cart") CartDTO cartDto)
     {
-        if (isAuthorized(principal)) {
+
+        if (cartService.isAuthorized(principal)) {
             User user = (User) userService.loadUserByUsername(principal.getName());
             cartService.updateCartByUser(user, cartDto);
         }
@@ -95,7 +83,7 @@ public class CartController {
             , @SessionAttribute(value = "path") String path)
     {
         ProductDto productDto = productService.getDtoById(id);
-        if (isAuthorized(principal)) {
+        if (cartService.isAuthorized(principal)) {
             User user = (User) userService.loadUserByUsername(principal.getName());
             cartService.addToCartByUser(user, productDto);
         }
@@ -114,7 +102,7 @@ public class CartController {
             , @SessionAttribute(value = "path") String path)
     {
         ProductDto productDto = productService.getDtoById(id);
-        if (isAuthorized(principal)) {
+        if (cartService.isAuthorized(principal)) {
             User user = (User) userService.loadUserByUsername(principal.getName());
             cartService.subFromCartByUser(user, productDto);
         }
@@ -134,7 +122,7 @@ public class CartController {
             , @SessionAttribute(value = "path") String path)
     {
         ProductDto productDto = productService.getDtoById(id);
-        if (isAuthorized(principal)) {
+        if (cartService.isAuthorized(principal)) {
             User user = (User) userService.loadUserByUsername(principal.getName());
             cartService.deleteFromCartByUser(user, productDto);
         }
@@ -145,14 +133,5 @@ public class CartController {
         cartDto.setFromCart(false);
 
         return "redirect:/" + redirect;
-    }
-
-//    @ModelAttribute("cartPath")
-//    public String getCartPath() {
-//        return "cart";
-//    }
-
-    private boolean isAuthorized(Principal principal) {
-        return principal != null;
     }
 }

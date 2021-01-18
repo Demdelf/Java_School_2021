@@ -7,4 +7,6 @@ public interface UserDaoInt {
     User create(User user);
     User getUserByEmail(String email);
     List<User> findAll(int pageSize);
+
+    User find(Long id);
 }

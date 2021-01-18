@@ -8,3 +8,16 @@ insert into PRODUCTS (ID, NAME, PRICE, CATEGORY_ID) values (2, 'START PACK 1', 1
 insert into ROLES (ID, NAME) values (1, 'Customer');
 insert into ROLES (ID, NAME) values (2, 'Manager');
 insert into USERS (ID, EMAIL, PASSWORD, ROLE_ID) values (1, 'manager@mms.com', '$2y$12$kS27RcsQxs40Ttwz7JB3suLjIhlaO9BbQw4RN3VwC/BaOo/fVeL6m', 2);
+insert into payment_methods (ID, NAME) values (1, 'Credit card');
+insert into payment_methods (ID, NAME) values (2, 'PayPal');
+insert into payment_methods (ID, NAME) values (3, 'Cash');
+insert into payment_statuses (ID, NAME) values (1, 'Unpaid');
+insert into payment_statuses (ID, NAME) values (2, 'Paid');
+insert into delivery_methods (ID, NAME) values (1, 'Pickup from the warehouse');
+insert into delivery_methods (ID, NAME) values (2, 'DHL');
+insert into delivery_methods (ID, NAME) values (3, 'EMS');
+insert into delivery_statuses (ID, NAME) values (1, 'Order created');
+insert into delivery_statuses (ID, NAME) values (2, 'Ready for delivery');
+insert into delivery_statuses (ID, NAME) values (3, 'Ready for pickup');
+insert into delivery_statuses (ID, NAME) values (4, 'Sent');
+insert into delivery_statuses (ID, NAME) values (5, 'Delivered');
