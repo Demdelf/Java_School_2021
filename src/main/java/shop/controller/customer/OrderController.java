@@ -32,7 +32,7 @@ public class OrderController {
 
     @GetMapping("/{id}")
     public String showOrder(
-            @PathVariable("id") Long id, Locale locale, Model model, @SessionAttribute("cart") CartDTO cartDTO
+            @PathVariable("id") Long id, Locale locale, Model model
             , @ModelAttribute("path") String path
     ) {
         OrderDto orderDto = orderService.getDtoById(id);
@@ -57,11 +57,11 @@ public class OrderController {
     public String createOrder(@PathVariable("id") Long id, Locale locale, Model model
             , @ModelAttribute("updateOrderDto") OrderDto updateOrderDto
     ) {
-        OrderDto orderDto = orderService.updateDtoById(id, updateOrderDto);
+        OrderDto orderDto = orderService.updateMethodsById(id, updateOrderDto);
 
         model.addAttribute("paymentMethods", orderService.getAllPaymentMethods());
         model.addAttribute("orderDto", orderDto);
-        return "customer/order";
+        return "customer/orders/" + id;
     }
 
     private boolean isAuthorized(Principal principal) {

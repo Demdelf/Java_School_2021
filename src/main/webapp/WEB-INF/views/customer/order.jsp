@@ -13,7 +13,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>Cart</title>
+    <title>Order</title>
     <style type="text/css">
         .error {
             color: red;
@@ -77,6 +77,7 @@
             </tr>
 
         </table>
+    <table>
     </form:form>
 
 
@@ -102,24 +103,24 @@
             <td>${product.key.price}</td>
             <td>${product.key.category}</td>
             <td>${product.value}</td>
-            <td>
-                <form name='addToCart' action="/cart/add/${product.key.id}" method='Post'>
-                    <input name="submit" type="submit" value="+" />
-                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                </form>
-            </td>
-            <td>
-                <form name='addToCart' action="/cart/sub/${product.key.id}" method='Post'>
-                    <input name="submit" type="submit" value="-" />
-                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                </form>
-            </td>
-            <td>
-                <form name='addToCart' action="/cart/delete/${product.key.id}" method='Post'>
-                    <input name="submit" type="submit" value="delete" />
-                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                </form>
-            </td>
+<%--            <td>--%>
+<%--                <form name='addToCart' action="/cart/add/${product.key.id}" method='Post'>--%>
+<%--                    <input name="submit" type="submit" value="+" />--%>
+<%--                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />--%>
+<%--                </form>--%>
+<%--            </td>--%>
+<%--            <td>--%>
+<%--                <form name='addToCart' action="/cart/sub/${product.key.id}" method='Post'>--%>
+<%--                    <input name="submit" type="submit" value="-" />--%>
+<%--                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />--%>
+<%--                </form>--%>
+<%--            </td>--%>
+<%--            <td>--%>
+<%--                <form name='addToCart' action="/cart/delete/${product.key.id}" method='Post'>--%>
+<%--                    <input name="submit" type="submit" value="delete" />--%>
+<%--                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />--%>
+<%--                </form>--%>
+<%--            </td>--%>
         </tr>
     </c:forEach>
 </table>

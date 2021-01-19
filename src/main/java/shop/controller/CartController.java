@@ -86,8 +86,10 @@ public class CartController {
         if (cartService.isAuthorized(principal)) {
             User user = (User) userService.loadUserByUsername(principal.getName());
             cartService.addToCartByUser(user, productDto);
+        }else {
+            cartDto.addProductDto(productDto);
         }
-        cartDto.addProductDto(productDto);
+
         model.addAttribute("cart", cartDto);
         String redirect = cartDto.isFromCart() ? "cart" : path;
         cartDto.setFromCart(false);
@@ -105,8 +107,10 @@ public class CartController {
         if (cartService.isAuthorized(principal)) {
             User user = (User) userService.loadUserByUsername(principal.getName());
             cartService.subFromCartByUser(user, productDto);
+        }else {
+            cartDto.subProductDto(productDto);
         }
-        cartDto.subProductDto(productDto);
+
         model.addAttribute("cart", cartDto);
 
         String redirect = cartDto.isFromCart() ? "cart" : path;
@@ -125,8 +129,10 @@ public class CartController {
         if (cartService.isAuthorized(principal)) {
             User user = (User) userService.loadUserByUsername(principal.getName());
             cartService.deleteFromCartByUser(user, productDto);
+        }else {
+            cartDto.deleteProductDto(productDto);
         }
-        cartDto.deleteProductDto(productDto);
+
         model.addAttribute("cart", cartDto);
 
         String redirect = cartDto.isFromCart() ? "cart" : path;
