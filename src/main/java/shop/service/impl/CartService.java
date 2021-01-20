@@ -16,7 +16,6 @@ import shop.domain.User;
 import shop.dto.CartDTO;
 import shop.dto.ProductDto;
 import shop.service.ProductService;
-import shop.service.UserService;
 
 @Service
 @RequiredArgsConstructor

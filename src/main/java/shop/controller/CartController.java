@@ -16,7 +16,7 @@ import shop.domain.User;
 import shop.dto.CartDTO;
 import shop.dto.ProductDto;
 import shop.service.CartService;
-import shop.service.UserService;
+import shop.service.impl.UserService;
 import shop.service.impl.ProductService;
 
 @Controller

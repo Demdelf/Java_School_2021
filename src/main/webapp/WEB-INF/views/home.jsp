@@ -31,4 +31,13 @@
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 </form>
 
+<form name='catalog' action="/account" method='Get'>
+    <table>
+        <tr>
+            <td colspan='2'><input name="submit" type="submit" value="Account" /></td>
+        </tr>
+    </table>
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+</form>
+
 </html>

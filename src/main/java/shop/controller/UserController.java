@@ -1,5 +1,6 @@
 package shop.controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Locale;
 import javax.validation.Valid;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import shop.domain.User;
-import shop.service.UserService;
+import shop.dto.UserAccountDto;
 import shop.service.UserServiceInterface;
 
 @Controller
@@ -52,5 +53,14 @@ public class UserController {
 
         userService.create(user);
         return "redirect:/";
+    }
+
+    @GetMapping("account")
+    public String currentUserName(Principal principal, Model model){
+
+        UserAccountDto accountDto = userService.getUserAccountDtoForPrincipal(principal);
+        model.addAttribute("accountDto", accountDto);
+
+        return "customer/account";
     }
 }

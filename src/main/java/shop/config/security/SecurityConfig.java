@@ -3,7 +3,6 @@ package shop.config.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.ComponentScans;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -12,7 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import shop.service.UserService;
 import shop.service.UserServiceInterface;
 
 @Configuration
@@ -52,11 +50,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/login")
             .permitAll()
         .antMatchers("/account/**")
-            .hasAnyRole("ROLE_MANAGER", "ROLE_CUSTOMER")
+            .hasAnyRole("MANAGER", "CUSTOMER")
+        .antMatchers("/account")
+                .hasAnyRole("MANAGER", "CUSTOMER")
+        .antMatchers("/manage")
+//                .permitAll()
+                .hasAnyRole("MANAGER")
         .antMatchers("/manage/**")
-             .hasAnyRole("ROLE_MANAGER")
+//                .permitAll()
+                .hasAnyRole("MANAGER")
         .antMatchers("/products/create")
-             .hasAnyRole("ROLE_MANAGER")
+             .hasAnyRole("MANAGER")
         .and()
             .formLogin()
             .loginPage("/login")

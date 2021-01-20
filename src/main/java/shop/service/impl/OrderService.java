@@ -20,7 +20,6 @@ import shop.domain.User;
 import shop.dto.CartDTO;
 import shop.dto.OrderDto;
 import shop.dto.ProductDto;
-import shop.service.UserService;
 
 @Service
 @RequiredArgsConstructor

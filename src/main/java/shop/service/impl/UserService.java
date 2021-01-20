@@ -1,5 +1,6 @@
-package shop.service;
+package shop.service.impl;
 
+import java.security.Principal;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,7 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import shop.dao.UserDaoInt;
 import shop.domain.User;
+import shop.dto.UserAccountDto;
 import shop.dto.UserRegDto;
+import shop.service.RoleService;
+import shop.service.UserServiceInterface;
 import shop.util.exception.EmailExistsException;
 
 @Service
@@ -39,6 +43,26 @@ public class UserService implements UserServiceInterface {
         return dao.create(entity);
     }
 
+    @Override
+    public UserAccountDto getUserAccountDtoForPrincipal(Principal principal) {
+        User user = (User) loadUserByUsername(principal.getName());
+
+        return convertUserToAccountDto(user);
+    }
+
+    private UserAccountDto convertUserToAccountDto(User user) {
+        UserAccountDto accountDto = new UserAccountDto();
+        accountDto.setId(user.getId());
+        if (user.getFirstName() != null)
+        accountDto.setFirstName(user.getFirstName());
+        if (user.getLastName() != null)
+        accountDto.setLastName(user.getLastName());
+        if (user.getBirthday() != null)
+        accountDto.setBirthday(user.getBirthday().toString());
+        accountDto.setEmail(user.getEmail());
+        return accountDto;
+    }
+
     public User convertUserRegDtoToUser(UserRegDto dto) throws EmailExistsException {
         if (loadUserByUsername(dto.getEmail()) != null){
             throw new EmailExistsException();
@@ -55,5 +79,7 @@ public class UserService implements UserServiceInterface {
         User user = convertUserRegDtoToUser(dto);
         return dao.create(user);
     }
+
+
 
 }

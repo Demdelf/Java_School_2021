@@ -4,39 +4,31 @@ import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
-import java.util.stream.Collectors;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import shop.domain.Category;
 import shop.domain.Product;
 import shop.domain.PropertyValue;
 import shop.domain.User;
 import shop.dto.CartDTO;
 import shop.dto.CategoryDto;
 import shop.dto.ProductDto;
-import shop.dto.UserDto;
 import shop.dto.UserRegDto;
 import shop.service.CategoryService;
 import shop.service.ProductService;
 import shop.service.Service;
-import shop.service.UserService;
+import shop.service.impl.UserService;
 import shop.util.exception.EmailExistsException;
 
 @Controller
@@ -88,6 +80,8 @@ public class CustomerController {
         return principal.getName();
     }
 
+
+
     @GetMapping("")
     public String homeInit(Locale locale, Model model, @ModelAttribute("cart") CartDTO cartDTO
             , @ModelAttribute("path") String path
@@ -98,12 +92,13 @@ public class CustomerController {
         model.addAttribute("cart", cartDTO);
         model.addAttribute("path", "customer");
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//
+//        Set<String> roles = authentication.getAuthorities().stream()
+//                .map(r -> r.getAuthority()).collect(Collectors.toSet());
 
-        Set<String> roles = authentication.getAuthorities().stream()
-                .map(r -> r.getAuthority()).collect(Collectors.toSet());
-
-        return "customer/main";
+//        return "customer/main";
+        return "customer/bootProd";
     }
 
     @GetMapping("/products/all")
