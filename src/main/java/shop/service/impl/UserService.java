@@ -28,7 +28,6 @@ public class UserService implements UserServiceInterface {
 
     private final UserDaoInt dao;
     private final RoleService roleService;
-    @Autowired
     private final PasswordEncoder bCryptPasswordEncoder;
 
     @Override
