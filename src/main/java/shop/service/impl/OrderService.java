@@ -231,4 +231,29 @@ public class OrderService implements shop.service.OrderService {
         }
         update(order);
     }
+
+    public List<OrderDto> getAllUserOrders(Principal principal) {
+        User user = (User) userService.loadUserByUsername(principal.getName());
+        List<Order> orders = orderDao.getOrdersForUser(user);
+//        for (Order o: orders
+//        ) {
+//            List<>
+//        }
+        List<OrderDto> orderDtoList = new ArrayList<>();
+        for (Order o: orders
+        ) {
+            orderDtoList.add(convertOrderToDto(o));
+        }
+        return orderDtoList;
+    }
+
+    public OrderDto getDtoById(Long id, Principal principal) {
+        User user = (User) userService.loadUserByUsername(principal.getName());
+        OrderDto orderDto = getDtoById(id);
+        if (orderDto.getUserId().equals(user.getId())) {
+            return orderDto;
+        }else {
+            return null;
+        }
+    }
 }

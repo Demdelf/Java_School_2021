@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import shop.domain.User;
 import shop.dto.UserAccountDto;
+import shop.dto.UserRegDto;
 
 public interface UserServiceInterface extends UserDetailsService {
 
@@ -12,4 +13,6 @@ public interface UserServiceInterface extends UserDetailsService {
     User create(final User entity);
 
     UserAccountDto getUserAccountDtoForPrincipal(Principal principal);
+
+    Boolean create(UserRegDto userRegDto);
 }

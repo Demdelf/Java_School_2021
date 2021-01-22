@@ -23,6 +23,7 @@ import shop.domain.PropertyValue;
 import shop.domain.User;
 import shop.dto.CartDTO;
 import shop.dto.CategoryDto;
+import shop.dto.OrderDto;
 import shop.dto.ProductDto;
 import shop.dto.UserRegDto;
 import shop.service.CategoryService;
@@ -82,6 +83,8 @@ public class CustomerController {
 
 
 
+
+
     @GetMapping("")
     public String homeInit(Locale locale, Model model, @ModelAttribute("cart") CartDTO cartDTO
             , @ModelAttribute("path") String path
@@ -97,8 +100,8 @@ public class CustomerController {
 //        Set<String> roles = authentication.getAuthorities().stream()
 //                .map(r -> r.getAuthority()).collect(Collectors.toSet());
 
-//        return "customer/main";
-        return "customer/bootProd";
+        return "customer/main";
+//        return "customer/bootProd";
     }
 
     @GetMapping("/products/all")
@@ -166,25 +169,25 @@ public class CustomerController {
         return CUSTOMER_NEW;
     }
 
-    @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public String postRegistrationForm(
-            Model model,
-            @Valid UserRegDto userRegDto, BindingResult bindingResult,
-            @ModelAttribute(value = "cart") CartDTO cartDto
-    ) {
-        model.addAttribute("userRegDto", userRegDto); // place user data back to redirect him back to pre-filled registration form
-        if (bindingResult.hasErrors()){
-            return CUSTOMER_NEW;
-        }
-        User user;
-        try {
-            user = userService.saveUserFromUserRegDto(userRegDto);
-        } catch (EmailExistsException e) {
-            bindingResult.addError(e.getFieldError());
-            return CUSTOMER_NEW;
-        }
-
-        return "login";
-    }
+//    @RequestMapping(value = "/new", method = RequestMethod.POST)
+//    public String postRegistrationForm(
+//            Model model,
+//            @Valid UserRegDto userRegDto, BindingResult bindingResult,
+//            @ModelAttribute(value = "cart") CartDTO cartDto
+//    ) {
+//        model.addAttribute("userRegDto", userRegDto); // place user data back to redirect him back to pre-filled registration form
+//        if (bindingResult.hasErrors()){
+//            return CUSTOMER_NEW;
+//        }
+//        User user;
+//        try {
+//            user = userService.saveUserFromUserRegDto(userRegDto);
+//        } catch (EmailExistsException e) {
+//            bindingResult.addError(e.getFieldError());
+//            return CUSTOMER_NEW;
+//        }
+//
+//        return "login";
+//    }
 
 }

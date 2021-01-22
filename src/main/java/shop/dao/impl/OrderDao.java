@@ -1,7 +1,6 @@
 package shop.dao.impl;
 
 import java.util.List;
-import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -15,6 +14,7 @@ import shop.domain.Order;
 import shop.domain.OrderProduct;
 import shop.domain.PaymentMethod;
 import shop.domain.PaymentStatus;
+import shop.domain.User;
 
 @Repository
 public class OrderDao  extends AbstractDao<Order> implements Dao<Order> {
@@ -87,5 +87,13 @@ public class OrderDao  extends AbstractDao<Order> implements Dao<Order> {
         Root<PaymentStatus> root = query.from(PaymentStatus.class);
         query.select(root).where(criteriaBuilder.equal(root.get("name"), name));
         return entityManager.createQuery(query).getSingleResult();
+    }
+
+    public List<Order> getOrdersForUser(User user) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Order> query = criteriaBuilder.createQuery(Order.class);
+        Root<Order> root = query.from(Order.class);
+        query.select(root).where(criteriaBuilder.equal(root.get("user"), user.getId()));
+        return entityManager.createQuery(query).getResultList();
     }
 }

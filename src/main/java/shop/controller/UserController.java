@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import shop.domain.User;
 import shop.dto.UserAccountDto;
+import shop.dto.UserRegDto;
 import shop.service.UserServiceInterface;
 
 @Controller
@@ -53,6 +54,24 @@ public class UserController {
 
         userService.create(user);
         return "redirect:/";
+    }
+
+    @PostMapping("/reg")
+    public String addUser(@ModelAttribute("userRegDto") @Valid UserRegDto userRegDto, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+            return "registration";
+        }
+        if (!userRegDto.getPassword().equals(userRegDto.getPasswordConfirm())){
+            model.addAttribute("passwordError", "Пароли не совпадают");
+            return "registration";
+        }
+        if (!userService.create(userRegDto)){
+            model.addAttribute("usernameError", "Пользователь с таким именем уже существует");
+            return "registration";
+        }
+
+        return "redirect:/account";
     }
 
     @GetMapping("account")

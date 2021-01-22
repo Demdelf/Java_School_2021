@@ -1,6 +1,7 @@
 package shop.controller.customer;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Locale;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -23,13 +24,25 @@ public class OrderController {
     @GetMapping("/{id}")
     public String showOrder(
             @PathVariable("id") Long id, Locale locale, Model model
-            , @ModelAttribute("path") String path
+            , @ModelAttribute("path") String path, Principal principal
     ) {
-        OrderDto orderDto = orderService.getDtoById(id);
+
+        OrderDto orderDto = orderService.getDtoById(id, principal);
+        if (orderDto == null){
+            return "404";
+        }
         model.addAttribute("paymentMethods", orderService.getAllPaymentMethods());
         model.addAttribute("orderDto", orderDto);
         return "customer/order";
     }
+
+    @GetMapping("")
+    public String userOrders(Locale locale, Model model, Principal principal){
+        List<OrderDto> orderDtoList = orderService.getAllUserOrders(principal);
+        model.addAttribute("orderDtoList", orderDtoList);
+        return "customer/ordersHistory";
+    }
+
 
     @PostMapping("/create")
     public String createOrder(Model model,
