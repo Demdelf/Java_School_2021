@@ -19,6 +19,19 @@
 
 
 <style>
+    .themed-grid-col {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    background-color: rgba(86, 61, 124, .15);
+    border: 1px solid rgba(86, 61, 124, .2);
+}
+
+.themed-container {
+    padding: .75rem;
+    margin-bottom: 1.5rem;
+    background-color: rgba(0, 123, 255, .15);
+    border: 1px solid rgba(0, 123, 255, .2);
+}
     .bd-placeholder-img {
         font-size: 1.125rem;
         text-anchor: middle;
@@ -53,53 +66,74 @@
 
 
 <body>
-<div class="order_wrapper expandable_control_header block_data__gtm-js block_data__pageevents-js active" id="order_detail_V3523538"
-     data-gtm-location="Список заказов" data-pageevents-location="Список заказов" data-is-order-configuration="">
+<div class="container">
+    <div class="row my-2">
+        <div class="col-lg-8 order-lg-2">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a href="http://localhost:8080/account" data-target="#profile" data-toggle="tab" class="nav-link">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a href="" data-target="#messages" data-toggle="tab" class="nav-link active">Orders</a>
+                </li>
+                <li class="nav-item">
+                    <a href="http://localhost:8080/account/edit" data-target="#edit" data-toggle="tab" class="nav-link">Edit</a>
+                </li>
+            </ul>
+<%--<div class="order_wrapper expandable_control_header block_data__gtm-js block_data__pageevents-js active" id="order_detail_V3523538"--%>
+<%--     data-gtm-location="Список заказов" data-pageevents-location="Список заказов" data-is-order-configuration="">--%>
+    <div class="tab-content py-4">
 
     <c:forEach items="${orderDtoList}" var="order">
-    <table class="order order_header"><tbody>
-    <tr>
-        <td class="order_details">
-        ${order.id}
-        </td>
-        <td class="order_brif_info">
-            <span class="pseudo expandable_control for_order_V3523538">кол-во товаров: ${order.getGoodsCount()}</span>
-        </td>
-        <td class="order_status-cell">
-            <div class="order_status step_5">
-                <div class="status_bar"></div>
-                <span class="status_name">${order.deliveryStatus}</span>
+
+        <div class="row  mb-3">
+            <div class="col-md-1 themed-grid-col">${order.id}</div>
+            <div class="col-md-3 themed-grid-col">кол-во товаров: <strong>${order.getGoodsCount()}</strong></div>
+            <div class="col-md-2 themed-grid-col">${order.deliveryStatus}</div>
+            <div class="col-md-3 themed-grid-col">${order.deliveryMethod}</div>
+            <div class="col-md-2 themed-grid-col">${order.getGoodsFullCost()} <strong>$</strong></div>
+            <div class="col-md-1 themed-grid-col">
+                <form name='get' action="/customer/orders/${order.id}" method='Get'>
+                    <input name="submit" type="submit" value="View" />
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                </form>
             </div>
-        </td>
-        <td class="delivery">${order.deliveryMethod}</td>
-        <td class="price">
-            <span class="price">
-                <ins class="num">${order.getGoodsFullCost()}</ins>
-                <ins class="rub">USD</ins>
-            </span>
-        </td>
-        <td>
-            <form name='get' action="/customer/orders/${order.id}" method='Get'>
-                <input name="submit" type="submit" value="View" />
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-            </form>
-        </td>
-    </tr>
-    </tbody>
-    </table>
+        </div>
+<%--    <table class="order order_header"><tbody>--%>
+<%--    <tr>--%>
+<%--        <td class="order_details">--%>
+<%--        ${order.id}--%>
+<%--        </td>--%>
+<%--        <td class="order_brif_info">--%>
+<%--            <span class="pseudo expandable_control for_order_V3523538">кол-во товаров: ${order.getGoodsCount()}</span>--%>
+<%--        </td>--%>
+<%--        <td class="order_status-cell">--%>
+<%--            <div class="order_status step_5">--%>
+<%--                <div class="status_bar"></div>--%>
+<%--                <span class="status_name">${order.deliveryStatus}</span>--%>
+<%--            </div>--%>
+<%--        </td>--%>
+<%--        <td class="delivery">${order.deliveryMethod}</td>--%>
+<%--        <td class="price">--%>
+<%--            <span class="price">--%>
+<%--                <ins class="num">${order.getGoodsFullCost()}</ins>--%>
+<%--                <ins class="rub">USD</ins>--%>
+<%--            </span>--%>
+<%--        </td>--%>
+<%--        <td>--%>
+<%--            <form name='get' action="/customer/orders/${order.id}" method='Get'>--%>
+<%--                <input name="submit" type="submit" value="View" />--%>
+<%--                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />--%>
+<%--            </form>--%>
+<%--        </td>--%>
+<%--    </tr>--%>
+<%--    </tbody>--%>
+<%--    </table>--%>
 
     </c:forEach>
-    <div class="expandable_content order_V3523538" style="">
-        <table class="order order_content">
-            <tbody>
-            <tr>
-                <td class="order_details"></td>
-                <td class="product_name" colspan="3"></td>
-            </tr>
-            </tbody>
-        </table>
-
-    </div>
+</div>
+</div>
+        </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 

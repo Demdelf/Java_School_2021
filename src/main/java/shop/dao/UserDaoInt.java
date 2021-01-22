@@ -2,6 +2,7 @@ package shop.dao;
 
 import java.util.List;
 import shop.domain.User;
+import shop.dto.UserAccountDto;
 
 public interface UserDaoInt {
     User create(User user);
@@ -9,4 +10,6 @@ public interface UserDaoInt {
     List<User> findAll(int pageSize);
 
     User find(Long id);
+
+    User update(User user);
 }

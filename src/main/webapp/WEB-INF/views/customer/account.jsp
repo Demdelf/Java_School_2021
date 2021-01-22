@@ -57,7 +57,7 @@
         <%--        <a class="p-2 text-dark" href="#">Support</a>--%>
         <a class="p-2 text-dark" href="http://localhost:8080/customer">Catalog</a>
     </nav>
-    <a class="btn btn-outline-primary" href="http://localhost:8080/account">Account</a>
+    <a class="btn btn-danger" href="http://localhost:8080/logout">Logout</a>
 </header>
 
 <body class="bg-light">
@@ -73,7 +73,7 @@
                     <a href="http://localhost:8080/customer/orders" data-target="#messages" data-toggle="tab" class="nav-link">Orders</a>
                 </li>
                 <li class="nav-item">
-                    <a href="" data-target="#edit" data-toggle="tab" class="nav-link">Edit</a>
+                    <a href="http://localhost:8080/account/edit" data-target="#edit" data-toggle="tab" class="nav-link">Edit</a>
                 </li>
             </ul>
             <div class="tab-content py-4">
@@ -136,77 +136,77 @@
     </div>
 </div>
 
-<div class="container py-3">
-    <div class="row">
-        <div class="mx-auto col-sm-6">
-            <!-- form user info -->
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="mb-0">User Information</h4>
-                </div>
-                <div class="card-body">
-                    <form class="form" role="form" autocomplete="off">
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">First name</label>
-                            <div class="col-lg-9">
-                                <input class="form-control" type="text" value="Jane">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Last name</label>
-                            <div class="col-lg-9">
-                                <input class="form-control" type="text" value="Bishop">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Email</label>
-                            <div class="col-lg-9">
-                                <input class="form-control" type="email" value="email@gmail.com">
-                            </div>
-                        </div>
+<%--<div class="container py-3">--%>
+<%--    <div class="row">--%>
+<%--        <div class="mx-auto col-sm-6">--%>
+<%--            <!-- form user info -->--%>
+<%--            <div class="card">--%>
+<%--                <div class="card-header">--%>
+<%--                    <h4 class="mb-0">User Information</h4>--%>
+<%--                </div>--%>
+<%--                <div class="card-body">--%>
+<%--                    <form class="form" role="form" autocomplete="off">--%>
+<%--                        <div class="form-group row">--%>
+<%--                            <label class="col-lg-3 col-form-label form-control-label">First name</label>--%>
+<%--                            <div class="col-lg-9">--%>
+<%--                                <input class="form-control" type="text" value="Jane">--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                        <div class="form-group row">--%>
+<%--                            <label class="col-lg-3 col-form-label form-control-label">Last name</label>--%>
+<%--                            <div class="col-lg-9">--%>
+<%--                                <input class="form-control" type="text" value="Bishop">--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                        <div class="form-group row">--%>
+<%--                            <label class="col-lg-3 col-form-label form-control-label">Email</label>--%>
+<%--                            <div class="col-lg-9">--%>
+<%--                                <input class="form-control" type="email" value="email@gmail.com">--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
 
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Time Zone</label>
-                            <div class="col-lg-9">
-                                <select id="user_time_zone" class="form-control" size="0">
-                                    <option value="Hawaii">(GMT-10:00) Hawaii</option>
-                                    <option value="Alaska">(GMT-09:00) Alaska</option>
-                                    <option value="Pacific Time (US &amp; Canada)">(GMT-08:00) Pacific Time (US &amp; Canada)</option>
-                                    <option value="Arizona">(GMT-07:00) Arizona</option>
-                                    <option value="Mountain Time (US &amp; Canada)">(GMT-07:00) Mountain Time (US &amp; Canada)</option>
-                                    <option value="Central Time (US &amp; Canada)" selected="selected">(GMT-06:00) Central Time (US &amp; Canada)</option>
-                                    <option value="Eastern Time (US &amp; Canada)">(GMT-05:00) Eastern Time (US &amp; Canada)</option>
-                                    <option value="Indiana (East)">(GMT-05:00) Indiana (East)</option>
-                                </select>
-                            </div>
-                        </div>
+<%--                        <div class="form-group row">--%>
+<%--                            <label class="col-lg-3 col-form-label form-control-label">Time Zone</label>--%>
+<%--                            <div class="col-lg-9">--%>
+<%--                                <select id="user_time_zone" class="form-control" size="0">--%>
+<%--                                    <option value="Hawaii">(GMT-10:00) Hawaii</option>--%>
+<%--                                    <option value="Alaska">(GMT-09:00) Alaska</option>--%>
+<%--                                    <option value="Pacific Time (US &amp; Canada)">(GMT-08:00) Pacific Time (US &amp; Canada)</option>--%>
+<%--                                    <option value="Arizona">(GMT-07:00) Arizona</option>--%>
+<%--                                    <option value="Mountain Time (US &amp; Canada)">(GMT-07:00) Mountain Time (US &amp; Canada)</option>--%>
+<%--                                    <option value="Central Time (US &amp; Canada)" selected="selected">(GMT-06:00) Central Time (US &amp; Canada)</option>--%>
+<%--                                    <option value="Eastern Time (US &amp; Canada)">(GMT-05:00) Eastern Time (US &amp; Canada)</option>--%>
+<%--                                    <option value="Indiana (East)">(GMT-05:00) Indiana (East)</option>--%>
+<%--                                </select>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
 
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Password</label>
-                            <div class="col-lg-9">
-                                <input class="form-control" type="password" value="11111122333">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Confirm</label>
-                            <div class="col-lg-9">
-                                <input class="form-control" type="password" value="11111122333">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label"></label>
-                            <div class="col-lg-9">
-                                <input type="reset" class="btn btn-secondary" value="Cancel">
-                                <input type="button" class="btn btn-primary" value="Save Changes">
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <!-- /form user info -->
-        </div>
-    </div>
-</div>
+<%--                        <div class="form-group row">--%>
+<%--                            <label class="col-lg-3 col-form-label form-control-label">Password</label>--%>
+<%--                            <div class="col-lg-9">--%>
+<%--                                <input class="form-control" type="password" value="11111122333">--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                        <div class="form-group row">--%>
+<%--                            <label class="col-lg-3 col-form-label form-control-label">Confirm</label>--%>
+<%--                            <div class="col-lg-9">--%>
+<%--                                <input class="form-control" type="password" value="11111122333">--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                        <div class="form-group row">--%>
+<%--                            <label class="col-lg-3 col-form-label form-control-label"></label>--%>
+<%--                            <div class="col-lg-9">--%>
+<%--                                <input type="reset" class="btn btn-secondary" value="Cancel">--%>
+<%--                                <input type="button" class="btn btn-primary" value="Save Changes">--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                    </form>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--            <!-- /form user info -->--%>
+<%--        </div>--%>
+<%--    </div>--%>
+<%--</div>--%>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>

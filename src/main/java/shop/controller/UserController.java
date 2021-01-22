@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import shop.domain.User;
 import shop.dto.UserAccountDto;
+import shop.dto.UserEditAccountDto;
 import shop.dto.UserRegDto;
 import shop.service.UserServiceInterface;
 
@@ -75,11 +76,36 @@ public class UserController {
     }
 
     @GetMapping("account")
-    public String currentUserName(Principal principal, Model model){
+    public String currentUserAcc(Principal principal, Model model){
 
         UserAccountDto accountDto = userService.getUserAccountDtoForPrincipal(principal);
         model.addAttribute("accountDto", accountDto);
 
         return "customer/account";
+    }
+
+    @GetMapping("account/edit")
+    public String editFormUserAcc(Principal principal, Model model){
+
+        UserAccountDto accountDto = userService.getUserAccountDtoForPrincipal(principal);
+        model.addAttribute("accountDto", accountDto);
+
+        return "customer/editAccount";
+    }
+
+    @PostMapping("account/edit")
+    public String editUserAcc(@ModelAttribute("userEditAccountDto") @Valid UserEditAccountDto userEditAccountDto
+            , BindingResult bindingResult, Principal principal, Model model){
+
+//        if (bindingResult.hasErrors()) {
+//            return "redirect:/account";
+//        }
+//        if (!userEditAccountDto.getPassword().equals(userEditAccountDto.getPasswordConfirm())){
+//            model.addAttribute("passwordError", "Пароли не совпадают");
+//            return "redirect:/account";
+//        }
+        userService.updateUserAccountDtoForPrincipal(userEditAccountDto, principal);
+
+        return "redirect:/account";
     }
 }

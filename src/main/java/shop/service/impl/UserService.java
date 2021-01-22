@@ -1,25 +1,22 @@
 package shop.service.impl;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import shop.dao.UserDaoInt;
 import shop.domain.User;
-import shop.dto.OrderDto;
 import shop.dto.UserAccountDto;
+import shop.dto.UserEditAccountDto;
 import shop.dto.UserRegDto;
 import shop.service.RoleService;
 import shop.service.UserServiceInterface;
-import shop.util.exception.EmailExistsException;
 
 @Service
 @Transactional
@@ -28,7 +25,7 @@ public class UserService implements UserServiceInterface {
 
     private final UserDaoInt dao;
     private final RoleService roleService;
-    private final PasswordEncoder bCryptPasswordEncoder;
+//    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
@@ -66,6 +63,23 @@ public class UserService implements UserServiceInterface {
         return true;
     }
 
+    @Override
+    public void updateUserAccountDtoForPrincipal(
+            UserEditAccountDto userEditAccountDto, Principal principal
+    ) {
+        User user = (User) loadUserByUsername(principal.getName());
+        user.setBirthday(LocalDate.parse(userEditAccountDto.getBirthday()));
+        user.setFirstName(userEditAccountDto.getFirstName());
+        user.setLastName(userEditAccountDto.getLastName());
+        user.setEmail(userEditAccountDto.getEmail());
+//      user.setPassword(passwordEncoder.encode(user.getPassword()));
+//        user.setPassword(userEditAccountDto.getPassword());
+
+        dao.update(user);
+    }
+
+
+
     private UserAccountDto convertUserToAccountDto(User user) {
         UserAccountDto accountDto = new UserAccountDto();
         accountDto.setId(user.getId());
@@ -94,7 +108,7 @@ public class UserService implements UserServiceInterface {
     public User saveUserFromUserRegDto(UserRegDto dto)
     {
         User user = convertUserRegDtoToUser(dto);
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+//        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return dao.create(user);
     }
 

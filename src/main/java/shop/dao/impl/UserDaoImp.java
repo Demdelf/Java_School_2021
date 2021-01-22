@@ -53,6 +53,11 @@ public class UserDaoImp implements UserDaoInt {
     }
 
     @Override
+    public User update(User user) {
+        return entityManager.merge(user);
+    }
+
+    @Override
     public User create(User user) {
 
 //        EntityTransaction transaction = entityManager.getTransaction();
