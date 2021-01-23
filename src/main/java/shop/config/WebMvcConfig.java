@@ -7,6 +7,8 @@ import org.springframework.context.annotation.ComponentScans;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
@@ -21,6 +23,8 @@ import org.springframework.web.servlet.view.JstlView;
 @ComponentScan(basePackages = "shop")
 @Import(DBconfig.class)
 public class WebMvcConfig implements WebMvcConfigurer {
+
+
 
     @Bean
     public InternalResourceViewResolver resolver() {
