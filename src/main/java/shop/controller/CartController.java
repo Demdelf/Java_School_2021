@@ -24,7 +24,7 @@ import shop.service.impl.ProductService;
 @RequiredArgsConstructor
 //@SessionAttributes("cart")
 public class CartController {
-    private static final String CART_BASE = "customer/cart";
+    private static final String CART_BASE = "customer/cartNew";
 
     private final CartService cartService;
     private final UserService userService;

@@ -10,12 +10,14 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @Table(name = "CUSTOMERS_ADDRESSES")
+@ToString
 public class CustomerAddress extends AbstractEntity {
 
     @Column(name = "COUNTRY")
@@ -40,6 +42,6 @@ public class CustomerAddress extends AbstractEntity {
     @JoinColumn(name = "USER_ID" )
     private User user;
 
-    @OneToMany(mappedBy = "id")
-    private List<Order> orders;
+//    @OneToMany(mappedBy = "id")
+//    private List<Order> orders;
 }

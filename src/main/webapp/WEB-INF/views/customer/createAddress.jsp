@@ -1,15 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: User
-  Date: 22.01.2021
-  Time: 20:31
-  To change this template use File | Settings | File Templates.
---%>
-<%--
-  Created by IntelliJ IDEA.
-  User: User
-  Date: 20.01.2021
-  Time: 18:40
+  Date: 24.01.2021
+  Time: 15:29
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -81,7 +74,7 @@
                        class="nav-link">Orders</a>
                 </li>
                 <li class="nav-item">
-                    <a href="" data-target="#edit" data-toggle="tab" class="nav-link active">Edit</a>
+                    <a href="" data-target="#edit" data-toggle="tab" class="nav-link active">Create address</a>
                 </li>
             </ul>
             <div class="tab-content py-4">
@@ -90,77 +83,58 @@
                         <div class="row">
                             <div class="mx-auto col-sm-6">
 
-                                <form:form class="form" role="form" autocomplete="off" name="edit"
-                                           action="/account/edit" method="POST"
-                                           modelAttribute="userEditAccountDto">
+                                <form:form class="form" role="form" autocomplete="off" name="create"
+                                           action="/account/addresses/create" method="POST"
+                                           modelAttribute="addressDto">
                                     <div class="form-group row">
-                                        <label class="col-lg-3 col-form-label form-control-label">First name</label>
+                                        <label class="col-lg-3 col-form-label form-control-label">Country</label>
                                         <div class="col-lg-9">
-                                            <input class="form-control" type="text" name="firstName"
-                                                   value="${accountDto.firstName}">
+                                            <input class="form-control" type="text" name="country"
+                                                   value="${addressDto.country}">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-lg-3 col-form-label form-control-label">Last name</label>
+                                        <label class="col-lg-3 col-form-label form-control-label">City</label>
                                         <div class="col-lg-9">
-                                            <input class="form-control" type="text" name="lastName"
-                                                   value="${accountDto.lastName}">
+                                            <input class="form-control" type="text" name="city"
+                                                   value="${addressDto.city}">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-lg-3 col-form-label form-control-label">Email</label>
+                                        <label class="col-lg-3 col-form-label form-control-label">Postcode</label>
                                         <div class="col-lg-9">
-                                            <input class="form-control" type="email" name="email"
-                                                   value="${accountDto.email}">
+                                            <input class="form-control" type="text" name="postcode"
+                                                   value="${addressDto.postcode}">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-lg-3 col-form-label form-control-label">Birthday</label>
+                                        <label class="col-lg-3 col-form-label form-control-label">Street</label>
                                         <div class="col-lg-9">
-                                            <input class="form-control" type="date" name="birthday"
-                                                   value="${accountDto.birthday}">
+                                            <input class="form-control" type="text" name="street"
+                                                   value="${addressDto.street}">
                                         </div>
                                     </div>
-                                                                        <div class="form-group row">
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">House</label>
+                                        <div class="col-lg-9">
+                                            <input class="form-control" type="text" name="house"
+                                                   value="${addressDto.house}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Apartment</label>
+                                        <div class="col-lg-9">
+                                            <input class="form-control" type="text" name="apartment"
+                                                   value="${addressDto.apartment}">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
                                         <label class="col-lg-3 col-form-label form-control-label"></label>
                                         <div class="col-lg-9">
                                             <input type="reset" class="btn btn-secondary" value="Cancel">
                                                 <%--                                                    <input type="button" class="btn btn-primary" value="Save Changes">--%>
-                                            <button class="w-100 btn btn-lg btn-primary" type="submit">Save Changes
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form:form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container py-3">
-                        <div class="row">
-                            <div class="mx-auto col-sm-6">
-
-                                <form:form class="form" role="form" autocomplete="off" name="edit"
-                                           action="/account/editPassword" method="POST"
-                                           modelAttribute="userEditAccountDto">
-
-                                    <div class="form-group row">
-                                        <label class="col-lg-3 col-form-label form-control-label">Password</label>
-                                        <div class="col-lg-9">
-                                            <input class="form-control" type="password" name="password"
-                                                   value="********">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-lg-3 col-form-label form-control-label">Confirm</label>
-                                        <div class="col-lg-9">
-                                            <input class="form-control" type="password" name="passwordConfirm"
-                                                   value="********">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-lg-3 col-form-label form-control-label"></label>
-                                        <div class="col-lg-9">
-                                                <%--                                                    <input type="button" class="btn btn-primary" value="Save Changes">--%>
-                                            <button class="w-100 btn btn-lg btn-primary" type="submit">Change password
+                                            <button class="w-100 btn btn-lg btn-primary" type="submit">Save address
                                             </button>
                                         </div>
                                     </div>
@@ -172,12 +146,14 @@
             </div>
         </div>
     </div>
+</div>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
-            crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
 
 </body>
 </html>
+
 

@@ -11,6 +11,8 @@ import javax.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import shop.dao.UserDaoInt;
+import shop.domain.CustomerAddress;
+import shop.domain.Order;
 import shop.domain.User;
 
 @Repository
@@ -42,13 +44,6 @@ public class UserDaoImp implements UserDaoInt {
 
     @Override
     public User find(Long id) {
-//        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-//        CriteriaQuery<User> query = criteriaBuilder.createQuery(User.class);
-//        Root<User> root = query.from(User.class);
-//        query.select(root).where(criteriaBuilder.equal(root.get("id"), id));
-//        Optional<User> optionalUser = Optional.ofNullable(entityManager.createQuery(query).getResultList()
-//                .stream().findFirst().orElse(null));
-//        return optionalUser.orElse(null);
         return entityManager.find(User.class, id);
     }
 
@@ -56,6 +51,8 @@ public class UserDaoImp implements UserDaoInt {
     public User update(User user) {
         return entityManager.merge(user);
     }
+
+
 
     @Override
     public User create(User user) {

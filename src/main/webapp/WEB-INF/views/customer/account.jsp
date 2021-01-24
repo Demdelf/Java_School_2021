@@ -6,9 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
-<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+         pageEncoding="UTF-8" %>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -22,9 +22,9 @@
     <%--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">--%>
 
 
-
     <!-- Bootstrap core CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
 
     <style>
@@ -40,6 +40,19 @@
             .bd-placeholder-img-lg {
                 font-size: 3.5rem;
             }
+        }
+        .themed-grid-col {
+            padding-top: .75rem;
+            padding-bottom: .75rem;
+            background-color: rgba(86, 61, 124, .15);
+            border: 1px solid rgba(86, 61, 124, .2);
+        }
+
+        .themed-container {
+            padding: .75rem;
+            margin-bottom: 1.5rem;
+            background-color: rgba(0, 123, 255, .15);
+            border: 1px solid rgba(0, 123, 255, .2);
         }
     </style>
 
@@ -70,7 +83,8 @@
                     <a href="" data-target="#profile" data-toggle="tab" class="nav-link active">Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a href="http://localhost:8080/customer/orders" data-target="#messages" data-toggle="tab" class="nav-link">Orders</a>
+                    <a href="http://localhost:8080/customer/orders" data-target="#messages" data-toggle="tab"
+                       class="nav-link">Orders</a>
                 </li>
                 <li class="nav-item">
                     <a href="http://localhost:8080/account/edit" data-target="#edit" data-toggle="tab" class="nav-link">Edit</a>
@@ -80,16 +94,16 @@
                 <div class="tab-pane active" id="profile">
                     <h5 class="mb-3">User Profile</h5>
                     <div class="row">
-                        <div class="col-md-6">
-                            <h6>About</h6>
-                            <p>
-                                Web Designer, UI/UX Engineer
-                            </p>
-                            <h6>Hobbies</h6>
-                            <p>
-                                Indie music, skiing and hiking. I love the great outdoors.
-                            </p>
-                        </div>
+<%--                        <div class="col-md-6">--%>
+<%--                            <h6>About</h6>--%>
+<%--                            <p>--%>
+<%--                                Web Designer, UI/UX Engineer--%>
+<%--                            </p>--%>
+<%--                            <h6>Hobbies</h6>--%>
+<%--                            <p>--%>
+<%--                                Indie music, skiing and hiking. I love the great outdoors.--%>
+<%--                            </p>--%>
+<%--                        </div>--%>
 
                         <div class="col-md-12">
                             <h5 class="mt-2"><span class="fa fa-clock-o ion-clock float-right"></span> Info</h5>
@@ -119,97 +133,46 @@
                                 </tbody>
                             </table>
                         </div>
+                        <h5 class="mt-2"><span class="fa fa-clock-o ion-clock float-right"></span> Addresses</h5>
+                        <div class="tab-content py-4">
+
+                            <c:forEach items="${addressDtoList}" var="address">
+
+                                <div class="row  mb-3">
+                                    <div class="col-md-2 themed-grid-col">${address.country}</div>
+                                    <div class="col-md-2 themed-grid-col">${address.city}</div>
+                                    <div class="col-md-1 themed-grid-col">${address.postcode}</div>
+                                    <div class="col-md-2 themed-grid-col">${address.street}</div>
+                                    <div class="col-md-1 themed-grid-col">${address.house}</div>
+                                    <div class="col-md-1 themed-grid-col">${address.apartment}</div>
+                                    <div class="col-md-1 themed-grid-col">
+                                        <form name='get' action="/account/addresses/edit/${address.id}" method='Get'>
+                                            <input name="submit" type="submit" value="Edit"/>
+                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                        </form>
+                                    </div>
+                                </div>
+                            </c:forEach>
+                            <a class="btn btn-outline-primary" href="http://localhost:8080/account/addresses/create">Add</a>
+                        </div>
+
+
+
                     </div>
                     <!--/row-->
                 </div>
 
             </div>
         </div>
-<%--        <div class="col-lg-4 order-lg-1 text-center">--%>
-<%--            <img src="//placehold.it/150" class="mx-auto img-fluid img-circle d-block" alt="avatar">--%>
-<%--            <h6 class="mt-2">Upload a different photo</h6>--%>
-<%--            <label class="custom-file">--%>
-<%--                <input type="file" id="file" class="custom-file-input">--%>
-<%--                <span class="custom-file-control">Choose file</span>--%>
-<%--            </label>--%>
-<%--        </div>--%>
+
     </div>
 </div>
 
-<%--<div class="container py-3">--%>
-<%--    <div class="row">--%>
-<%--        <div class="mx-auto col-sm-6">--%>
-<%--            <!-- form user info -->--%>
-<%--            <div class="card">--%>
-<%--                <div class="card-header">--%>
-<%--                    <h4 class="mb-0">User Information</h4>--%>
-<%--                </div>--%>
-<%--                <div class="card-body">--%>
-<%--                    <form class="form" role="form" autocomplete="off">--%>
-<%--                        <div class="form-group row">--%>
-<%--                            <label class="col-lg-3 col-form-label form-control-label">First name</label>--%>
-<%--                            <div class="col-lg-9">--%>
-<%--                                <input class="form-control" type="text" value="Jane">--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
-<%--                        <div class="form-group row">--%>
-<%--                            <label class="col-lg-3 col-form-label form-control-label">Last name</label>--%>
-<%--                            <div class="col-lg-9">--%>
-<%--                                <input class="form-control" type="text" value="Bishop">--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
-<%--                        <div class="form-group row">--%>
-<%--                            <label class="col-lg-3 col-form-label form-control-label">Email</label>--%>
-<%--                            <div class="col-lg-9">--%>
-<%--                                <input class="form-control" type="email" value="email@gmail.com">--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
-
-<%--                        <div class="form-group row">--%>
-<%--                            <label class="col-lg-3 col-form-label form-control-label">Time Zone</label>--%>
-<%--                            <div class="col-lg-9">--%>
-<%--                                <select id="user_time_zone" class="form-control" size="0">--%>
-<%--                                    <option value="Hawaii">(GMT-10:00) Hawaii</option>--%>
-<%--                                    <option value="Alaska">(GMT-09:00) Alaska</option>--%>
-<%--                                    <option value="Pacific Time (US &amp; Canada)">(GMT-08:00) Pacific Time (US &amp; Canada)</option>--%>
-<%--                                    <option value="Arizona">(GMT-07:00) Arizona</option>--%>
-<%--                                    <option value="Mountain Time (US &amp; Canada)">(GMT-07:00) Mountain Time (US &amp; Canada)</option>--%>
-<%--                                    <option value="Central Time (US &amp; Canada)" selected="selected">(GMT-06:00) Central Time (US &amp; Canada)</option>--%>
-<%--                                    <option value="Eastern Time (US &amp; Canada)">(GMT-05:00) Eastern Time (US &amp; Canada)</option>--%>
-<%--                                    <option value="Indiana (East)">(GMT-05:00) Indiana (East)</option>--%>
-<%--                                </select>--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
-
-<%--                        <div class="form-group row">--%>
-<%--                            <label class="col-lg-3 col-form-label form-control-label">Password</label>--%>
-<%--                            <div class="col-lg-9">--%>
-<%--                                <input class="form-control" type="password" value="11111122333">--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
-<%--                        <div class="form-group row">--%>
-<%--                            <label class="col-lg-3 col-form-label form-control-label">Confirm</label>--%>
-<%--                            <div class="col-lg-9">--%>
-<%--                                <input class="form-control" type="password" value="11111122333">--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
-<%--                        <div class="form-group row">--%>
-<%--                            <label class="col-lg-3 col-form-label form-control-label"></label>--%>
-<%--                            <div class="col-lg-9">--%>
-<%--                                <input type="reset" class="btn btn-secondary" value="Cancel">--%>
-<%--                                <input type="button" class="btn btn-primary" value="Save Changes">--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
-<%--                    </form>--%>
-<%--                </div>--%>
-<%--            </div>--%>
-<%--            <!-- /form user info -->--%>
-<%--        </div>--%>
-<%--    </div>--%>
-<%--</div>--%>
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
 
 </body>
 </html>

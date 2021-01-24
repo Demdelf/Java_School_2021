@@ -2,6 +2,7 @@ package shop.service.impl;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,7 +13,9 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import shop.dao.UserDaoInt;
+import shop.domain.CustomerAddress;
 import shop.domain.User;
+import shop.dto.CustomerAddressDto;
 import shop.dto.UserAccountDto;
 import shop.dto.UserEditAccountDto;
 import shop.dto.UserRegDto;
@@ -53,6 +56,8 @@ public class UserService implements UserServiceInterface {
         return convertUserToAccountDto(user);
     }
 
+
+
     @Override
     public Boolean create(UserRegDto userRegDto) {
         User userFromDB = dao.getUserByEmail(userRegDto.getEmail());
@@ -73,11 +78,18 @@ public class UserService implements UserServiceInterface {
         user.setFirstName(userEditAccountDto.getFirstName());
         user.setLastName(userEditAccountDto.getLastName());
         user.setEmail(userEditAccountDto.getEmail());
-//      user.setPassword(passwordEncoder.encode(user.getPassword()));
-//        user.setPassword(userEditAccountDto.getPassword());
 
         dao.update(user);
     }
+
+    @Override
+    public void updateUserPasswordForPrincipal(UserEditAccountDto userEditAccountDto, Principal principal) {
+        User user = (User) loadUserByUsername(principal.getName());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        dao.update(user);
+    }
+
 
 
 

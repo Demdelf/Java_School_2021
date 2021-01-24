@@ -11,23 +11,12 @@ import shop.domain.CustomerAddress;
 public class OrderDto {
     private Long id;
     private Long userId;
-    private CustomerAddress address;
+    private CustomerAddressDto address;
     private String paymentMethod;
     private String deliveryMethod;
     private String paymentStatus;
     private String deliveryStatus;
     private Map<ProductDto, Integer> orderProducts;
-
-    public int getGoodsCount(){
-        return orderProducts.values().stream().mapToInt(Integer::intValue).sum();
-    }
-
-    public int getGoodsFullCost(){
-        int cost = 0;
-        for (Entry<ProductDto, Integer> e: orderProducts.entrySet()
-        ) {
-            cost += e.getKey().getPrice() * e.getValue();
-        }
-        return cost;
-    }
+    private int numberOfProducts;
+    private double fullCost;
 }

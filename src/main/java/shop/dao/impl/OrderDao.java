@@ -8,6 +8,7 @@ import javax.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
 import shop.dao.AbstractDao;
 import shop.dao.Dao;
+import shop.domain.CustomerAddress;
 import shop.domain.DeliveryMethod;
 import shop.domain.DeliveryStatus;
 import shop.domain.Order;
@@ -95,5 +96,25 @@ public class OrderDao  extends AbstractDao<Order> implements Dao<Order> {
         Root<Order> root = query.from(Order.class);
         query.select(root).where(criteriaBuilder.equal(root.get("user"), user.getId()));
         return entityManager.createQuery(query).getResultList();
+    }
+
+    public CustomerAddress getAddressById(Long id) {
+        return entityManager.find(CustomerAddress.class, id);
+    }
+
+    public List<CustomerAddress> getUserAddresses(User user) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<CustomerAddress> query = criteriaBuilder.createQuery(CustomerAddress.class);
+        Root<CustomerAddress> root = query.from(CustomerAddress.class);
+        query.select(root).where(criteriaBuilder.equal(root.get("user"), user.getId()));
+        return entityManager.createQuery(query).getResultList();
+    }
+
+    public void updateAddress(CustomerAddress address) {
+        entityManager.merge(address);
+    }
+
+    public void createAddress(CustomerAddress customerAddress) {
+        entityManager.persist(customerAddress);
     }
 }
