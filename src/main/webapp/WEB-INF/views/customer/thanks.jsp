@@ -2,7 +2,7 @@
   Created by IntelliJ IDEA.
   User: User
   Date: 24.01.2021
-  Time: 15:47
+  Time: 23:17
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -130,68 +130,8 @@
 </header>
 
 <body>
-<div class="tab-content py-4">
-    <c:forEach items="${cart.products}" var="product">
 
-        <div class="row  mb-3">
-            <div class="col-md-2 themed-grid-col">
-                <form name='addToCart' action="/customer/products/${product.key.id}" method='Get'>
-                    <input name="submit" type="submit" value="${product.key.name}"/>
-                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                </form>
-            </div>
-            <div class="col-md-2 themed-grid-col">${product.key.price}</div>
-            <div class="col-md-1 themed-grid-col">${product.key.category}</div>
-            <div class="col-md-2 themed-grid-col">${product.value}</div>
-            <div class="col-md-2 themed-grid-col">
-                <td>
-                    <form name='addToCart' action="/cart/add/${product.key.id}" method='Post'>
-                        <input name="submit" type="submit" value="+"/>
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                    </form>
-                </td>
-                <td>
-                    <form name='addToCart' action="/cart/sub/${product.key.id}" method='Post'>
-                        <input name="submit" type="submit" value="-"/>
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                    </form>
-                </td>
-                <td>
-                    <form name='addToCart' action="/cart/delete/${product.key.id}" method='Post'>
-                        <input name="submit" type="submit" value="delete"/>
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                    </form>
-                </td>
-            </div>
-
-        </div>
-    </c:forEach>
-    <div class="row  mb-3">
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td><strong>Total</strong></td>
-            <td class="text-right"><strong>${cart.sum}</strong></td>
-        </tr>
-    </div>
-</div>
-
-<div class="col mb-2">
-    <div class="row">
-        <div class="col-sm-12  col-md-6">
-            <button class="btn btn-block btn-light">Continue Shopping</button>
-        </div>
-        <div class="col-sm-12 col-md-6 text-right">
-            <form name='create' action="/customer/orders/create" method='Get'>
-                <button class="btn btn-lg btn-block btn-success text-uppercase" type="submit">
-                    Create order
-                </button>
-            </form>
-        </div>
-    </div>
-</div>
+<h1>Thanks for order!</h1>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
@@ -199,4 +139,5 @@
 
 </body>
 </html>
+
 

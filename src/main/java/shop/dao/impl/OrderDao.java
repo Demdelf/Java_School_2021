@@ -8,6 +8,7 @@ import javax.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
 import shop.dao.AbstractDao;
 import shop.dao.Dao;
+import shop.domain.Cart;
 import shop.domain.CustomerAddress;
 import shop.domain.DeliveryMethod;
 import shop.domain.DeliveryStatus;
@@ -124,6 +125,14 @@ public class OrderDao  extends AbstractDao<Order> implements Dao<Order> {
         CriteriaQuery<DeliveryMethod> query = criteriaBuilder.createQuery(DeliveryMethod.class);
         Root<DeliveryMethod> root = query.from(DeliveryMethod.class);
         query.select(root);
+        return entityManager.createQuery(query).getResultList();
+    }
+
+    public List<Cart> getCartsByUser(User user) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Cart> query = criteriaBuilder.createQuery(Cart.class);
+        Root<Cart> root = query.from(Cart.class);
+        query.select(root).where(criteriaBuilder.equal(root.get("user"), user.getId()));
         return entityManager.createQuery(query).getResultList();
     }
 }

@@ -174,7 +174,7 @@
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label form-control-label">Customer address</label>
                             <div class="col-lg-9">
-                                <select id="customer_address" class="form-control" size="0">
+                                <select id="customer_address" class="form-control" size="0" name="address">
                                     <c:forEach items="${addresses}" var="address">
                                         <option value="${address.id}">${address.toString()}</option>
                                     </c:forEach>
@@ -185,7 +185,7 @@
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label form-control-label">Payment method</label>
                             <div class="col-lg-9">
-                                <select id="payment_method" class="form-control" size="0">
+                                <select id="payment_method" class="form-control" size="0" name="paymentMethod">
                                     <c:forEach items="${paymentMethods}" var="pm">
                                     <option value="${pm.name}">${pm.name}</option>
                                     </c:forEach>
@@ -195,7 +195,7 @@
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label form-control-label">Delivery method</label>
                             <div class="col-lg-9">
-                                <select id="delivery_method" class="form-control" size="0">
+                                <select id="delivery_method" class="form-control" size="0" name="deliveryMethod">
                                     <c:forEach items="${deliveryMethods}" var="dm">
                                         <option value="${dm.name}">${dm.name}</option>
                                     </c:forEach>

@@ -6,10 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.dao.impl.OrderDao;
+import shop.domain.Cart;
 import shop.domain.CustomerAddress;
 import shop.domain.DeliveryMethod;
 import shop.domain.DeliveryStatus;
@@ -32,6 +34,7 @@ public class OrderService implements shop.service.OrderService {
     private final OrderDao orderDao;
     private final UserService userService;
     private final CartService cartService;
+    private final ProductService productService;
 
     @Override
     public Order findOne(long id) {
@@ -114,7 +117,8 @@ public class OrderService implements shop.service.OrderService {
         orderDto.setFullCost(fullCost);
         orderDto.setOrderProducts(products);
         if (order.getAddress() != null){
-            orderDto.setAddress(convertAddressToDto(order.getAddress()));
+            orderDto.setAddress(order.getAddress().toString());
+            orderDto.setAddressId(order.getAddress().getId());
         }
         orderDto.setDeliveryMethod(order.getDeliveryMethod().getName());
         orderDto.setDeliveryStatus(order.getDeliveryStatus().getName());
@@ -186,17 +190,29 @@ public class OrderService implements shop.service.OrderService {
     private Order convertDtoToOrder(OrderDto orderDto) {
         Order order = new Order();
         order.setId(orderDto.getId());
-        User user = userService.find(orderDto.getUserId());
-        order.setUser(user);
+        if (orderDto.getUserId() != null){
+            User user = userService.find(orderDto.getUserId());
+            order.setUser(user);
+        }
         List<OrderProduct> orderProducts = getOrderProducts(orderDto);
         order.setOrderProducts(orderProducts);
-        if (orderDto.getAddress() != null){
-            order.setAddress(convertDtoToAddress(orderDto.getAddress()));
+        if (orderDto.getAddressId() != null){
+            order.setAddress(getAddressById(orderDto.getAddressId()));
         }
         order.setDeliveryMethod(getDeliveryMethodByName(orderDto.getDeliveryMethod()));
-        order.setDeliveryStatus(getDeliveryStatusByName(orderDto.getDeliveryStatus()));
+        if (orderDto.getDeliveryStatus() != null){
+            order.setDeliveryStatus(getDeliveryStatusByName(orderDto.getDeliveryStatus()));
+        }else {
+            order.setDeliveryStatus(getDeliveryStatusByName("Order created"));
+        }
+
         order.setPaymentMethod(getPaymentMethodByName(orderDto.getPaymentMethod()));
-        order.setPaymentStatus(getPaymentStatusByName(orderDto.getPaymentStatus()));
+        if (orderDto.getPaymentStatus() != null){
+            order.setPaymentStatus(getPaymentStatusByName(orderDto.getPaymentStatus()));
+        }else {
+            order.setPaymentStatus(getPaymentStatusByName("Unpaid"));
+        }
+
         return order;
     }
 
@@ -281,7 +297,7 @@ public class OrderService implements shop.service.OrderService {
             order.setOrderProducts(getOrderProducts(updateOrderDto));
         }
         if (updateOrderDto.getAddress() != null){
-            order.setAddress(convertDtoToAddress(updateOrderDto.getAddress()));
+            order.setAddress(getAddressById(updateOrderDto.getAddressId()));
         }
         if (updateOrderDto.getDeliveryMethod() != null){
             order.setDeliveryMethod(getDeliveryMethodByName(updateOrderDto.getDeliveryMethod()));
@@ -313,6 +329,44 @@ public class OrderService implements shop.service.OrderService {
             orderDtoList.add(convertOrderToDto(o));
         }
         return orderDtoList;
+    }
+
+    public OrderDto getNewOrderDto(Principal principal) {
+        User user = (User) userService.loadUserByUsername(principal.getName());
+        return getDtoByUser(user);
+    }
+
+    private OrderDto getDtoByUser(User user) {
+        OrderDto orderDto = new OrderDto();
+        orderDto.setUserId(user.getId());
+        Map<ProductDto, Integer> products = getProductsDtoFromCartsByUser(user);
+        orderDto.setFullCost(getFullCostOfProductDtoMap(products));
+        orderDto.setOrderProducts(products);
+        return orderDto;
+    }
+
+    private double getFullCostOfProductDtoMap(Map<ProductDto, Integer> products) {
+        double sum = 0.0;
+        for (Entry<ProductDto, Integer> p: products.entrySet()
+        ) {
+            sum += p.getKey().getPrice()*p.getValue();
+        }
+        return sum;
+    }
+
+    private Map<ProductDto, Integer> getProductsDtoFromCartsByUser(User user) {
+        List<Cart> carts = orderDao.getCartsByUser(user);
+        Map<ProductDto, Integer> products = new HashMap<>();
+        for (Cart c: carts
+        ) {
+            ProductDto productDto = productService.convertProductToDto(c.getProduct());
+            if (products.containsKey(productDto)){
+                products.put(productDto, products.get(productDto) + c.getQuantity());
+            }else {
+                products.put(productDto, c.getQuantity());
+            }
+        }
+        return products;
     }
 
     public OrderDto getDtoById(Long id, Principal principal) {
@@ -363,5 +417,16 @@ public class OrderService implements shop.service.OrderService {
     public List<CustomerAddressDto> getAllCustomerAddresses(Principal principal) {
         User user = (User) userService.loadUserByUsername(principal.getName());
         return getUserAddressDtoList(user);
+    }
+
+
+    public void create(Principal principal, OrderDto orderDto, HttpServletRequest request) {
+        User user = (User) userService.loadUserByUsername(principal.getName());
+        orderDto.setUserId(user.getId());
+        Map<ProductDto, Integer> products = getProductsDtoFromCartsByUser(user);
+        orderDto.setFullCost(getFullCostOfProductDtoMap(products));
+        orderDto.setOrderProducts(products);
+        Order order = orderDao.create(convertDtoToOrder(orderDto));
+        request.getSession().setAttribute("cartDto", cartService.clearCart(user));
     }
 }

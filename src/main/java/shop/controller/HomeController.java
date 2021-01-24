@@ -28,7 +28,7 @@ public class HomeController
 	@GetMapping({"/","/home"})
 	public String homeInit(Locale locale, Model model) {
 
-		return "home";
+		return "customer/main";
 	}
 
 

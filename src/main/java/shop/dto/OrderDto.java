@@ -11,7 +11,8 @@ import shop.domain.CustomerAddress;
 public class OrderDto {
     private Long id;
     private Long userId;
-    private CustomerAddressDto address;
+    private Long addressId;
+    private String address;
     private String paymentMethod;
     private String deliveryMethod;
     private String paymentStatus;

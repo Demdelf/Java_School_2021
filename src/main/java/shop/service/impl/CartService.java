@@ -54,7 +54,7 @@ public class CartService implements shop.service.CartService {
         for (Cart c : carts) {
             cartDao.delete(c);
         }
-        return convertCartToCartDto(createCart(user));
+        return getFreshCartDTO(user);
     }
 
     @Override
@@ -130,15 +130,23 @@ public class CartService implements shop.service.CartService {
         if (isAuthorized(principal)) {
             User user = (User) userService.loadUserByUsername(principal.getName());
             CartDTO carDtoFromDB = getCartDtoByUserOrCreate(user);
-            carDtoFromDB.addProductsFromAnotherDto(cartDto);
+            if (!carDtoFromDB.getProducts().isEmpty()){
+                carDtoFromDB.addProductsFromAnotherDto(cartDto);
+            }
             updateCartByUser(user,carDtoFromDB);
             carDtoFromDB.setFromCart(true);
-            request.getSession().setAttribute("cartDto", carDtoFromDB);
+            request.getSession().setAttribute("cartDto", getFreshCartDTO(user));
             return carDtoFromDB;
         } else {
             cartDto.setFromCart(true);
             return cartDto;
         }
+    }
+
+    private CartDTO getFreshCartDTO(User user) {
+        CartDTO cartDTO = convertCartToCartDto(createCart(user));
+        cartDTO.setSum(0.0);
+        return cartDTO;
     }
 
     private Cart createCart(User user) {
