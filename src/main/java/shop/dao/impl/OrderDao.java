@@ -16,6 +16,7 @@ import shop.domain.OrderProduct;
 import shop.domain.PaymentMethod;
 import shop.domain.PaymentStatus;
 import shop.domain.User;
+import shop.dto.CustomerAddressDto;
 
 @Repository
 public class OrderDao  extends AbstractDao<Order> implements Dao<Order> {
@@ -116,5 +117,13 @@ public class OrderDao  extends AbstractDao<Order> implements Dao<Order> {
 
     public void createAddress(CustomerAddress customerAddress) {
         entityManager.persist(customerAddress);
+    }
+
+    public List<DeliveryMethod> findAllDeliveryMethods() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<DeliveryMethod> query = criteriaBuilder.createQuery(DeliveryMethod.class);
+        Root<DeliveryMethod> root = query.from(DeliveryMethod.class);
+        query.select(root);
+        return entityManager.createQuery(query).getResultList();
     }
 }

@@ -6,7 +6,6 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 public class CustomerAddressDto {
     private Long id;
     private String country;
@@ -16,4 +15,9 @@ public class CustomerAddressDto {
     private String house;
     private String apartment;
     private Long userId;
+
+    @Override
+    public String toString() {
+        return postcode + " " + country + " " + city + " " + street + " " + house + " " + apartment;
+    }
 }

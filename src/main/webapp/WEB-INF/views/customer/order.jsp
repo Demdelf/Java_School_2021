@@ -15,6 +15,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>Order</title>
     <style type="text/css">
+        .themed-grid-col {
+            padding-top: .75rem;
+            padding-bottom: .75rem;
+            background-color: rgba(86, 61, 124, .15);
+            border: 1px solid rgba(86, 61, 124, .2);
+        }
+
         .error {
             color: red;
         }
@@ -29,8 +36,78 @@
             border: 1px solid #565454;
             padding: 20px;
         }
+
+        .bloc_left_price {
+            color: #c01508;
+            text-align: center;
+            font-weight: bold;
+            font-size: 150%;
+        }
+
+        .category_block li:hover {
+            background-color: #007bff;
+        }
+
+        .category_block li:hover a {
+            color: #ffffff;
+        }
+
+        .category_block li a {
+            color: #343a40;
+        }
+
+        .add_to_cart_block .price {
+            color: #c01508;
+            text-align: center;
+            font-weight: bold;
+            font-size: 200%;
+            margin-bottom: 0;
+        }
+
+        .add_to_cart_block .price_discounted {
+            color: #343a40;
+            text-align: center;
+            text-decoration: line-through;
+            font-size: 140%;
+        }
+
+        .product_rassurance {
+            padding: 10px;
+            margin-top: 15px;
+            background: #ffffff;
+            border: 1px solid #6c757d;
+            color: #6c757d;
+        }
+
+        .product_rassurance .list-inline {
+            margin-bottom: 0;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .product_rassurance .list-inline li:hover {
+            color: #343a40;
+        }
+
+        .reviews_product .fa-star {
+            color: gold;
+        }
+
+        .pagination {
+            margin-top: 20px;
+        }
+
+        footer {
+            background: #343a40;
+            padding: 40px;
+        }
+
+        footer a {
+            color: #f8f9fa !important
+        }
     </style>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
 </head>
 
@@ -40,14 +117,16 @@
         <%--        <a class="p-2 text-dark" href="#">Features</a>--%>
         <%--        <a class="p-2 text-dark" href="#">Enterprise</a>--%>
         <%--        <a class="p-2 text-dark" href="#">Support</a>--%>
-            <td>
-                <form name='get' action="/cart" method='Get'>
-                    <input name="submit" type="submit" value="CART" />
-                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                </form>
-            </td>
-            <td><strong>${cart.quantity}</strong></td>
+
         <a class="p-2 text-dark" href="http://localhost:8080/customer">Catalog</a>
+        <a class="btn btn-success btn-sm ml-3" href="cart.html">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart"
+                 viewBox="0 0 16 16">
+                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+            </svg>
+            <i class="fa fa-shopping-cart bi bi-cart"></i> Cart
+            <span class="badge badge-light">${cart.quantity}</span>
+        </a>
     </nav>
     <a class="btn btn-outline-primary" href="http://localhost:8080/account">Account</a>
 </header>
@@ -55,95 +134,89 @@
 <body>
 <h1>Order</h1>
 
-<form name='clear' action="/order/delete" method='Post'>
-    <table>
-        <tr>
-            <td colspan='2'><input name="submit" type="submit" value="Delete order" /></td>
-        </tr>
-    </table>
-    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-</form>
-
-<form name='create' action="/customer" method='Get'>
-    <table>
-        <tr>
-            <td colspan='2'><input name="submit" type="submit" value="To catalog" /></td>
-        </tr>
-    </table>
-    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-</form>
-
-<table>
-
-    <form:form action="update/${orderDto.id}" method="post" modelAttribute="updateOrderDto">
-        <table>
-            <tr>
-                <td>Payment Method</td>
-                <td>
-                    <select id="dropdownPM" name="paymentMethod">
-                        <c:forEach var="paymentMethod" items="${paymentMethods}">
-                            <option value="<c:out value='${paymentMethod.name}' />"
-                                    <c:if test="${param.selectValue == paymentMethod.name})"> selected </c:if>  >
-                                <c:out value="${paymentMethod.name}" />
-                            </option>
-                        </c:forEach>
-                    </select>
-                </td>
-            </tr>
-
-            <tr>
-                <td></td>
-                <td><input type="submit" value="Save"></td>
-                <td></td>
-            </tr>
-
-        </table>
-    <table>
-    </form:form>
-
-
-
-    <tr>
-        <td>Products</td>
-    </tr>
-
-    <tr>
-        <td><strong>Name</strong></td>
-        <td><strong>Price</strong></td>
-        <td><strong>Category</strong></td>
-        <td><strong>Quantity</strong></td>
-    </tr>
+<div class="tab-content py-4">
     <c:forEach items="${orderDto.orderProducts}" var="product">
-        <tr>
-            <td>
+
+        <div class="row  mb-3">
+            <div class="col-md-2 themed-grid-col">
                 <form name='addToCart' action="/customer/products/${product.key.id}" method='Get'>
-                    <input name="submit" type="submit" value="${product.key.name}" />
-                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                    <input name="submit" type="submit" value="${product.key.name}"/>
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 </form>
-            </td>
-            <td>${product.key.price}</td>
-            <td>${product.key.category}</td>
-            <td>${product.value}</td>
-<%--            <td>--%>
-<%--                <form name='addToCart' action="/cart/add/${product.key.id}" method='Post'>--%>
-<%--                    <input name="submit" type="submit" value="+" />--%>
-<%--                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />--%>
-<%--                </form>--%>
-<%--            </td>--%>
-<%--            <td>--%>
-<%--                <form name='addToCart' action="/cart/sub/${product.key.id}" method='Post'>--%>
-<%--                    <input name="submit" type="submit" value="-" />--%>
-<%--                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />--%>
-<%--                </form>--%>
-<%--            </td>--%>
-<%--            <td>--%>
-<%--                <form name='addToCart' action="/cart/delete/${product.key.id}" method='Post'>--%>
-<%--                    <input name="submit" type="submit" value="delete" />--%>
-<%--                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />--%>
-<%--                </form>--%>
-<%--            </td>--%>
-        </tr>
+            </div>
+            <div class="col-md-2 themed-grid-col">${product.key.price}</div>
+            <div class="col-md-1 themed-grid-col">${product.key.category}</div>
+            <div class="col-md-2 themed-grid-col">${product.value}</div>
+        </div>
     </c:forEach>
-</table>
+    <div class="row  mb-3">
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><strong>Total</strong></td>
+            <td class="text-right"><strong>$ ${orderDto.fullCost}</strong></td>
+        </tr>
+    </div>
+</div>
+
+<div class="tab-content py-4">
+    <div class="tab-pane active" id="profile">
+        <div class="container py-3">
+            <div class="row">
+                <div class="mx-auto col-sm-6">
+
+                    <form:form class="form" role="form" autocomplete="off" name="edit"
+                               action="/customer/orders/create" method="POST"
+                               modelAttribute="orderDto">
+
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label">Customer address</label>
+                            <div class="col-lg-9">
+                                <select id="customer_address" class="form-control" size="0">
+                                    <c:forEach items="${addresses}" var="address">
+                                        <option value="${address.id}">${address.toString()}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>
+                        <a class="btn btn-outline-primary" href="http://localhost:8080/account/addresses/create">Add</a>
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label">Payment method</label>
+                            <div class="col-lg-9">
+                                <select id="payment_method" class="form-control" size="0">
+                                    <c:forEach items="${paymentMethods}" var="pm">
+                                    <option value="${pm.name}">${pm.name}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label">Delivery method</label>
+                            <div class="col-lg-9">
+                                <select id="delivery_method" class="form-control" size="0">
+                                    <c:forEach items="${deliveryMethods}" var="dm">
+                                        <option value="${dm.name}">${dm.name}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label"></label>
+                            <div class="col-lg-9">
+                                <input type="reset" class="btn btn-secondary" value="Cancel">
+                                    <%--                                                    <input type="button" class="btn btn-primary" value="Save Changes">--%>
+                                <button class="w-100 btn btn-lg btn-primary" type="submit">Save order
+                                </button>
+                            </div>
+                        </div>
+                    </form:form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

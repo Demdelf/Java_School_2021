@@ -32,6 +32,8 @@ public class OrderController {
             return "404";
         }
         model.addAttribute("paymentMethods", orderService.getAllPaymentMethods());
+        model.addAttribute("deliveryMethods", orderService.getAllDeliveryMethods());
+        model.addAttribute("addresses", orderService.getAllCustomerAddresses(principal));
         model.addAttribute("orderDto", orderDto);
         return "customer/order";
     }
@@ -46,7 +48,7 @@ public class OrderController {
 
     @PostMapping("/create")
     public String createOrder(Model model,
-            Principal principal
+            Principal principal, @ModelAttribute("orderDto") OrderDto orderDto
     ) {
         if (isAuthorized(principal)) {
             Long id = orderService.create(principal);

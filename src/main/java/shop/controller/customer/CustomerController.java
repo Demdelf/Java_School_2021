@@ -71,6 +71,7 @@ public class CustomerController {
     public CartDTO cartDTO(){
         CartDTO cartDTO = new CartDTO();
         cartDTO.setQuantity(0);
+        cartDTO.setSum(0.0);
         cartDTO.setProducts(new HashMap<>());
         return cartDTO;
     }

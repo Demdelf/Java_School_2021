@@ -132,8 +132,8 @@ public class CartService implements shop.service.CartService {
             CartDTO carDtoFromDB = getCartDtoByUserOrCreate(user);
             carDtoFromDB.addProductsFromAnotherDto(cartDto);
             updateCartByUser(user,carDtoFromDB);
-            request.getSession().setAttribute("cartDto", carDtoFromDB);
             carDtoFromDB.setFromCart(true);
+            request.getSession().setAttribute("cartDto", carDtoFromDB);
             return carDtoFromDB;
         } else {
             cartDto.setFromCart(true);
@@ -154,6 +154,7 @@ public class CartService implements shop.service.CartService {
         CartDTO cartDTO = new CartDTO();
         Map<ProductDto, Integer> products = new HashMap<>();
         int q = 0;
+        double sum = 0.0;
         for (Cart c : carts) {
 //            if (cartDTO.getId() == null) {
 //                cartDTO.setId(c.getId());
@@ -165,7 +166,9 @@ public class CartService implements shop.service.CartService {
             ProductDto productDto = productService.getDtoById(c.getProduct().getId());
             products.put(productDto, c.getQuantity());
             q += c.getQuantity();
+            sum += productDto.getPrice() * c.getQuantity();
         }
+        cartDTO.setSum(sum);
         cartDTO.setQuantity(q);
         cartDTO.setProducts(products);
         return cartDTO;

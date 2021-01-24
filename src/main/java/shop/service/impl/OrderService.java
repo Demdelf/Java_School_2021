@@ -251,6 +251,10 @@ public class OrderService implements shop.service.OrderService {
         return orderDao.findAllPaymentMethods();
     }
 
+    public List<DeliveryMethod> getAllDeliveryMethods() {
+        return orderDao.findAllDeliveryMethods();
+    }
+
     public OrderDto updateDtoById(Long id, OrderDto updateOrderDto) {
         OrderDto orderDto = getDtoById(id);
         orderDto.setOrderProducts(updateOrderDto.getOrderProducts());
@@ -354,5 +358,10 @@ public class OrderService implements shop.service.OrderService {
         CustomerAddress customerAddress = convertDtoToAddress(addressDto);
         customerAddress.setUser(user);
         orderDao.createAddress(customerAddress);
+    }
+
+    public List<CustomerAddressDto> getAllCustomerAddresses(Principal principal) {
+        User user = (User) userService.loadUserByUsername(principal.getName());
+        return getUserAddressDtoList(user);
     }
 }

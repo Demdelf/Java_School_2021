@@ -13,6 +13,7 @@ public class CartDTO {
     private Integer quantity;
     private Map<ProductDto, Integer> products;
     private boolean fromCart = false;
+    private Double sum;
 
     public void addProductDto(ProductDto dto){
         if (products.containsKey(dto)){
@@ -20,7 +21,7 @@ public class CartDTO {
         }else {
             products.put(dto, 1);
         }
-
+        sum += dto.getPrice();
         quantity++;
     }
 
@@ -30,7 +31,7 @@ public class CartDTO {
         }else {
             products.put(dto, q);
         }
-
+        sum += dto.getPrice()*q;
         quantity += q;
     }
 
@@ -41,17 +42,20 @@ public class CartDTO {
         }else {
             products.put(productDto, q - 1);
         }
+        sum -= productDto.getPrice();
         quantity--;
     }
 
     public void deleteProductDto(ProductDto productDto) {
         int q = products.get(productDto);
         products.remove(productDto);
+        sum -= productDto.getPrice()*q;
         quantity -= q;
     }
 
     public void clear() {
         quantity = 0;
+        sum = 0.0;
         products.clear();
     }
 
