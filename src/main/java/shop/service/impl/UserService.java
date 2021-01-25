@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,6 +16,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import shop.dao.UserDaoInt;
 import shop.domain.CustomerAddress;
 import shop.domain.User;
+import shop.dto.CartDTO;
 import shop.dto.CustomerAddressDto;
 import shop.dto.UserAccountDto;
 import shop.dto.UserEditAccountDto;
@@ -124,6 +126,7 @@ public class UserService implements UserServiceInterface {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return dao.create(user);
     }
+
 
 
 //    public List<OrderDto> getAllUserOrders(Principal principal) {

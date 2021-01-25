@@ -18,57 +18,65 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import shop.domain.User;
+import shop.dto.CartDTO;
 import shop.dto.UserRegDto;
 
 //@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Controller
-public class HomeController 
-{
-	@GetMapping({"/","/home"})
-	public String homeInit(Locale locale, Model model) {
+public class HomeController {
 
-		return "customer/main";
-	}
+    @GetMapping({"/", "/home"})
+    public String homeInit(Locale locale, Model model) {
 
-
-
-	@ModelAttribute("user")
-	public User formBackingObject() {
-		return new User();
-	}
-
-	@GetMapping(value = "/login")
-	public String loginPage(@RequestParam(value = "error", required = false) String error,
-			@RequestParam(value = "logout", required = false) String logout,
-			Model model) {
-		String errorMessge = null;
-		if(error != null) {
-			errorMessge = "Username or Password is incorrect !!";
-		}
-		if(logout != null) {
-			errorMessge = "You have been successfully logged out !!";
-		}
-		model.addAttribute("errorMessge", errorMessge);
-		return "login";
-	}
-
-	@GetMapping(value = "/reg")
-	public String regPage(@RequestParam(value = "error", required = false) String error,
-			@RequestParam(value = "logout", required = false) String logout,
-			Model model) {
-
-		return "registration";
-	}
+        return "redirect:/customer";
+    }
 
 
+    @ModelAttribute("user")
+    public User formBackingObject() {
+        return new User();
+    }
 
-	@GetMapping(value="/logout")
-	public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth != null){
-			new SecurityContextLogoutHandler().logout(request, response, auth);
-		}
-		return "redirect:/login?logout=true";
-	}
+    @GetMapping(value = "/login")
+    public String loginPage(
+            @RequestParam(value = "error", required = false) String error,
+            @RequestParam(value = "logout", required = false) String logout,
+            @SessionAttribute(value = "cart") CartDTO cartDto,
+			Model model
+    ) {
+        String errorMessge = null;
+        if (error != null) {
+            errorMessge = "Username or Password is incorrect !!";
+        }
+        if (logout != null) {
+            errorMessge = "You have been successfully logged out !!";
+        }
+        model.addAttribute("errorMessge", errorMessge);
+        model.addAttribute("cart", cartDto);
+        return "login";
+    }
+
+    @GetMapping(value = "/reg")
+    public String regPage(
+            @RequestParam(value = "error", required = false) String error,
+            @RequestParam(value = "logout", required = false) String logout, Model model,
+            @SessionAttribute(value = "cart") CartDTO cartDto
+    ) {
+        model.addAttribute("cart", cartDto);
+        return "registration";
+    }
+
+
+    @GetMapping(value = "/logout")
+    public String logoutPage(HttpServletRequest request, HttpServletResponse response,
+            @SessionAttribute(value = "cart") CartDTO cartDto, Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        model.addAttribute("cart", cartDto);
+        return "redirect:/login?logout=true";
+    }
 }

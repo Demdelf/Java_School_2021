@@ -1,6 +1,8 @@
 package shop.controller;
 
+import java.security.Principal;
 import java.util.Locale;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +19,12 @@ import shop.domain.Category;
 import shop.domain.Product;
 import shop.domain.PropertyValue;
 import shop.dto.CategoryDto;
+import shop.dto.OrderDto;
 import shop.dto.ProductDto;
 import shop.service.CategoryService;
 import shop.service.ProductService;
 import shop.service.Service;
+import shop.service.impl.OrderService;
 
 @Controller
 @RequestMapping("manage")
@@ -28,6 +32,7 @@ import shop.service.Service;
 public class ManagerController {
 
     private final ProductService productService;
+    private final OrderService orderService;
     @Autowired
     private CategoryService categoryService;
     @Autowired
@@ -108,6 +113,39 @@ public class ManagerController {
         model.addAttribute("categories", categoryService.findAll(10));
         return "manage/categories";
     }
+
+    @GetMapping("/orders")
+    public String getAllOrders(Locale locale, Model model) {
+        model.addAttribute("orders", orderService.findAllDtos(100));
+        return "manage/orders";
+    }
+
+    @GetMapping("/stat")
+    public String getStat(Locale locale, Model model) {
+        model.addAttribute("stat", orderService.getStatistic());
+        return "manage/stat";
+    }
+
+    @GetMapping("/orders/{id}")
+    public String getManageOrderForm(@PathVariable("id") Long id, Locale locale, Model model
+            , @ModelAttribute("path") String path, Principal principal
+    ) {
+        model.addAttribute("paymentStatuses", orderService.getAllPaymentStatuses());
+        model.addAttribute("deliveryStatuses", orderService.getAllDeliveryStatuses());
+        model.addAttribute("addresses", orderService.getAllCustomerAddressesByOrderId(id));
+        model.addAttribute("orderDto", orderService.findOneDto(id));
+        return "manage/orderManage";
+    }
+
+
+    @PostMapping("/orders/{id}")
+    public String manageOrder(@PathVariable("id") Long id, Model model, HttpServletRequest request,
+            Principal principal, @ModelAttribute("orderDto") OrderDto orderDto
+    ) {
+            orderService.update(id, orderDto);
+        return "redirect:/manage/orders";
+    }
+
 
     @GetMapping("/categories/edit/{id}")
     public String getEditCategoryPage(

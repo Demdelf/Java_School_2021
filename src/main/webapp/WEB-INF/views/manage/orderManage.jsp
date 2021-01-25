@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: User
-  Date: 18.01.2021
-  Time: 14:23
+  Date: 25.01.2021
+  Time: 20:58
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -119,14 +119,14 @@
         <%--        <a class="p-2 text-dark" href="#">Support</a>--%>
 
         <a class="p-2 text-dark" href="http://localhost:8080/customer">Catalog</a>
-        <a class="btn btn-success btn-sm ml-3" href="cart.html">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart"
-                 viewBox="0 0 16 16">
-                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-            </svg>
-            <i class="fa fa-shopping-cart bi bi-cart"></i> Cart
-            <span class="badge badge-light">${cart.quantity}</span>
-        </a>
+<%--        <a class="btn btn-success btn-sm ml-3" href="cart.html">--%>
+<%--            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart"--%>
+<%--                 viewBox="0 0 16 16">--%>
+<%--                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>--%>
+<%--            </svg>--%>
+<%--            <i class="fa fa-shopping-cart bi bi-cart"></i> Cart--%>
+<%--            <span class="badge badge-light">${cart.quantity}</span>--%>
+<%--        </a>--%>
     </nav>
     <a class="btn btn-outline-primary" href="http://localhost:8080/account">Account</a>
 </header>
@@ -168,7 +168,7 @@
                 <div class="mx-auto col-sm-6">
 
                     <form:form class="form" role="form" autocomplete="off" name="edit"
-                               action="/customer/orders/create" method="POST"
+                               action="/manage/orders/${orderDto.id}" method="POST"
                                modelAttribute="orderDto">
 
                         <div class="form-group row">
@@ -181,13 +181,20 @@
                                 </select>
                             </div>
                         </div>
-                        <a class="btn btn-outline-primary" href="http://localhost:8080/account/addresses/create">Add</a>
+<%--                        <a class="btn btn-outline-primary" href="http://localhost:8080/account/addresses/create">Add</a>--%>
+
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label form-control-label">Payment method</label>
                             <div class="col-lg-9">
-                                <select id="payment_method" class="form-control" size="0" name="paymentMethod">
-                                    <c:forEach items="${paymentMethods}" var="pm">
-                                    <option value="${pm.name}">${pm.name}</option>
+                                    ${orderDto.paymentMethod}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label">Payment status</label>
+                            <div class="col-lg-9">
+                                <select id="payment_method" class="form-control" size="0" name="paymentStatus">
+                                    <c:forEach items="${paymentStatuses}" var="ps">
+                                        <option value="${ps.name}">${ps.name}</option>
                                     </c:forEach>
                                 </select>
                             </div>
@@ -195,9 +202,15 @@
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label form-control-label">Delivery method</label>
                             <div class="col-lg-9">
-                                <select id="delivery_method" class="form-control" size="0" name="deliveryMethod">
-                                    <c:forEach items="${deliveryMethods}" var="dm">
-                                        <option value="${dm.name}">${dm.name}</option>
+                                    ${orderDto.deliveryMethod}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label">Delivery status</label>
+                            <div class="col-lg-9">
+                                <select id="delivery_method" class="form-control" size="0" name="deliveryStatus">
+                                    <c:forEach items="${deliveryStatuses}" var="ds">
+                                        <option value="${ds.name}">${ds.name}</option>
                                     </c:forEach>
                                 </select>
                             </div>
@@ -220,3 +233,4 @@
 
 </body>
 </html>
+

@@ -19,11 +19,13 @@ import shop.domain.Order;
 import shop.domain.OrderProduct;
 import shop.domain.PaymentMethod;
 import shop.domain.PaymentStatus;
+import shop.domain.Product;
 import shop.domain.User;
 import shop.dto.CartDTO;
 import shop.dto.CustomerAddressDto;
 import shop.dto.OrderDto;
 import shop.dto.ProductDto;
+import shop.dto.StatisticDto;
 import shop.dto.UserEditAccountDto;
 
 @Service
@@ -43,7 +45,9 @@ public class OrderService implements shop.service.OrderService {
 
     @Override
     public List<Order> findAll(int pageSize) {
-        return null;
+        List<Order> orders =  orderDao.findAll(pageSize);
+        orders.stream().forEach(order -> order.setOrderProducts(getOrderProductsByOrderId(order.getId())));
+        return orders;
     }
 
     @Override
@@ -100,7 +104,7 @@ public class OrderService implements shop.service.OrderService {
         orderDto.setUserId(order.getUser().getId());
         Map<ProductDto, Integer> products = new HashMap<>();
         int numberOfProducts = 0;
-        double fullCost = 0;
+        double fullCost = 0.0;
         for (OrderProduct orderProduct: order.getOrderProducts()
         ) {
             ProductDto productDto = new ProductDto();
@@ -195,7 +199,7 @@ public class OrderService implements shop.service.OrderService {
             order.setUser(user);
         }
         List<OrderProduct> orderProducts = getOrderProducts(orderDto);
-        order.setOrderProducts(orderProducts);
+
         if (orderDto.getAddressId() != null){
             order.setAddress(getAddressById(orderDto.getAddressId()));
         }
@@ -212,7 +216,8 @@ public class OrderService implements shop.service.OrderService {
         }else {
             order.setPaymentStatus(getPaymentStatusByName("Unpaid"));
         }
-
+        orderProducts.stream().forEach(orderProduct -> orderProduct.setOrder(order));
+        order.setOrderProducts(orderProducts);
         return order;
     }
 
@@ -372,7 +377,7 @@ public class OrderService implements shop.service.OrderService {
     public OrderDto getDtoById(Long id, Principal principal) {
         User user = (User) userService.loadUserByUsername(principal.getName());
         OrderDto orderDto = getDtoById(id);
-        if (orderDto.getUserId().equals(user.getId())) {
+        if (orderDto.getUserId().equals(user.getId()) || user.getRole().getName().equals("ROLE_MANAGER")) {
             return orderDto;
         }else {
             return null;
@@ -427,6 +432,65 @@ public class OrderService implements shop.service.OrderService {
         orderDto.setFullCost(getFullCostOfProductDtoMap(products));
         orderDto.setOrderProducts(products);
         Order order = orderDao.create(convertDtoToOrder(orderDto));
+        order.getOrderProducts().stream().forEach(o -> orderDao.saveOrderProduct(o));
         request.getSession().setAttribute("cartDto", cartService.clearCart(user));
+    }
+
+    public List<OrderDto> findAllDtos(int pageSize) {
+        List<OrderDto> orderDtoList = new ArrayList<>();
+        for (Order o: findAll(pageSize)
+        ) {
+            orderDtoList.add(convertOrderToDto(o));
+        }
+        return orderDtoList;
+    }
+
+    public OrderDto findOneDto(Long id) {
+        return convertOrderToDto(findOne(id));
+    }
+
+    public List<PaymentStatus> getAllPaymentStatuses() {
+        return orderDao.findAllPaymentStatuses();
+    }
+
+    public List<DeliveryStatus> getAllDeliveryStatuses() {
+        return orderDao.findAllDeliveryStatuses();
+    }
+
+    public List<CustomerAddressDto> getAllCustomerAddressesByOrderId(Long id) {
+        Order order = orderDao.findOne(id).orElse(null);
+        User user = userService.find(order.getUser().getId());
+        return getUserAddressDtoList(user);
+    }
+
+    public void update(Long id, OrderDto orderDto) {
+        Order order = orderDao.findOne(id).get();
+        if (orderDto.getAddressId() != null){
+            order.setAddress(getAddressById(orderDto.getAddressId()));
+        }
+        if (orderDto.getDeliveryStatus() != null){
+            order.setDeliveryStatus(getDeliveryStatusByName(orderDto.getDeliveryStatus()));
+        }
+        if (orderDto.getPaymentStatus() != null){
+            order.setPaymentStatus(getPaymentStatusByName(orderDto.getPaymentStatus()));
+        }
+        update(order);
+    }
+
+    public StatisticDto getStatistic() {
+        StatisticDto statisticDto = new StatisticDto();
+        statisticDto.setBestProducts(getBestProducts());
+        return statisticDto;
+    }
+
+    private Map<ProductDto, Double> getBestProducts() {
+        List<Product> products = productService.findAll(10);
+        Map<ProductDto, Double> map = new HashMap<>();
+        for (Product p: products
+        ) {
+            Double sum = orderDao.getRevenueForProduct(p);
+            map.put(productService.convertProductToDto(p), sum);
+        }
+        return map;
     }
 }

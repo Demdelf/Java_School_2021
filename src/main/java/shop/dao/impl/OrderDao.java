@@ -4,7 +4,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Subquery;
 import org.springframework.stereotype.Repository;
 import shop.dao.AbstractDao;
 import shop.dao.Dao;
@@ -16,6 +18,7 @@ import shop.domain.Order;
 import shop.domain.OrderProduct;
 import shop.domain.PaymentMethod;
 import shop.domain.PaymentStatus;
+import shop.domain.Product;
 import shop.domain.User;
 import shop.dto.CustomerAddressDto;
 
@@ -134,5 +137,45 @@ public class OrderDao  extends AbstractDao<Order> implements Dao<Order> {
         Root<Cart> root = query.from(Cart.class);
         query.select(root).where(criteriaBuilder.equal(root.get("user"), user.getId()));
         return entityManager.createQuery(query).getResultList();
+    }
+
+    public List<PaymentStatus> findAllPaymentStatuses() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<PaymentStatus> query = criteriaBuilder.createQuery(PaymentStatus.class);
+        Root<PaymentStatus> root = query.from(PaymentStatus.class);
+        query.select(root);
+        return entityManager.createQuery(query).getResultList();
+    }
+    public List<DeliveryStatus> findAllDeliveryStatuses() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<DeliveryStatus> query = criteriaBuilder.createQuery(DeliveryStatus.class);
+        Root<DeliveryStatus> root = query.from(DeliveryStatus.class);
+        query.select(root);
+        return entityManager.createQuery(query).getResultList();
+    }
+
+    public List<Product> getBestProducts() {
+
+
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Product> query = builder.createQuery(Product.class);
+        Root<OrderProduct> product = query.from(OrderProduct.class);
+        query.multiselect(product.get("productId"), builder.count(product));
+        query.orderBy(builder.desc(
+           builder.sum(product.get("price"))
+        ));
+        query.groupBy(product.get("productId"));
+
+
+        return entityManager.createQuery(query).getResultList();
+    }
+
+    public Double getRevenueForProduct(Product p) {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Double> query = builder.createQuery(Double.class);
+        Root<OrderProduct> root = query.from(OrderProduct.class);
+        query.select(builder.sum(root.<Double>get("price")))
+                .where(builder.equal(root.get("productId"), p.getId()));
+        return entityManager.createQuery(query).getSingleResult();
     }
 }

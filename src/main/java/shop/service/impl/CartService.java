@@ -1,6 +1,7 @@
 package shop.service.impl;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +41,12 @@ public class CartService implements shop.service.CartService {
     @Transactional
     private CartDTO convertCartToCartDto(Cart cart) {
         CartDTO cartDTO = new CartDTO();
+        if (cart.getProduct() != null){
+            cartDTO.setSum(cart.getProduct().getPrice() * cartDTO.getQuantity());
+        }else {
+            cartDTO.setSum(0.0);
+        }
+
         cartDTO.setQuantity(cart.getQuantity());
         cartDTO.setProducts(new HashMap<>());
         cartDTO.setId(cart.getId());
@@ -54,7 +61,7 @@ public class CartService implements shop.service.CartService {
         for (Cart c : carts) {
             cartDao.delete(c);
         }
-        return getFreshCartDTO(user);
+        return getFreshCartDTOForUser(user);
     }
 
     @Override
@@ -124,18 +131,19 @@ public class CartService implements shop.service.CartService {
     }
 
     @Override
+    @Deprecated
     public CartDTO getCartDtoForPrincipal(
             Principal principal, CartDTO cartDto, HttpServletRequest request
     ) {
         if (isAuthorized(principal)) {
             User user = (User) userService.loadUserByUsername(principal.getName());
             CartDTO carDtoFromDB = getCartDtoByUserOrCreate(user);
-            if (!carDtoFromDB.getProducts().isEmpty()){
+            if (!carDtoFromDB.getProducts().isEmpty()) {
                 carDtoFromDB.addProductsFromAnotherDto(cartDto);
             }
-            updateCartByUser(user,carDtoFromDB);
+            updateCartByUser(user, carDtoFromDB);
             carDtoFromDB.setFromCart(true);
-            request.getSession().setAttribute("cartDto", getFreshCartDTO(user));
+            request.getSession().setAttribute("cartDto", getFreshCartDTOForUser(user));
             return carDtoFromDB;
         } else {
             cartDto.setFromCart(true);
@@ -143,11 +151,19 @@ public class CartService implements shop.service.CartService {
         }
     }
 
-    private CartDTO getFreshCartDTO(User user) {
+    private CartDTO getFreshCartDTOForUser(User user) {
         CartDTO cartDTO = convertCartToCartDto(createCart(user));
         cartDTO.setSum(0.0);
         return cartDTO;
     }
+
+    private CartDTO getFreshCartDTO() {
+        CartDTO cartDTO = new CartDTO();
+        cartDTO.setQuantity(0);
+        cartDTO.setSum(0.0);
+        return cartDTO;
+    }
+
 
     private Cart createCart(User user) {
         Cart cart = new Cart();
@@ -212,5 +228,53 @@ public class CartService implements shop.service.CartService {
     @Transactional
     public Cart update(Cart p) {
         return cartDao.update(p);
+    }
+
+    public CartDTO getCartDtoAfterLogin(
+            Principal principal, CartDTO cartDTO, HttpServletRequest request
+    ) {
+        CartDTO dto;
+        User user = (User) userService.loadUserByUsername(principal.getName());
+        dto = getCartDtoByUserOrCreate(user);
+        if (!cartDTO.getProducts().isEmpty()) {
+            dto.addProductsFromAnotherDto(cartDTO);
+            save(dto);
+            request.getSession().setAttribute("cartDto", getFreshCartDTO());
+        }
+        return dto;
+    }
+
+    private void save(CartDTO dto) {
+        List<Cart> carts = convertDtoToCarts(dto);
+        for (Cart c: carts
+        ) {
+            if (cartDao.findByUserAndProduct(c) != null){
+                cartDao.update(c);
+            }else {
+                cartDao.create(c);
+            }
+        }
+
+    }
+
+    private List<Cart> convertDtoToCarts(CartDTO dto) {
+        List<Cart> carts = new ArrayList<>();
+        for (Entry<ProductDto, Integer> e: dto.getProducts().entrySet()
+        ) {
+            Cart cart = new Cart();
+            cart.setQuantity(e.getValue());
+            cart.setUser(userService.find(dto.getUserId()));
+            cart.setProduct(productService.findOne(e.getKey().getId()));
+            carts.add(cart);
+        }
+        return carts;
+    }
+
+
+    public CartDTO getCartDtoByPrincipal(Principal principal, CartDTO cartDTO) {
+        if (isAuthorized(principal)){
+            User user = (User) userService.loadUserByUsername(principal.getName());
+            return getCartDtoByUserOrCreate(user);
+        }else return cartDTO;
     }
 }

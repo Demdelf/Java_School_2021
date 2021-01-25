@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: User
-  Date: 18.01.2021
-  Time: 14:23
+  Date: 25.01.2021
+  Time: 19:14
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -167,51 +167,61 @@
             <div class="row">
                 <div class="mx-auto col-sm-6">
 
-                    <form:form class="form" role="form" autocomplete="off" name="edit"
-                               action="/customer/orders/create" method="POST"
-                               modelAttribute="orderDto">
+                    <%--                    <form:form class="form" role="form" autocomplete="off" name="edit"--%>
+                    <%--                               action="/customer/orders/create" method="POST"--%>
+                    <%--                               modelAttribute="orderDto">--%>
 
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label form-control-label">Customer address</label>
+                        <div class="col-lg-9">
+                            ${orderDto.address}
+                            <%--                                <select id="customer_address" class="form-control" size="0" name="address">--%>
+                            <%--                                    <c:forEach items="${addresses}" var="address">--%>
+                            <%--                                        <option value="${address.id}">${address.toString()}</option>--%>
+                            <%--                                    </c:forEach>--%>
+                            <%--                                </select>--%>
+                        </div>
+                    </div>
+                    <%--                        <a class="btn btn-outline-primary" href="http://localhost:8080/account/addresses/create">Add</a>--%>
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label form-control-label">Payment method</label>
+                        <div class="col-lg-9">
+                            ${orderDto.paymentMethod}
+                        </div>
+                    </div>
                         <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Customer address</label>
+                            <label class="col-lg-3 col-form-label form-control-label">Payment status</label>
                             <div class="col-lg-9">
-                                <select id="customer_address" class="form-control" size="0" name="addressId">
-                                    <c:forEach items="${addresses}" var="address">
-                                        <option value="${address.id}">${address.toString()}</option>
-                                    </c:forEach>
-                                </select>
+                                ${orderDto.paymentStatus}
                             </div>
                         </div>
-                        <a class="btn btn-outline-primary" href="http://localhost:8080/account/addresses/create">Add</a>
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Payment method</label>
-                            <div class="col-lg-9">
-                                <select id="payment_method" class="form-control" size="0" name="paymentMethod">
-                                    <c:forEach items="${paymentMethods}" var="pm">
-                                    <option value="${pm.name}">${pm.name}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label form-control-label">Delivery method</label>
+                        <div class="col-lg-9">
+                            ${orderDto.deliveryMethod}
+                            <%--                                <select id="delivery_method" class="form-control" size="0" name="deliveryMethod">--%>
+                            <%--                                    <c:forEach items="${deliveryMethods}" var="dm">--%>
+                            <%--                                        <option value="${dm.name}">${dm.name}</option>--%>
+                            <%--                                    </c:forEach>--%>
+                            <%--                                </select>--%>
                         </div>
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Delivery method</label>
-                            <div class="col-lg-9">
-                                <select id="delivery_method" class="form-control" size="0" name="deliveryMethod">
-                                    <c:forEach items="${deliveryMethods}" var="dm">
-                                        <option value="${dm.name}">${dm.name}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label form-control-label">Delivery status</label>
+                        <div class="col-lg-9">
+                            ${orderDto.deliveryStatus}
                         </div>
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label"></label>
-                            <div class="col-lg-9">
-                                <input type="reset" class="btn btn-secondary" value="Cancel">
-                                    <%--                                                    <input type="button" class="btn btn-primary" value="Save Changes">--%>
-                                <button class="w-100 btn btn-lg btn-primary" type="submit">Save order
-                                </button>
-                            </div>
-                        </div>
-                    </form:form>
+                    </div>
+                    <%--                        <div class="form-group row">--%>
+                    <%--                            <label class="col-lg-3 col-form-label form-control-label"></label>--%>
+                    <%--                            <div class="col-lg-9">--%>
+                    <%--                                <input type="reset" class="btn btn-secondary" value="Cancel">--%>
+                    <%--                                    &lt;%&ndash;                                                    <input type="button" class="btn btn-primary" value="Save Changes">&ndash;%&gt;--%>
+                    <%--                                <button class="w-100 btn btn-lg btn-primary" type="submit">Save order--%>
+                    <%--                                </button>--%>
+                    <%--                            </div>--%>
+                    <%--                        </div>--%>
+                    <%--                    </form:form>--%>
                 </div>
             </div>
         </div>
@@ -220,3 +230,4 @@
 
 </body>
 </html>
+

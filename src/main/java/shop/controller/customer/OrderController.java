@@ -44,6 +44,25 @@ public class OrderController {
         }
     }
 
+    @GetMapping("/{id}")
+    public String viewOrder(@PathVariable("id") Long id, Locale locale, Model model
+            , @ModelAttribute("path") String path, Principal principal
+    ) {
+        if (isAuthorized(principal)) {
+            OrderDto orderDto = orderService.getDtoById(id, principal);
+            if (orderDto == null){
+                return "404";
+            }
+//            model.addAttribute("paymentMethods", orderService.getAllPaymentMethods());
+//            model.addAttribute("deliveryMethods", orderService.getAllDeliveryMethods());
+//            model.addAttribute("addresses", orderService.getAllCustomerAddresses(principal));
+            model.addAttribute("orderDto", orderDto);
+            return "customer/orderView";
+        }else {
+            return "login";
+        }
+    }
+
     @GetMapping("")
     public String userOrders(Locale locale, Model model, Principal principal){
         List<OrderDto> orderDtoList = orderService.getAllUserOrders(principal);

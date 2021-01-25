@@ -17,7 +17,6 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @Table(name = "CUSTOMERS_ADDRESSES")
-@ToString
 public class CustomerAddress extends AbstractEntity {
 
     @Column(name = "COUNTRY")
@@ -41,6 +40,11 @@ public class CustomerAddress extends AbstractEntity {
     @ManyToOne
     @JoinColumn(name = "USER_ID" )
     private User user;
+
+    @Override
+    public String toString() {
+        return country + ", " + city + ", " + postcode + ", " + street + ", " + house + ", " + apartment;
+    }
 
 //    @OneToMany(mappedBy = "id")
 //    private List<Order> orders;

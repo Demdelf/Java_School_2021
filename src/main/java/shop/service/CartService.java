@@ -24,6 +24,8 @@ public interface CartService extends Service<Cart>{
     default boolean isAuthorized(Principal principal) {
         return principal != null;
     }
-
+    @Deprecated
     CartDTO getCartDtoForPrincipal(Principal principal, CartDTO cartDto, HttpServletRequest request);
+
+    CartDTO getCartDtoByPrincipal(Principal principal, CartDTO cartDto);
 }

@@ -38,8 +38,11 @@ public class CartController {
             @SessionAttribute(value = "cart") CartDTO cartDto)
     {
 
-        cartDto = cartService.getCartDtoForPrincipal(principal, cartDto, request);
-        model.addAttribute("cart", cartDto);
+//        cartDto = cartService.getCartDtoForPrincipal(principal, cartDto, request);
+//        model.addAttribute("cart", cartDto);
+        CartDTO cart = cartService.getCartDtoByPrincipal(principal, cartDto);
+        cart.setFromCart(false);
+        model.addAttribute("cart", cart);
 
         return CART_BASE;
     }
@@ -60,21 +63,21 @@ public class CartController {
         return "redirect:/" + path;
     }
 
-    @PostMapping("/update")
-    public String updateCart(
-            Principal principal, Model model,
-            @SessionAttribute(value = "cart") CartDTO cartDto)
-    {
-
-        if (cartService.isAuthorized(principal)) {
-            User user = (User) userService.loadUserByUsername(principal.getName());
-            cartService.updateCartByUser(user, cartDto);
-        }
-
-        model.addAttribute("cart", cartDto);
-
-        return CART_BASE;
-    }
+//    @PostMapping("/update")
+//    public String updateCart(
+//            Principal principal, Model model,
+//            @SessionAttribute(value = "cart") CartDTO cartDto)
+//    {
+//
+//        if (cartService.isAuthorized(principal)) {
+//            User user = (User) userService.loadUserByUsername(principal.getName());
+//            cartService.updateCartByUser(user, cartDto);
+//        }
+//
+//        model.addAttribute("cart", cartDto);
+//
+//        return CART_BASE;
+//    }
 
     @PostMapping("/add/{id}")
     public String addToCart(
