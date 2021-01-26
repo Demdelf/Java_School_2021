@@ -2,9 +2,7 @@ package shop.service.impl;
 
 import java.security.Principal;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,10 +12,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import shop.dao.UserDaoInt;
-import shop.domain.CustomerAddress;
 import shop.domain.User;
-import shop.dto.CartDTO;
-import shop.dto.CustomerAddressDto;
 import shop.dto.UserAccountDto;
 import shop.dto.UserEditAccountDto;
 import shop.dto.UserRegDto;
@@ -127,7 +122,21 @@ public class UserService implements UserServiceInterface {
         return dao.create(user);
     }
 
-
+    public UserAccountDto convertUserToUserAccountDto(User u) {
+        UserAccountDto userAccountDto = new UserAccountDto();
+        userAccountDto.setId(u.getId());
+        userAccountDto.setEmail(u.getEmail());
+        if (u.getFirstName() != null){
+            userAccountDto.setFirstName(u.getFirstName());
+        }
+        if (u.getLastName() != null) {
+            userAccountDto.setLastName(u.getLastName());
+        }
+        if (u.getBirthday() != null) {
+            userAccountDto.setBirthday(u.getBirthday().toString());
+        }
+        return userAccountDto;
+    }
 
 //    public List<OrderDto> getAllUserOrders(Principal principal) {
 //        User user = (User) loadUserByUsername(principal.getName());

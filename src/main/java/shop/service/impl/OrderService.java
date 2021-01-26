@@ -3,9 +3,12 @@ package shop.service.impl;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,7 +29,7 @@ import shop.dto.CustomerAddressDto;
 import shop.dto.OrderDto;
 import shop.dto.ProductDto;
 import shop.dto.StatisticDto;
-import shop.dto.UserEditAccountDto;
+import shop.dto.UserAccountDto;
 
 @Service
 @RequiredArgsConstructor
@@ -480,17 +483,53 @@ public class OrderService implements shop.service.OrderService {
     public StatisticDto getStatistic() {
         StatisticDto statisticDto = new StatisticDto();
         statisticDto.setBestProducts(getBestProducts());
+        statisticDto.setRevenue(getRevenue());
+        statisticDto.setBestCustomers(getBestCustomers());
         return statisticDto;
     }
 
+    private Map<UserAccountDto, Double> getBestCustomers() {
+        List<User> users = userService.findAll(100);
+        Map<UserAccountDto, Double> map = new LinkedHashMap<>();
+        for (User u: users
+        ) {
+            Double sum = getRevenueForUser(u);
+            if (sum != null && sum > 0.0) {
+                map.put(userService.convertUserToUserAccountDto(u), sum);
+            }
+        }
+//        map.entrySet().stream()
+//                .limit(10).filter(e -> !e.getValue().equals(0.0)).sorted(Entry.comparingByValue())
+//                .collect(LinkedHashMap::new, (m, e) -> m.put(e.getKey(), e.getValue()), Map::putAll);
+        return map;
+    }
+
+    private Double getRevenueForUser(User u) {
+        double revenueForUser = 0.0;
+        for (Order o: u.getOrders()
+        ) {
+            revenueForUser += orderDao.getRevenueForUserOrder(o);
+        }
+        return revenueForUser;
+    }
+
+    private Double getRevenue() {
+        return orderDao.getRevenue();
+    }
+
     private Map<ProductDto, Double> getBestProducts() {
-        List<Product> products = productService.findAll(10);
-        Map<ProductDto, Double> map = new HashMap<>();
+        List<Product> products = productService.findAll(100);
+        Map<ProductDto, Double> map = new LinkedHashMap<>();
         for (Product p: products
         ) {
             Double sum = orderDao.getRevenueForProduct(p);
-            map.put(productService.convertProductToDto(p), sum);
+            if (sum != null && sum > 0.0){
+                map.put(productService.convertProductToDto(p), sum);
+            }
         }
+//        map.entrySet().stream()
+//                .filter(x -> x.getValue() > 0.0)
+//                .collect(Collectors.toMap(x -> x.getKey(), x -> x.getValue()));
         return map;
     }
 }

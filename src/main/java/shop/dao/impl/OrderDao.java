@@ -178,4 +178,21 @@ public class OrderDao  extends AbstractDao<Order> implements Dao<Order> {
                 .where(builder.equal(root.get("productId"), p.getId()));
         return entityManager.createQuery(query).getSingleResult();
     }
+
+    public Double getRevenue() {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Double> query = builder.createQuery(Double.class);
+        Root<OrderProduct> root = query.from(OrderProduct.class);
+        query.select(builder.sum(root.<Double>get("price")));
+        return entityManager.createQuery(query).getSingleResult();
+    }
+
+    public Double getRevenueForUserOrder(Order o) {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Double> query = builder.createQuery(Double.class);
+        Root<OrderProduct> root = query.from(OrderProduct.class);
+        query.select(builder.sum(root.<Double>get("price")))
+                .where(builder.equal(root.get("order"), o.getId()));
+        return entityManager.createQuery(query).getSingleResult();
+    }
 }
