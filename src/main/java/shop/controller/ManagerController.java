@@ -25,6 +25,7 @@ import shop.service.CategoryService;
 import shop.service.ProductService;
 import shop.service.Service;
 import shop.service.impl.OrderService;
+import shop.service.impl.PropertyService;
 
 @Controller
 @RequestMapping("manage")
@@ -37,6 +38,7 @@ public class ManagerController {
     private CategoryService categoryService;
     @Autowired
     private Service<PropertyValue> propertyValueService;
+    private final PropertyService propertyService;
 
     @ModelAttribute("product")
     public Product formBackingObject() {
@@ -46,6 +48,11 @@ public class ManagerController {
     @ModelAttribute("productDto")
     public ProductDto getNewDto() {
         return new ProductDto();
+    }
+
+    @ModelAttribute("categoryDto")
+    public CategoryDto getNewCategoryDto() {
+        return new CategoryDto();
     }
 
     @GetMapping("")
@@ -103,10 +110,6 @@ public class ManagerController {
         return "redirect:/manage/products/edit/" + id;
     }
 
-    @ModelAttribute("categoryDto")
-    public CategoryDto getNewCategoryDto() {
-        return new CategoryDto();
-    }
 
     @GetMapping("/categories/all")
     public String getAllCategories(Locale locale, Model model) {
@@ -154,6 +157,7 @@ public class ManagerController {
         CategoryDto categoryDto = categoryService.getDtoById(id);
 
         model.addAttribute("categoryDto", categoryDto);
+        model.addAttribute("properties", propertyService.findAllUniq());
         model.addAttribute("categories", categoryService.getAllCategoryDto(10));
 
         return "manage/editCategory";
@@ -176,7 +180,7 @@ public class ManagerController {
             model.addAttribute("categories", categoryService.findAll(10));
             return "manage/categories";
         }
-        Category category = categoryService.create(categoryDto);
+        Category category = categoryService.createFromDto(categoryDto);
         Long id = category.getId();
         categoryDto.setId(id);
         return "redirect:/manage/categories/all";

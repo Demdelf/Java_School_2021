@@ -14,13 +14,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import shop.dto.ProductDto;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @Table(name = "PROPERTIES")
-public class Property extends AbstractEntity{
+public class Property extends AbstractEntity {
 
     @Column(name = "NAME")
     private String name;
@@ -34,4 +35,27 @@ public class Property extends AbstractEntity{
     @ManyToOne
     @JoinColumn(name = "CATEGORY_ID")
     private Category category;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            if (obj == null || obj.getClass() != this.getClass()) {
+                return false;
+            }
+        }
+        Property property = (Property) obj;
+        return (property.name.equals(this.name) && property.type.equals(this.type));
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 1;
+        if(this.name != null){
+            hash *= this.name.hashCode();
+        }
+        if(this.type != null){
+            hash *= this.type.hashCode();
+        }
+        return Math.toIntExact(hash);
+    }
 }

@@ -9,12 +9,14 @@ import shop.dto.CategoryDto;
 
 public interface CategoryService extends Service<Category> {
 
-    List<Property> getAllProperties(Long categoryId);
+    List<Property> getAllPropertiesByCategoryId(Long categoryId);
     List<CategoryDto> getAllCategoryDto(int pageSize);
 
     CategoryDto getDtoById(Long id);
 
     CategoryDto update(CategoryDto dto);
 
-    Category create(CategoryDto categoryDto);
+    Category createFromDto(CategoryDto categoryDto);
+
+    Object getAllProperties();
 }

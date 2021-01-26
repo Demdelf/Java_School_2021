@@ -13,6 +13,7 @@ import shop.domain.Property;
 import shop.domain.PropertyValue;
 import shop.dto.CategoryDto;
 import shop.dto.ProductDto;
+import shop.dto.PropertyDto;
 
 @Service
 @RequiredArgsConstructor
@@ -45,9 +46,14 @@ public class CategoryService implements shop.service.CategoryService {
     }
 
     @Transactional
-    public Category create(CategoryDto dto) {
+    public Category createFromDto(CategoryDto dto) {
         Category category = convertCategoryDtoToCategory(dto);
         return create(category);
+    }
+
+    @Override
+    public Object getAllProperties() {
+        return null;
     }
 
     @Transactional
@@ -59,8 +65,26 @@ public class CategoryService implements shop.service.CategoryService {
             category = dao.findOne(dto.getId()).orElse(new Category());
         }
         category.setName(dto.getName());
+        List<Property> list = new ArrayList<>();
+        for (PropertyDto propertyDto: dto.getProperties()
+        ) {
+            list.add(getPropertyById(propertyDto.getId()));
+        }
+        category.setProperties(list);
         return create(category);
     }
+
+    private Property getPropertyById(Long id) {
+        return dao.getPropertyById(id);
+    }
+
+//    private Property convertDtoToProperty(PropertyDto propertyDto) {
+//        Property property = new Property();
+//        property.setName(propertyDto.getName());
+//        property.setType(propertyDto.getType());
+//        property.setCategory(dao.findByName(propertyDto.getCategory()));
+//        property.setId(propertyDto.getId());
+//    }
 
     @Transactional
     private CategoryDto convertCategoryToDto(Category category){
@@ -81,7 +105,7 @@ public class CategoryService implements shop.service.CategoryService {
     }
 
     @Override
-    public List<Property> getAllProperties(Long categoryId) {
+    public List<Property> getAllPropertiesByCategoryId(Long categoryId) {
         return dao.getAllProperties(categoryId);
     }
 

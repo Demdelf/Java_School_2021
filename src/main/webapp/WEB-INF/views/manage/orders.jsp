@@ -71,19 +71,6 @@
 <div class="container">
     <div class="row my-2">
         <div class="order-lg-2">
-<%--            <ul class="nav nav-tabs">--%>
-<%--                <li class="nav-item">--%>
-<%--                    <a href="http://localhost:8080/account" data-target="#profile" data-toggle="tab" class="nav-link">Profile</a>--%>
-<%--                </li>--%>
-<%--                <li class="nav-item">--%>
-<%--                    <a href="" data-target="#messages" data-toggle="tab" class="nav-link active">Orders</a>--%>
-<%--                </li>--%>
-<%--                <li class="nav-item">--%>
-<%--                    <a href="http://localhost:8080/account/edit" data-target="#edit" data-toggle="tab" class="nav-link">Edit</a>--%>
-<%--                </li>--%>
-<%--            </ul>--%>
-            <%--<div class="order_wrapper expandable_control_header block_data__gtm-js block_data__pageevents-js active" id="order_detail_V3523538"--%>
-            <%--     data-gtm-location="Список заказов" data-pageevents-location="Список заказов" data-is-order-configuration="">--%>
             <div class="tab-content py-4">
 
                 <c:forEach items="${orders}" var="order">

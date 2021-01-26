@@ -1,6 +1,7 @@
 package shop.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,4 +70,7 @@ public class PropertyService implements shop.service.Service<Property> {
         return dao.update(p);
     }
 
+    public List<Property> findAllUniq() {
+        return dao.findAll().stream().distinct().collect(Collectors.toList());
+    }
 }

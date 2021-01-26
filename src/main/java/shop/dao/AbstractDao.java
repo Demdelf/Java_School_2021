@@ -42,6 +42,14 @@ public abstract class AbstractDao<T> {
         return typedQuery.getResultList();
     }
 
+    public List<T> findAll() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<T> query = criteriaBuilder.createQuery(clazz);
+        Root<T> root = query.from(clazz);
+        query.select(root);
+        return entityManager.createQuery(query).getResultList();
+    }
+
     public T create(final T entity) {
 //        EntityTransaction transaction = entityManager.getTransaction();
 //        transaction.begin();
