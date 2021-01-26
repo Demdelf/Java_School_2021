@@ -1,11 +1,17 @@
 package shop.dao.impl;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.SetJoin;
 import javax.persistence.criteria.Subquery;
 import org.springframework.stereotype.Repository;
 import shop.dao.AbstractDao;
@@ -154,20 +160,38 @@ public class OrderDao  extends AbstractDao<Order> implements Dao<Order> {
         return entityManager.createQuery(query).getResultList();
     }
 
-    public List<Product> getBestProducts() {
+    public Map<Long, Double> getBestProducts() {
+        String jpql2 = "SELECT new map (productId, SUM(price))\n" + "FROM OrderProduct \n" + "GROUP BY productId\n"
+                + "ORDER BY SUM(price) DESC";
+        Query query = entityManager.createQuery(jpql2);
+        query.setMaxResults(5);
+        List<Map<Long, Double>> result = query.getResultList();
+        Map<Long, Double> map = new HashMap<>();
+        for (Map<Long, Double> products: result
+        ) {
+            List<Number> numbers = new ArrayList<>();
+            products.entrySet().stream().forEach(e -> numbers.add(e.getValue()));
+            map.put((Long)numbers.get(0), (Double) numbers.get(1));
+        }
 
+        return map;
+    }
 
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Product> query = builder.createQuery(Product.class);
-        Root<OrderProduct> product = query.from(OrderProduct.class);
-        query.multiselect(product.get("productId"), builder.count(product));
-        query.orderBy(builder.desc(
-           builder.sum(product.get("price"))
-        ));
-        query.groupBy(product.get("productId"));
+    public Map<Long, Double> getBestCustomers() {
+        String jpql2 = "SELECT new map (productId, SUM(price))\n" + "FROM OrderProduct \n" + "GROUP BY productId\n"
+                + "ORDER BY SUM(price) DESC";
+        Query query = entityManager.createQuery(jpql2);
+        query.setMaxResults(5);
+        List<Map<Long, Double>> result = query.getResultList();
+        Map<Long, Double> map = new HashMap<>();
+        for (Map<Long, Double> products: result
+        ) {
+            List<Number> numbers = new ArrayList<>();
+            products.entrySet().stream().forEach(e -> numbers.add(e.getValue()));
+            map.put((Long)numbers.get(0), (Double) numbers.get(1));
+        }
 
-
-        return entityManager.createQuery(query).getResultList();
+        return map;
     }
 
     public Double getRevenueForProduct(Product p) {

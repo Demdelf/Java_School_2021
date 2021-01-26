@@ -498,9 +498,9 @@ public class OrderService implements shop.service.OrderService {
                 map.put(userService.convertUserToUserAccountDto(u), sum);
             }
         }
-//        map.entrySet().stream()
-//                .limit(10).filter(e -> !e.getValue().equals(0.0)).sorted(Entry.comparingByValue())
-//                .collect(LinkedHashMap::new, (m, e) -> m.put(e.getKey(), e.getValue()), Map::putAll);
+        map.entrySet().stream()
+                .sorted(Entry.comparingByValue()).limit(5)
+                .collect(LinkedHashMap::new, (m, e) -> m.put(e.getKey(), e.getValue()), Map::putAll);
         return map;
     }
 
@@ -518,18 +518,33 @@ public class OrderService implements shop.service.OrderService {
     }
 
     private Map<ProductDto, Double> getBestProducts() {
-        List<Product> products = productService.findAll(100);
-        Map<ProductDto, Double> map = new LinkedHashMap<>();
-        for (Product p: products
+////        List<Product> products = productService.findAll(100);
+//        List<Product> products = new ArrayList<>();
+//        for (Long id: orderDao.getBestProducts()
+//        ) {
+//            products.add(productService.findOne(id));
+//        }
+//
+//        Map<ProductDto, Double> map = new LinkedHashMap<>();
+//        for (Product p: products
+//        ) {
+//            Double sum = orderDao.getRevenueForProduct(p);
+//            if (sum != null && sum > 0.0){
+//                map.put(productService.convertProductToDto(p), sum);
+//            }
+//        }
+////        map.entrySet().stream()
+////                .filter(x -> x.getValue() > 0.0)
+////                .collect(Collectors.toMap(x -> x.getKey(), x -> x.getValue()));
+//        return map;
+        Map<ProductDto, Double> map = new HashMap<>();
+        for (Entry<Long, Double> e: orderDao.getBestProducts().entrySet()
         ) {
-            Double sum = orderDao.getRevenueForProduct(p);
-            if (sum != null && sum > 0.0){
-                map.put(productService.convertProductToDto(p), sum);
-            }
+
+                map.put(productService.convertProductToDto(productService.findOne(e.getKey())), e.getValue());
+
         }
-//        map.entrySet().stream()
-//                .filter(x -> x.getValue() > 0.0)
-//                .collect(Collectors.toMap(x -> x.getKey(), x -> x.getValue()));
         return map;
+
     }
 }
