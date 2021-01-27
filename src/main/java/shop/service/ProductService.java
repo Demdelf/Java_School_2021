@@ -21,4 +21,6 @@ public interface ProductService extends Service<Product> {
     List<Product> findAllByCategoryId(Long categoryId);
 
     List<Product> findAllFiltered(FilterDto filterDto);
+
+    List<Product> findAllByCategoryIdFiltered(Long id, FilterDto filterDto);
 }

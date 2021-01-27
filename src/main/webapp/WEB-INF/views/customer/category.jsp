@@ -225,30 +225,25 @@
             <div class="container filter-project">
                 <div class="row">
                     <div class="col-md-12">
-                        <form class=" ">
+                        <form:form class="form" role="form" autocomplete="off" name="edit"
+                                   action="/customer/categories/${categoryDto.id}" method="POST"
+                                   modelAttribute="filterDto">
                             <h4 class=" ">Filter by price</h4>
                             <div class="row">
                                 <div class="col-md-7">
                                     <ul>
-                                        <li>
-                                            <div class="form-group clearfix">
-                                                <label>Current price range
-                                                </label>
-                                                <div id="slider-container"></div>
-                                            </div>
-                                        </li>
                                         <li class="clearfix">
                                             <div class="form-group clearfix">
                                                 <div class="amount-box">
                                                     <div class="col-sm-6">
                                                         <label for="amount-from">From: </label>
-                                                        <input type="text" id="amount-from"
-                                                               onkeypress="return isNumberKey(event)" value="696314">
+                                                        <input type="text" id="amount-from" name="minPrice"
+                                                               onkeypress="return isNumberKey(event)" value="${filterDto.minPrice}">
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <label for="amount-to">To: </label>
-                                                        <input type="tel" id="amount-to"
-                                                               onkeypress="return isNumberKey(event)" value="33000000">
+                                                        <input type="tel" id="amount-to"name="maxPrice"
+                                                               onkeypress="return isNumberKey(event)" value="${filterDto.maxPrice}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -270,7 +265,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>
+                        </form:form>
                     </div>
 
                 </div>

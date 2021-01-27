@@ -1,9 +1,11 @@
 package shop.controller.customer;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -98,8 +100,7 @@ public class CustomerController {
     @GetMapping("after-login")
     public String afterLogin(
             Locale locale, Model model, @ModelAttribute("cart") CartDTO cartDTO, @ModelAttribute("path") String path,
-            RedirectAttributes redirectAttributes,
-            Principal principal, HttpServletRequest request
+            RedirectAttributes redirectAttributes, Principal principal, HttpServletRequest request
     ) {
         model.addAttribute("products", productService.findAll(10));
         model.addAttribute("categories", categoryService.findAll(10));
@@ -110,7 +111,6 @@ public class CustomerController {
 
         return "customer/main";
     }
-
 
 
     @GetMapping("")
@@ -169,10 +169,14 @@ public class CustomerController {
     @GetMapping("/products/{id}")
     public String showProduct(
             @PathVariable("id") Long id, Locale locale, Model model, @ModelAttribute("cart") CartDTO cartDTO,
-            @ModelAttribute("path") String path,
-            Principal principal, HttpServletRequest request
+            @ModelAttribute("path") String path, Principal principal, HttpServletRequest request
     ) {
+        model.addAttribute("categories", categoryService.findAll(10));
         ProductDto productDto = productService.getDtoById(id);
+        List<String> properties = new ArrayList<>(productDto.getProperties().values());
+        model.addAttribute("properties", properties);
+        List<String> propertyValues = new ArrayList<>(productDto.getPropertyValues().values());
+        model.addAttribute("propertyValues", propertyValues);
         model.addAttribute("productDto", productDto);
         CartDTO cart = cartService.getCartDtoByPrincipal(principal, cartDTO);
         cart.setFromCart(false);
@@ -205,8 +209,7 @@ public class CustomerController {
     @GetMapping("/categories/{id}")
     public String showCategory(
             @PathVariable("id") Long id, Locale locale, Model model, @ModelAttribute("cart") CartDTO cartDTO,
-            @ModelAttribute("path") String path,
-            Principal principal, HttpServletRequest request
+            @ModelAttribute("path") String path, Principal principal, @ModelAttribute("filterDto") FilterDto filterDto
     ) {
         model.addAttribute("categoryDto", categoryService.getDtoById(id));
         model.addAttribute("products", productService.findAllByCategoryId(id));
@@ -215,6 +218,23 @@ public class CustomerController {
         model.addAttribute("cart", cart);
         model.addAttribute("categories", categoryService.findAll(10));
         model.addAttribute("path", "customer/categories/" + id);
+        return "customer/category";
+    }
+
+    @PostMapping("/categories/{id}")
+    public String getCategoryFiltered(
+            @PathVariable("id") Long id, Model model, @ModelAttribute("cart") CartDTO cartDTO,
+            @ModelAttribute("path") String path, Principal principal, @ModelAttribute("filterDto") FilterDto filterDto
+    ) {
+        model.addAttribute("categoryDto", categoryService.getDtoById(id));
+        model.addAttribute("products", productService.findAllByCategoryIdFiltered(id, filterDto));
+        model.addAttribute("categories", categoryService.findAll(10));
+        model.addAttribute("filterDto", filterDto);
+        CartDTO cart = cartService.getCartDtoByPrincipal(principal, cartDTO);
+        cart.setFromCart(false);
+        model.addAttribute("cart", cart);
+        model.addAttribute("path", "customer");
+
         return "customer/category";
     }
 

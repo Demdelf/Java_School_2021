@@ -52,16 +52,25 @@ public class ProductService implements shop.service.ProductService {
     @Override
     public List<Product> findAllFiltered(FilterDto filterDto) {
         List<Product> products = findAll(1000);
+        return getFilteredProducts(filterDto, products);
+    }
+
+    private List<Product> getFilteredProducts(FilterDto filterDto, List<Product> products) {
         List<Product> result = new ArrayList<>();
         for (Product p: products
         ) {
             double price = p.getPrice();
-            if (price < filterDto.getMinPrice() || price > filterDto.getMaxPrice()){
-            }else {
+            if (price >= filterDto.getMinPrice() && price <= filterDto.getMaxPrice()){
                 result.add(p);
             }
         }
         return result;
+    }
+
+    @Override
+    public List<Product> findAllByCategoryIdFiltered(Long id, FilterDto filterDto) {
+        List<Product> products = findAllByCategoryId(id);
+        return getFilteredProducts(filterDto, products);
     }
 
     @Override
