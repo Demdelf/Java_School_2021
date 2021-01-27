@@ -56,7 +56,7 @@ public class PropertyService implements shop.service.Service<Property> {
         property.setName(dto.getName());
         property.setType(dto.getType());
         Category category = categoryService.findByName(dto.getCategory());
-//        property.setCategory(category);
+        property.setCategory(category);
         return create(property);
     }
 
@@ -73,4 +73,14 @@ public class PropertyService implements shop.service.Service<Property> {
     public List<Property> findAllUniq() {
         return dao.findAll().stream().distinct().collect(Collectors.toList());
     }
+
+    public PropertyDto getNewPropertyDto(Long categoryId) {
+        PropertyDto propertyDto = new PropertyDto();
+        propertyDto.setCategory(categoryService.findOne(categoryId).getName());
+        return propertyDto;
+    }
+
+//    public PropertyDto addNewProperty(Long categoryId, PropertyDto dto) {
+//        c
+//    }
 }

@@ -44,7 +44,7 @@ public class Property extends AbstractEntity {
             }
         }
         Property property = (Property) obj;
-        return (property.name.equals(this.name) && property.type.equals(this.type));
+        return (property.name.equals(this.name) && ((property.type == null && this.type == null) || (property.type.equals(this.type))));
     }
 
     @Override

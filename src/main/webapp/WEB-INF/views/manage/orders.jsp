@@ -62,6 +62,7 @@
         <%--        <a class="p-2 text-dark" href="#">Enterprise</a>--%>
         <%--        <a class="p-2 text-dark" href="#">Support</a>--%>
         <a class="p-2 text-dark" href="http://localhost:8080/customer">Catalog</a>
+            <a class="btn btn-outline-primary" href="http://localhost:8080/manage">Manage</a>
     </nav>
     <a class="btn btn-outline-primary" href="http://localhost:8080/account">Account</a>
 </header>

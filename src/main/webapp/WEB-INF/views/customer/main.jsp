@@ -44,8 +44,9 @@
                 <i class="fa fa-shopping-cart bi bi-cart"></i> Cart
                 <span class="badge badge-light">${cart.quantity}</span>
             </a>
+            <a class="btn btn-outline-primary" href="http://localhost:8080/manage">Manage</a>
     </nav>
-    <a class="btn btn-outline-primary" href="http://localhost:8080/manage">Manage</a>
+
     <a class="btn btn-outline-primary" href="http://localhost:8080/account">Account</a>
 </header>
 

@@ -21,6 +21,7 @@ import shop.domain.PropertyValue;
 import shop.dto.CategoryDto;
 import shop.dto.OrderDto;
 import shop.dto.ProductDto;
+import shop.dto.PropertyDto;
 import shop.service.CategoryService;
 import shop.service.ProductService;
 import shop.service.Service;
@@ -82,9 +83,9 @@ public class ManagerController {
 
     @PostMapping("/products/edit/{id}")
     public String saveEditOne(
-            @PathVariable("id") Long id, Locale locale, Model model
-            ,@ModelAttribute("productDto") @Valid ProductDto product
-            ,@ModelAttribute("productDtoFlash") ProductDto productDtoFlash
+            @PathVariable("id") Long id, Locale locale, Model model,
+            @ModelAttribute("productDto") @Valid ProductDto product,
+            @ModelAttribute("productDtoFlash") ProductDto productDtoFlash
     ) {
         productService.update(product);
         return "redirect:/manage/products/all";
@@ -130,8 +131,9 @@ public class ManagerController {
     }
 
     @GetMapping("/orders/{id}")
-    public String getManageOrderForm(@PathVariable("id") Long id, Locale locale, Model model
-            , @ModelAttribute("path") String path, Principal principal
+    public String getManageOrderForm(
+            @PathVariable("id") Long id, Locale locale, Model model, @ModelAttribute("path") String path,
+            Principal principal
     ) {
         model.addAttribute("paymentStatuses", orderService.getAllPaymentStatuses());
         model.addAttribute("deliveryStatuses", orderService.getAllDeliveryStatuses());
@@ -142,11 +144,34 @@ public class ManagerController {
 
 
     @PostMapping("/orders/{id}")
-    public String manageOrder(@PathVariable("id") Long id, Model model, HttpServletRequest request,
-            Principal principal, @ModelAttribute("orderDto") OrderDto orderDto
+    public String manageOrder(
+            @PathVariable("id") Long id, Model model, HttpServletRequest request, Principal principal,
+            @ModelAttribute("orderDto") OrderDto orderDto
     ) {
-            orderService.update(id, orderDto);
+        orderService.update(id, orderDto);
         return "redirect:/manage/orders";
+    }
+
+    @GetMapping("/properties/{id}/add")
+    public String getAddPropertyPage(
+            @PathVariable("id") Long categoryId, Locale locale, Model model
+    ) {
+        PropertyDto propertyDto = propertyService.getNewPropertyDto(categoryId);
+
+        model.addAttribute("propertyDto", propertyDto);
+        model.addAttribute("categoryId", categoryId);
+
+        return "manage/addProperty";
+    }
+
+    @PostMapping("/properties/{id}/add")
+    public String addProperty(
+            @PathVariable("id") Long categoryId, Locale locale, Model model,
+            @ModelAttribute("propertyDto") @Valid PropertyDto dto
+    ) {
+        propertyService.create(dto);
+
+        return "redirect:/manage/categories/edit/" + categoryId;
     }
 
 
@@ -165,8 +190,8 @@ public class ManagerController {
 
     @PostMapping("/categories/edit/{id}")
     public String saveEditCategory(
-            @PathVariable("id") Long id, Locale locale, Model model
-            ,@ModelAttribute("categoryDto") @Valid CategoryDto dto
+            @PathVariable("id") Long id, Locale locale, Model model,
+            @ModelAttribute("categoryDto") @Valid CategoryDto dto
     ) {
         dto.setId(id);
         categoryService.update(dto);
@@ -175,7 +200,8 @@ public class ManagerController {
 
     @PostMapping("/categories/create")
     public String createCategory(
-            @ModelAttribute("categoryDto") @Valid CategoryDto categoryDto, BindingResult result, Model model) {
+            @ModelAttribute("categoryDto") @Valid CategoryDto categoryDto, BindingResult result, Model model
+    ) {
         if (result.hasErrors()) {
             model.addAttribute("categories", categoryService.findAll(10));
             return "manage/categories";

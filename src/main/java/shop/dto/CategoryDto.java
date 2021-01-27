@@ -15,4 +15,5 @@ public class CategoryDto {
 
     private String name;
     private List<PropertyDto> properties;
+    private String[] prop;
 }

@@ -17,7 +17,7 @@ import shop.dto.PropertyDto;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 public class CategoryService implements shop.service.CategoryService {
 
     private final CategoryDao dao;
@@ -28,24 +28,29 @@ public class CategoryService implements shop.service.CategoryService {
     }
 
     @Override
-    @Transactional
+
     public List<Category> findAll(int pageSize) {
         return dao.findAll(pageSize);
     }
 
     @Override
-    @Transactional
+
     public Category create(Category category) {
-        return dao.create(category);
+        category = dao.create(category);
+        for (Property p: category.getProperties()
+        ) {
+            p.setCategory(category);
+            dao.saveProperty(p);
+        }
+        return category;
     }
 
     @Override
-    @Transactional
+
     public void delete(Category category) {
 
     }
 
-    @Transactional
     public Category createFromDto(CategoryDto dto) {
         Category category = convertCategoryDtoToCategory(dto);
         return create(category);
@@ -56,7 +61,7 @@ public class CategoryService implements shop.service.CategoryService {
         return null;
     }
 
-    @Transactional
+
     private Category convertCategoryDtoToCategory(CategoryDto dto) {
         Category category;
         if (dto.getId() == null){
@@ -66,12 +71,21 @@ public class CategoryService implements shop.service.CategoryService {
         }
         category.setName(dto.getName());
         List<Property> list = new ArrayList<>();
-        for (PropertyDto propertyDto: dto.getProperties()
-        ) {
-            list.add(getPropertyById(propertyDto.getId()));
+        if (dto.getProperties() != null && !dto.getProperties().isEmpty()){
+            for (PropertyDto propertyDto: dto.getProperties()
+            ) {
+                list.add(getPropertyById(propertyDto.getId()));
+            }
         }
+        if (dto.getProp() != null && dto.getProp().length > 0){
+            for (String id: dto.getProp()
+            ) {
+                list.add(getPropertyById(Long.valueOf(id)));
+            }
+        }
+
         category.setProperties(list);
-        return create(category);
+        return category;
     }
 
     private Property getPropertyById(Long id) {
@@ -86,11 +100,23 @@ public class CategoryService implements shop.service.CategoryService {
 //        property.setId(propertyDto.getId());
 //    }
 
-    @Transactional
+
     private CategoryDto convertCategoryToDto(Category category){
         CategoryDto dto = new CategoryDto();
         dto.setId(category.getId());
         dto.setName(category.getName());
+        ArrayList<PropertyDto> propertyDtos = new ArrayList<>();
+        for (Property p: category.getProperties()
+        ) {
+            PropertyDto propertyDto = new PropertyDto();
+            propertyDto.setId(p.getId());
+            propertyDto.setName(p.getName());
+            propertyDto.setType(p.getType());
+            propertyDto.setCategory(p.getCategory().getName());
+            propertyDtos.add(propertyDto);
+        }
+        dto.setProperties(propertyDtos);
+
         return dto;
     }
 
@@ -99,7 +125,7 @@ public class CategoryService implements shop.service.CategoryService {
     }
 
     @Override
-    @Transactional
+
     public Category update(Category p) {
         return dao.update(p);
     }
@@ -110,7 +136,7 @@ public class CategoryService implements shop.service.CategoryService {
     }
 
     @Override
-    @Transactional
+
     public List<CategoryDto> getAllCategoryDto(int pageSize) {
         List<Category> categories = findAll(pageSize);
         List<CategoryDto> dtos = new ArrayList<>();
@@ -122,17 +148,34 @@ public class CategoryService implements shop.service.CategoryService {
     }
 
     @Override
-    @Transactional
+
     public CategoryDto getDtoById(Long id) {
         Category category = findOne(id);
+        category.setProperties(getAllPropertiesByCategoryId(id));
         return convertCategoryToDto(category);
     }
 
     @Override
-    @Transactional
+
     public CategoryDto update(CategoryDto dto) {
         Category category = convertCategoryDtoToCategory(dto);
-        dao.update(category);
+        updateExist(category);
         return convertCategoryToDto(category);
     }
+
+    private void updateExist(Category category) {
+        ArrayList<Property> properties = new ArrayList<>();
+        for (Property p: category.getProperties()
+        ) {
+            Property property = new Property();
+            property.setName(p.getName());
+            property.setType(p.getType());
+            property.setCategory(category);
+            dao.saveProperty(property);
+            properties.add(property);
+        }
+        category.setProperties(properties);
+        dao.update(category);
+    }
+
 }

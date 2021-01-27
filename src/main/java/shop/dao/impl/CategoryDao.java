@@ -43,4 +43,10 @@ public class CategoryDao extends AbstractDao<Category> implements Dao<Category> 
         query.select(root).where(criteriaBuilder.equal(root.get("id"), id));
         return entityManager.createQuery(query).getSingleResult();
     }
+
+    public Property saveProperty(Property p) {
+        entityManager.persist(p);
+        return p;
+    }
+
 }
