@@ -169,26 +169,28 @@
                 </div>
             </div>
         </div>
+    <h5 class="mt-2"><span class="fa fa-clock-o ion-clock float-right"></span> Properties</h5>
+    <div class="tab-content py-4">
+
+        <c:forEach items="${categoryDto.properties}" var="property">
+
+            <div class="row  mb-3">
+                <div class="col-md-2 themed-grid-col">${property.name}</div>
+                <div class="col-md-2 themed-grid-col">${property.type}</div>
+                <div class="col-md-1 themed-grid-col">
+                    <form name='get' action="/account/addresses/edit/${address.id}" method='Get'>
+                        <input name="submit" type="submit" value="Edit"/>
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    </form>
+                </div>
+            </div>
+        </c:forEach>
+        <a class="btn btn-outline-primary" href="http://localhost:8080/manage/properties/${categoryDto.id}/add">Add property</a>
+    </div>
+    <a class="btn btn-outline-info" href="http://localhost:8080/manage/categories/all">View all categories</a>
     </div>
 
-        <h5 class="mt-2"><span class="fa fa-clock-o ion-clock float-right"></span> Properties</h5>
-        <div class="tab-content py-4">
 
-            <c:forEach items="${categoryDto.properties}" var="property">
-
-                <div class="row  mb-3">
-                    <div class="col-md-2 themed-grid-col">${property.name}</div>
-                    <div class="col-md-2 themed-grid-col">${property.type}</div>
-                    <div class="col-md-1 themed-grid-col">
-                        <form name='get' action="/account/addresses/edit/${address.id}" method='Get'>
-                            <input name="submit" type="submit" value="Edit"/>
-                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                        </form>
-                    </div>
-                </div>
-            </c:forEach>
-            <a class="btn btn-outline-primary" href="http://localhost:8080/manage/properties/${categoryDto.id}/add">Add</a>
-        </div>
 </div>
 
 <script>

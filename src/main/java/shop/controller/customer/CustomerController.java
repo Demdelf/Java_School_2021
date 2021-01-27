@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,6 +25,7 @@ import shop.domain.PropertyValue;
 import shop.domain.User;
 import shop.dto.CartDTO;
 import shop.dto.CategoryDto;
+import shop.dto.FilterDto;
 import shop.dto.OrderDto;
 import shop.dto.ProductDto;
 import shop.dto.UserRegDto;
@@ -114,10 +116,11 @@ public class CustomerController {
     @GetMapping("")
     public String homeInit(
             Locale locale, Model model, @ModelAttribute("cart") CartDTO cartDTO, @ModelAttribute("path") String path,
-            Principal principal
+            Principal principal, @ModelAttribute("filterDto") FilterDto filterDto
     ) {
         model.addAttribute("products", productService.findAll(10));
         model.addAttribute("categories", categoryService.findAll(10));
+
         CartDTO cart = cartService.getCartDtoByPrincipal(principal, cartDTO);
         cart.setFromCart(false);
         model.addAttribute("cart", cart);
@@ -130,6 +133,22 @@ public class CustomerController {
 
         return "customer/main";
 //        return "customer/bootProd";
+    }
+
+    @PostMapping("")
+    public String getMainFiltered(
+            Locale locale, Model model, @ModelAttribute("cart") CartDTO cartDTO, @ModelAttribute("path") String path,
+            Principal principal, @ModelAttribute("filterDto") FilterDto filterDto
+    ) {
+        model.addAttribute("products", productService.findAllFiltered(filterDto));
+        model.addAttribute("categories", categoryService.findAll(10));
+        model.addAttribute("filterDto", filterDto);
+        CartDTO cart = cartService.getCartDtoByPrincipal(principal, cartDTO);
+        cart.setFromCart(false);
+        model.addAttribute("cart", cart);
+        model.addAttribute("path", "customer");
+
+        return "customer/main";
     }
 
     @GetMapping("/products/all")
@@ -171,6 +190,7 @@ public class CustomerController {
         CartDTO cart = cartService.getCartDtoByPrincipal(principal, cartDTO);
         cart.setFromCart(false);
         model.addAttribute("cart", cart);
+
         model.addAttribute("path", "categories/all");
         return "categories";
     }
@@ -193,6 +213,7 @@ public class CustomerController {
         CartDTO cart = cartService.getCartDtoByPrincipal(principal, cartDTO);
         cart.setFromCart(false);
         model.addAttribute("cart", cart);
+        model.addAttribute("categories", categoryService.findAll(10));
         model.addAttribute("path", "customer/categories/" + id);
         return "customer/category";
     }

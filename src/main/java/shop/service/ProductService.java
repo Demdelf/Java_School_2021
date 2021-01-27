@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 import shop.domain.Category;
 import shop.domain.Product;
+import shop.dto.FilterDto;
 import shop.dto.ProductDto;
 
 
@@ -18,4 +19,6 @@ public interface ProductService extends Service<Product> {
     ProductDto getDtoById(long id);
 
     List<Product> findAllByCategoryId(Long categoryId);
+
+    List<Product> findAllFiltered(FilterDto filterDto);
 }

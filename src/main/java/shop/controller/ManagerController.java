@@ -175,6 +175,18 @@ public class ManagerController {
     }
 
 
+    @GetMapping("/categories/add")
+    public String getAddCategoryPage(Locale locale, Model model
+    ) {
+        return "manage/addNewCategory";
+    }
+
+//    @PostMapping("/categories/add")
+//    public String addCategory(Locale locale, Model model
+//    ) {
+//        return "manage/addNewCategory";
+//    }
+
     @GetMapping("/categories/edit/{id}")
     public String getEditCategoryPage(
             @PathVariable("id") Long id, Locale locale, Model model
@@ -198,17 +210,14 @@ public class ManagerController {
         return "redirect:/manage/categories/all";
     }
 
-    @PostMapping("/categories/create")
+    @PostMapping("/categories/add")
     public String createCategory(
             @ModelAttribute("categoryDto") @Valid CategoryDto categoryDto, BindingResult result, Model model
     ) {
         if (result.hasErrors()) {
-            model.addAttribute("categories", categoryService.findAll(10));
-            return "manage/categories";
+            return "redirect:/manage/categories/all";
         }
         Category category = categoryService.createFromDto(categoryDto);
-        Long id = category.getId();
-        categoryDto.setId(id);
-        return "redirect:/manage/categories/all";
+        return "redirect:/manage/categories/edit/" + category.getId();
     }
 }

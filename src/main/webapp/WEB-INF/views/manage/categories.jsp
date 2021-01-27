@@ -122,6 +122,7 @@
                     </div>
                 </c:forEach>
             </div>
+            <a class="btn btn-outline-primary" href="http://localhost:8080/manage/categories/add">Add category</a>
         </div>
     </div>
 </div>

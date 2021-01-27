@@ -5,14 +5,11 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import shop.dao.Dao;
 import shop.dao.impl.CategoryDao;
 import shop.domain.Category;
-import shop.domain.Product;
 import shop.domain.Property;
-import shop.domain.PropertyValue;
 import shop.dto.CategoryDto;
-import shop.dto.ProductDto;
+import shop.dto.FilterDto;
 import shop.dto.PropertyDto;
 
 @Service
@@ -58,6 +55,12 @@ public class CategoryService implements shop.service.CategoryService {
 
     @Override
     public Object getAllProperties() {
+        return null;
+    }
+
+    @Override
+    public List<Category> findAllFiltered(FilterDto filterDto) {
+
         return null;
     }
 

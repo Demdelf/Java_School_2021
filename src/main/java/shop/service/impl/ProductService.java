@@ -13,6 +13,7 @@ import shop.domain.Category;
 import shop.domain.Product;
 import shop.domain.Property;
 import shop.domain.PropertyValue;
+import shop.dto.FilterDto;
 import shop.dto.ProductDto;
 
 
@@ -46,6 +47,21 @@ public class ProductService implements shop.service.ProductService {
     @Override
     public List<Product> findAllByCategoryId(Long categoryId) {
         return dao.findAllByCategory(categoryId);
+    }
+
+    @Override
+    public List<Product> findAllFiltered(FilterDto filterDto) {
+        List<Product> products = findAll(1000);
+        List<Product> result = new ArrayList<>();
+        for (Product p: products
+        ) {
+            double price = p.getPrice();
+            if (price < filterDto.getMinPrice() || price > filterDto.getMaxPrice()){
+            }else {
+                result.add(p);
+            }
+        }
+        return result;
     }
 
     @Override

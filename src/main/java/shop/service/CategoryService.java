@@ -1,10 +1,10 @@
 package shop.service;
 
 import java.util.List;
-import org.springframework.transaction.annotation.Transactional;
 import shop.domain.Category;
 import shop.domain.Property;
 import shop.dto.CategoryDto;
+import shop.dto.FilterDto;
 
 
 public interface CategoryService extends Service<Category> {
@@ -19,4 +19,6 @@ public interface CategoryService extends Service<Category> {
     Category createFromDto(CategoryDto categoryDto);
 
     Object getAllProperties();
+
+    List<Category> findAllFiltered(FilterDto filterDto);
 }

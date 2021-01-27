@@ -73,6 +73,8 @@
                 <td><strong>Price</strong></td>
                 <td><strong>Category</strong></td>
             </tr>
+        </table>
+        <table>
             <c:forEach items="${products}" var="product">
                 <tr>
                     <td>${product.name}</td>
@@ -94,6 +96,8 @@
 <%--        </tr>--%>
     </table>
 </form:form>
+
+
 
 
 </body>
