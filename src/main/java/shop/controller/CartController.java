@@ -1,9 +1,6 @@
 package shop.controller;
 
-import static java.util.stream.Collectors.toMap;
-
 import java.security.Principal;
-import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +19,7 @@ import shop.service.impl.ProductService;
 @Controller
 @RequestMapping("cart")
 @RequiredArgsConstructor
-//@SessionAttributes("cart")
+
 public class CartController {
     private static final String CART_BASE = "customer/cartNew";
 
@@ -34,12 +31,10 @@ public class CartController {
 
     @GetMapping
     public String getCart(
-            Principal principal, HttpServletRequest request, Model model,
+            Principal principal, Model model,
             @SessionAttribute(value = "cart") CartDTO cartDto)
     {
 
-//        cartDto = cartService.getCartDtoForPrincipal(principal, cartDto, request);
-//        model.addAttribute("cart", cartDto);
         CartDTO cart = cartService.getCartDtoByPrincipal(principal, cartDto);
         cart.setFromCart(false);
         model.addAttribute("cart", cart);

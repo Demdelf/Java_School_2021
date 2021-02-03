@@ -67,18 +67,30 @@
                 <th>Property</th>
                 <th>Value</th>
             </tr>
+<%--            <div class="row">--%>
+<%--                <c:forEach var="property" items="${productDto.properties}">--%>
+<%--                <div class="col-1-4">${property.value}</div>--%>
+<%--                </c:forEach>--%>
+<%--                <c:forEach var="propertyValue" items="${productDto.propertyValues}">--%>
+<%--                <div class="col-1-4"><input type="text" name="propertyValues['${propertyValue.key}']" value="${propertyValue.value}"/></div>--%>
+<%--                </c:forEach>--%>
+<%--            </div>--%>
             <tr>
                 <c:forEach var="property" items="${productDto.properties}">
-
                     <td>${property.value}</td>
 
                 </c:forEach>
+            </tr>
+            <tr>
                 <c:forEach var="propertyValues" items="${productDto.propertyValues}">
 
                     <td><input type="text" name="propertyValues['${propertyValues.key}']" value="${propertyValues.value}"/></td>
-
                 </c:forEach>
             </tr>
+
+
+
+
         </table>
     </table>
 
