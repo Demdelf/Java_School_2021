@@ -517,7 +517,7 @@ public class OrderService implements shop.service.OrderService {
         return orderDao.getRevenue();
     }
 
-    private Map<ProductDto, Double> getBestProducts() {
+    public Map<ProductDto, Double> getBestProducts() {
 ////        List<Product> products = productService.findAll(100);
 //        List<Product> products = new ArrayList<>();
 //        for (Long id: orderDao.getBestProducts()

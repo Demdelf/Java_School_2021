@@ -15,6 +15,7 @@ import shop.domain.Property;
 import shop.domain.PropertyValue;
 import shop.dto.FilterDto;
 import shop.dto.ProductDto;
+import shop.dto.ProductsDto;
 
 
 @Service
