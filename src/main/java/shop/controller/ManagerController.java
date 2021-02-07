@@ -1,19 +1,24 @@
 package shop.controller;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import shop.domain.Category;
 import shop.domain.Product;
@@ -27,10 +32,12 @@ import shop.service.ProductService;
 import shop.service.Service;
 import shop.service.impl.OrderService;
 import shop.service.impl.PropertyService;
+import shop.util.FileUploadUtil;
 
 @Controller
 @RequestMapping("manage")
 @RequiredArgsConstructor
+@Slf4j
 public class ManagerController {
 
     private final ProductService productService;
@@ -63,6 +70,7 @@ public class ManagerController {
 
     @GetMapping("/products/all")
     public String userForm(Locale locale, Model model) {
+        log.info("Ask all products for manage");
         model.addAttribute("products", productService.findAll(10));
         model.addAttribute("categories", categoryService.findAll(10));
         model.addAttribute("values", propertyValueService.findAll(10));
@@ -84,9 +92,17 @@ public class ManagerController {
     @PostMapping("/products/edit/{id}")
     public String saveEditOne(
             @PathVariable("id") Long id, Locale locale, Model model,
+            @RequestParam("image") MultipartFile multipartFile,
             @ModelAttribute("productDto") @Valid ProductDto product,
             @ModelAttribute("productDtoFlash") ProductDto productDtoFlash
     ) {
+        String fileName = String.valueOf(id);
+        String uploadDir = "products-images";
+        try {
+            FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         productService.update(product);
         return "redirect:/manage/products/all";
     }

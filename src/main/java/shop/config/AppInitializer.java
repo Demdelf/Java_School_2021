@@ -25,4 +25,6 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
     public void customizeRegistration(ServletRegistration.Dynamic registration) {
         registration.setInitParameter("throwExceptionIfNoHandlerFound", "true");
     }
+
+
 }

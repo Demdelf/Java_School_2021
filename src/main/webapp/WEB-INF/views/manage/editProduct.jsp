@@ -5,8 +5,8 @@
   Time: 20:49
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-         pageEncoding="ISO-8859-1" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -33,7 +33,9 @@
 </head>
 <body>
 <h1>Edit product</h1>
-<form:form method="post" modelAttribute="productDto" action="/manage/products/edit/${productDto.id}">
+<form:form method="post" modelAttribute="productDto"
+           action="/manage/products/edit/${productDto.id}"
+           enctype="multipart/form-data">
     <table>
         <tr>
             <td><strong>Name</strong></td>
@@ -93,6 +95,13 @@
 
         </table>
     </table>
+
+    <div>
+
+        <label>Image: </label>
+        <input type="file" name="image" accept="image/png, image/jpeg, image/jpg" />
+
+    </div>
 
     <tr>
         <td><input type="submit" value="Update"></td>
