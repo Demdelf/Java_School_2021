@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class MessageSender {
 
-    JmsTemplate jmsTemplate;
+    private final JmsTemplate jmsTemplate;
 
     public void sendMessage() {
 

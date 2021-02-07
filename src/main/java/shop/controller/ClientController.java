@@ -18,7 +18,7 @@ import shop.service.impl.ProductService;
 @RequiredArgsConstructor
 public class ClientController {
 
-    private OrderService orderService;
+    private final OrderService orderService;
 
     @GetMapping
     public ProductsDto getBestProducts(){
@@ -30,6 +30,7 @@ public class ClientController {
                 dtos.add(e.getKey());
         }
         productsDto.setProducts(dtos);
+        System.out.println("getBestProducts has called");
         return productsDto;
     }
 }

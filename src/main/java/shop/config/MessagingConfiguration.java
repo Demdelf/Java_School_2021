@@ -28,29 +28,29 @@ public class MessagingConfiguration {
     public JmsTemplate jmsTemplate(){
         JmsTemplate template = new JmsTemplate();
         template.setConnectionFactory(connectionFactory());
-        template.setDefaultDestination(getDestination());
+        template.setDefaultDestinationName(TOP_PRODUCTS_QUEUE);
         return template;
     }
 
-    @Bean
-    public Destination getDestination(){
-        final Properties env = new Properties();
-        Context namingContext;
-        Destination destination = null;
-        env.put(
-                Context.INITIAL_CONTEXT_FACTORY,
-                "org.jboss.naming.remote.client.InitialContextFactory");
-        env.put(Context.PROVIDER_URL, DEFAULT_BROKER_URL);
-        env.put(Context.SECURITY_PRINCIPAL, "jmsuser");
-        env.put(Context.SECURITY_CREDENTIALS, "Password1!");
-        try {
-            namingContext = new InitialContext(env);
-            destination = (Destination) namingContext
-                    .lookup(TOP_PRODUCTS_QUEUE);
-        } catch (NamingException e) {
-            e.printStackTrace();
-        }
-
-        return destination;
-    }
+//    @Bean
+//    public Destination getDestination(){
+//        final Properties env = new Properties();
+//        Context namingContext;
+//        Destination destination = null;
+//        env.put(
+//                Context.INITIAL_CONTEXT_FACTORY,
+//                "org.jboss.naming.remote.client.InitialContextFactory");
+//        env.put(Context.PROVIDER_URL, DEFAULT_BROKER_URL);
+//        env.put(Context.SECURITY_PRINCIPAL, "jmsuser");
+//        env.put(Context.SECURITY_CREDENTIALS, "Qwerty!@3");
+//        try {
+//            namingContext = new InitialContext(env);
+//            destination = (Destination) namingContext
+//                    .lookup(TOP_PRODUCTS_QUEUE);
+//        } catch (NamingException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return destination;
+//    }
 }

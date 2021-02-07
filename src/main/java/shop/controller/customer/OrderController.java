@@ -17,12 +17,14 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import shop.dto.CartDTO;
 import shop.dto.OrderDto;
 import shop.service.impl.OrderService;
+import shop.util.MessageSender;
 
 @Controller
 @RequestMapping("customer/orders")
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
+    private final MessageSender messageSender;
 
 
     @GetMapping("/create")
@@ -90,6 +92,7 @@ public class OrderController {
         if (isAuthorized(principal)) {
 
             orderService.create(principal, orderDto, request);
+            messageSender.sendMessage();
             return "customer/thanks";
         }else {
             return "login";
