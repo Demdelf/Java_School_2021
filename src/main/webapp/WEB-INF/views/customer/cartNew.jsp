@@ -140,6 +140,11 @@
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 </form>
             </div>
+            <div class="col-md-2 themed-grid-col">
+                <a href="/customer/products/${product.key.id}"><img class="card-img-top"
+                                                                    src="/products-images/${product.key.id}"
+                                                                    alt=""></a>
+            </div>
             <div class="col-md-2 themed-grid-col">${product.key.price}</div>
             <div class="col-md-1 themed-grid-col">${product.key.category}</div>
             <div class="col-md-2 themed-grid-col">${product.value}</div>

@@ -33,6 +33,9 @@
 </head>
 <body>
 <h1>Edit product</h1>
+<a href="/customer/products/${productDto.id}">
+    <img class="card-img-top" src="/products-images/${productDto.id}"
+         alt=""></a>
 <form:form method="post" modelAttribute="productDto"
            action="/manage/products/edit/${productDto.id}"
            enctype="multipart/form-data">
@@ -46,10 +49,10 @@
             <td><input type="text" name="price" value="${productDto.price}"/></td>
         </tr>
 
-<%--        <tr>--%>
-<%--            <td><strong>Category</strong></td>--%>
-<%--            <td>${productDto.category}</td>--%>
-<%--        </tr>--%>
+            <%--        <tr>--%>
+            <%--            <td><strong>Category</strong></td>--%>
+            <%--            <td>${productDto.category}</td>--%>
+            <%--        </tr>--%>
 
         <tr>
             <td>Category</td>
@@ -58,7 +61,7 @@
                     <c:forEach var="category" items="${categories}">
                         <option value="<c:out value='${category.name}' />"
                                 <c:if test="${param.selectValue == category.name})"> selected </c:if>  >
-                            <c:out value="${category.name}" />
+                            <c:out value="${category.name}"/>
                         </option>
                     </c:forEach>
                 </select>
@@ -69,14 +72,14 @@
                 <th>Property</th>
                 <th>Value</th>
             </tr>
-<%--            <div class="row">--%>
-<%--                <c:forEach var="property" items="${productDto.properties}">--%>
-<%--                <div class="col-1-4">${property.value}</div>--%>
-<%--                </c:forEach>--%>
-<%--                <c:forEach var="propertyValue" items="${productDto.propertyValues}">--%>
-<%--                <div class="col-1-4"><input type="text" name="propertyValues['${propertyValue.key}']" value="${propertyValue.value}"/></div>--%>
-<%--                </c:forEach>--%>
-<%--            </div>--%>
+                <%--            <div class="row">--%>
+                <%--                <c:forEach var="property" items="${productDto.properties}">--%>
+                <%--                <div class="col-1-4">${property.value}</div>--%>
+                <%--                </c:forEach>--%>
+                <%--                <c:forEach var="propertyValue" items="${productDto.propertyValues}">--%>
+                <%--                <div class="col-1-4"><input type="text" name="propertyValues['${propertyValue.key}']" value="${propertyValue.value}"/></div>--%>
+                <%--                </c:forEach>--%>
+                <%--            </div>--%>
             <tr>
                 <c:forEach var="property" items="${productDto.properties}">
                     <td>${property.value}</td>
@@ -86,11 +89,10 @@
             <tr>
                 <c:forEach var="propertyValues" items="${productDto.propertyValues}">
 
-                    <td><input type="text" name="propertyValues['${propertyValues.key}']" value="${propertyValues.value}"/></td>
+                    <td><input type="text" name="propertyValues['${propertyValues.key}']"
+                               value="${propertyValues.value}"/></td>
                 </c:forEach>
             </tr>
-
-
 
 
         </table>
@@ -99,7 +101,7 @@
     <div>
 
         <label>Image: </label>
-        <input type="file" name="image" accept="image/png, image/jpeg, image/jpg" />
+        <input type="file" name="image" accept="image/png, image/jpeg, image/jpg"/>
 
     </div>
 

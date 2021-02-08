@@ -183,8 +183,7 @@
             <div class="row">
                 <div class="col-8">
                     <div class="card mt-4">
-                        <img class="card-img-top img-fluid"
-                             src="http://russianholds.com/59-thickbox_default/i003-casus.jpg"
+                        <img class="card-img-top" src="/products-images/${productDto.id}"
                              alt="">
                         <div class="card-body">
                             <h4 class="card-title">

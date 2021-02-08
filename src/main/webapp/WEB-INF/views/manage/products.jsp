@@ -85,6 +85,11 @@
             <td>${product.price}</td>
             <td>${product.category.name}</td>
             <td>
+            <a href="/customer/products/${product.id}">
+                <img class="card-img-top" src="/products-images/${product.id}"
+                     alt=""></a>
+            </td>
+            <td>
                 <form name='edit' action="/manage/products/edit/${product.id}" method='Get'>
                     <input name="submit" type="submit" value="Edit"/>
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>

@@ -147,6 +147,8 @@
             <div class="col-md-2 themed-grid-col">${product.key.price}</div>
             <div class="col-md-1 themed-grid-col">${product.key.category}</div>
             <div class="col-md-2 themed-grid-col">${product.value}</div>
+            <img class="card-img-top" src="/products-images/${product.key.id}"
+                 alt="">
         </div>
     </c:forEach>
     <div class="row  mb-3">
