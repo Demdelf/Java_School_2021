@@ -5,64 +5,7 @@
   Time: 20:43
   To change this template use File | Settings | File Templates.
 --%>
-<%--<%@ page language="java" contentType="text/html; charset=ISO-8859-1"--%>
-<%--         pageEncoding="ISO-8859-1" %>--%>
-<%--<%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>--%>
-<%--<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>--%>
-<%--<!DOCTYPE html>--%>
-<%--<html>--%>
-<%--<head>--%>
-<%--    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">--%>
-<%--    <title>Product</title>--%>
-<%--    <style type="text/css">--%>
-<%--        .error {--%>
-<%--            color: red;--%>
-<%--        }--%>
 
-<%--        table {--%>
-<%--            width: 50%;--%>
-<%--            border-collapse: collapse;--%>
-<%--            border-spacing: 0px;--%>
-<%--        }--%>
-
-<%--        table td {--%>
-<%--            border: 1px solid #565454;--%>
-<%--            padding: 20px;--%>
-<%--        }--%>
-<%--    </style>--%>
-<%--</head>--%>
-<%--<body>--%>
-<%--<h1>${productDto.name}</h1>--%>
-<%--<table>--%>
-<%--    <tr>--%>
-<%--        <td><strong>Price</strong></td>--%>
-<%--        <td><strong>Category</strong></td>--%>
-<%--    </tr>--%>
-<%--    <tr>--%>
-<%--        <td>${productDto.price}</td>--%>
-<%--        <td>${productDto.category}</td>--%>
-<%--    </tr>--%>
-<%--</table>--%>
-
-<%--<h3>Product Details </h3>--%>
-
-<%--<table>--%>
-<%--    <tr>--%>
-<%--        <c:forEach var="property" items="${productDto.properties}">--%>
-
-<%--            <td>${property.value}</td>--%>
-
-<%--        </c:forEach>--%>
-<%--    </tr>--%>
-<%--    <tr>--%>
-<%--        <c:forEach var="propertyValue" items="${productDto.propertyValues}">--%>
-<%--            <td>${propertyValue.value}</td>--%>
-
-<%--        </c:forEach>--%>
-<%--    </tr>--%>
-<%--</table>--%>
-<%--</body>--%>
-<%--</html>--%>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
          pageEncoding="ISO-8859-1" %>
@@ -145,6 +88,16 @@
     </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script>
+        var q = ${cart.quantity}
+            function addProd(id) {
+                var xhttp = new XMLHttpRequest();
+                xhttp.open("POST", "/cart/add/" + id, true);
+                xhttp.send();
+                q = q + 1
+                document.getElementById("cartQ").innerHTML = q;
+            }
+    </script>
     <script type="text/html" src="../resources/js/filter.js"></script>
 </head>
 <header class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
@@ -157,7 +110,7 @@
                 <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
             </svg>
             <i class="fa fa-shopping-cart bi bi-cart"></i> Cart
-            <span class="badge badge-light">${cart.quantity}</span>
+            <span class="badge badge-light" id="cartQ">${cart.quantity}</span>
         </a>
         <a class="btn btn-outline-primary" href="http://localhost:8080/manage">Manage</a>
     </nav>
@@ -202,10 +155,7 @@
 
                         </div>
                         <div class="card-footer">
-                            <form name='addToCart' action="/cart/add/${productDto.id}" method='Post'>
-                                <input name="submit" type="submit" value="add to cart"/>
-                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                            </form>
+                            <input type="button" value="add to cart" onClick="addProd(${productDto.id}, ${cart.quantity})">
                         </div>
                     </div>
                 </div>

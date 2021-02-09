@@ -108,14 +108,42 @@
     </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+    <script>
+        var q = ${cart.quantity};
+        var prodMap = new Map();
+        prodMap = ${product}
+            function addProd(id) {
+                var xhttp = new XMLHttpRequest();
+                xhttp.open("POST", "/cart/add/" + id, true);
+                xhttp.send();
+                q = q + 1
+                var pq = prodMap.get(id) + 1;
+                prodMap.set(id, pq);
+                document.getElementById("cartQ").innerHTML = q;
+                document.getElementById("prodValue" + id).innerHTML = pq;
+            }
+        function subProd(id, pq) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("POST", "/cart/sub/" + id, true);
+            xhttp.send();
+            q = q - 1
+            document.getElementById("cartQ").innerHTML = q;
+            document.getElementById("prodValue" + id).innerHTML = pq - 1;
+        }
+        function delProd(id) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("POST", "/cart/delete/" + id, true);
+            xhttp.send();
+            q = q - pq
+            document.getElementById("cartQ").innerHTML = q;
+            // document.getElementById("prodValue" + id).innerHTML = q;
+        }
+    </script>
 </head>
 <header class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
     <a class="h5 my-0 me-md-auto fw-normal text-dark" href="http://localhost:8080/">Russianholds</a>
     <nav class="my-2 my-md-0 me-md-3">
-        <%--        <a class="p-2 text-dark" href="#">Features</a>--%>
-        <%--        <a class="p-2 text-dark" href="#">Enterprise</a>--%>
-        <%--        <a class="p-2 text-dark" href="#">Support</a>--%>
-
         <a class="p-2 text-dark" href="http://localhost:8080/customer">Catalog</a>
         <a class="btn btn-success btn-sm ml-3" href="cart.html">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart"
@@ -123,7 +151,7 @@
                 <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
             </svg>
             <i class="fa fa-shopping-cart bi bi-cart"></i> Cart
-            <span class="badge badge-light">${cart.quantity}</span>
+            <span class="badge badge-light" id="cartQ">${cart.quantity}</span>
         </a>
     </nav>
     <a class="btn btn-outline-primary" href="http://localhost:8080/account">Account</a>
@@ -147,25 +175,26 @@
             </div>
             <div class="col-md-2 themed-grid-col">${product.key.price}</div>
             <div class="col-md-1 themed-grid-col">${product.key.category}</div>
-            <div class="col-md-2 themed-grid-col">${product.value}</div>
+            <div class="col-md-2 themed-grid-col" id="prodValue${product.key.id}">${product.value}</div>
             <div class="col-md-2 themed-grid-col">
                 <td>
-                    <form name='addToCart' action="/cart/add/${product.key.id}" method='Post'>
-                        <input name="submit" type="submit" value="+"/>
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                    </form>
+                    <div class="card-footer">
+                        <input type="button" value="+" onClick="addProd(${product.key.id})">
+                    </div>
                 </td>
                 <td>
-                    <form name='addToCart' action="/cart/sub/${product.key.id}" method='Post'>
-                        <input name="submit" type="submit" value="-"/>
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                    </form>
+                    <div class="card-footer">
+                        <input type="button" value="-" onClick="subProd(${product.key.id})">
+                    </div>
                 </td>
                 <td>
-                    <form name='addToCart' action="/cart/delete/${product.key.id}" method='Post'>
-                        <input name="submit" type="submit" value="delete"/>
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                    </form>
+                    <div class="card-footer">
+                        <input type="button" value="delete" onClick="delProd(${product.key.id}, ${product.value})">
+                    </div>
+<%--                    <form name='addToCart' action="/cart/delete/${product.key.id}" method='Post'>--%>
+<%--                        <input name="submit" type="submit" value="delete"/>--%>
+<%--                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>--%>
+<%--                    </form>--%>
                 </td>
             </div>
 

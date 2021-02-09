@@ -156,6 +156,16 @@
     </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script>
+        var q = ${cart.quantity}
+            function addProd(id) {
+                var xhttp = new XMLHttpRequest();
+                xhttp.open("POST", "/cart/add/" + id, true);
+                xhttp.send();
+                q = q + 1
+                document.getElementById("cartQ").innerHTML = q;
+            }
+    </script>
     <script type="text/html" src="../resources/js/filter.js"></script>
 </head>
 <header class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
@@ -171,7 +181,7 @@
                 <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
             </svg>
             <i class="fa fa-shopping-cart bi bi-cart"></i> Cart
-            <span class="badge badge-light">${cart.quantity}</span>
+            <span class="badge badge-light" id="cartQ">${cart.quantity}</span>
         </a>
         <a class="btn btn-outline-primary" href="http://localhost:8080/manage">Manage</a>
     </nav>
@@ -180,29 +190,6 @@
 </header>
 
 <body>
-<%--<table>--%>
-<%--    <tr>--%>
-<%--        <c:forEach items="${categories}" var="category">--%>
-<%--            <td>--%>
-<%--                <form name='get' action="/customer/categories/${category.id}" method='Get'>--%>
-<%--                    <input name="submit" type="submit" value="${category.name}"/>--%>
-<%--                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>--%>
-<%--                </form>--%>
-<%--            </td>--%>
-<%--        </c:forEach>--%>
-<%--    </tr>--%>
-<%--</table>--%>
-
-<%--<h1>Our finest selection</h1>--%>
-<%--<table>--%>
-<%--    <tr>--%>
-<%--        <td><strong>Name</strong></td>--%>
-<%--        <td><strong>Price</strong></td>--%>
-<%--        <td><strong>Category</strong></td>--%>
-<%--    </tr>--%>
-
-<%--</table>--%>
-
 <!-- Page Content -->
 <div class="container">
 
@@ -213,12 +200,7 @@
             <div class="list-group">
                 <c:forEach items="${categories}" var="category">
                     <a href="/customer/categories/${category.id}" class="list-group-item">${category.name}</a>
-                    <%--                    <td>--%>
-                    <%--                        <form name='get' action="/customer/categories/${category.id}" method='Get'>--%>
-                    <%--                            <input name="submit" type="submit" value="${category.name}" />--%>
-                    <%--                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />--%>
-                    <%--                        </form>--%>
-                    <%--                    </td>--%>
+
                 </c:forEach>
             </div>
 
@@ -238,12 +220,14 @@
                                                     <div class="col-sm-6">
                                                         <label for="amount-from">From: </label>
                                                         <input type="text" id="amount-from" name="minPrice"
-                                                               onkeypress="return isNumberKey(event)" value="${filterDto.minPrice}">
+                                                               onkeypress="return isNumberKey(event)"
+                                                               value="${filterDto.minPrice}">
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <label for="amount-to">To: </label>
-                                                        <input type="tel" id="amount-to"name="maxPrice"
-                                                               onkeypress="return isNumberKey(event)" value="${filterDto.maxPrice}">
+                                                        <input type="tel" id="amount-to" name="maxPrice"
+                                                               onkeypress="return isNumberKey(event)"
+                                                               value="${filterDto.maxPrice}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -277,73 +261,26 @@
 
         <div class="col-lg-9">
             <h1>${categoryDto.name} category products </h1>
-
-            <%--            <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">--%>
-            <%--                <ol class="carousel-indicators">--%>
-            <%--                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>--%>
-            <%--                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>--%>
-            <%--                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>--%>
-            <%--                </ol>--%>
-            <%--                <div class="carousel-inner" role="listbox">--%>
-            <%--                    <div class="carousel-item active">--%>
-            <%--                        <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="First slide">--%>
-            <%--                    </div>--%>
-            <%--                    <div class="carousel-item">--%>
-            <%--                        <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Second slide">--%>
-            <%--                    </div>--%>
-            <%--                    <div class="carousel-item">--%>
-            <%--                        <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Third slide">--%>
-            <%--                    </div>--%>
-            <%--                </div>--%>
-            <%--                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">--%>
-            <%--                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>--%>
-            <%--                    <span class="sr-only">Previous</span>--%>
-            <%--                </a>--%>
-            <%--                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">--%>
-            <%--                    <span class="carousel-control-next-icon" aria-hidden="true"></span>--%>
-            <%--                    <span class="sr-only">Next</span>--%>
-            <%--                </a>--%>
-            <%--            </div>--%>
-
             <div class="row">
                 <c:forEach items="${products}" var="product">
                     <div class="col-lg-4 col-md-6 mb-4">
                         <div class="card h-100">
-                            <a href="/customer/products/${product.id}"><img class="card-img-top" src="/products-images/${product.id}"
+                            <a href="/customer/products/${product.id}"><img class="card-img-top"
+                                                                            src="/products-images/${product.id}"
                                                                             alt=""></a>
                             <div class="card-body">
                                 <h4 class="card-title">
                                     <a href="/customer/products/${product.id}">${product.name}</a>
                                 </h4>
                                 <h5>${product.price} $</h5>
-                                    <%--                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam--%>
-                                    <%--                                    aspernatur!</p>--%>
+
                             </div>
                             <div class="card-footer">
-                                <form name='addToCart' action="/cart/add/${product.id}" method='Post'>
-                                    <input name="submit" type="submit" value="add to cart"/>
-                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                                </form>
+                                <input type="button" value="add to cart" onClick="addProd(${product.id}, ${cart.quantity})">
                             </div>
                         </div>
                     </div>
 
-                    <%--                    <tr>--%>
-                    <%--                        <td>--%>
-                    <%--                            <form name='addToCart' action="" method='Get'>--%>
-                    <%--                                <input name="submit" type="submit" value="${product.name}"/>--%>
-                    <%--                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>--%>
-                    <%--                            </form>--%>
-                    <%--                        </td>--%>
-                    <%--                        <td>${product.price}</td>--%>
-                    <%--                        <td>${product.category.name}</td>--%>
-                    <%--                        <td>--%>
-                    <%--                            <form name='addToCart' action="/cart/add/${product.id}" method='Post'>--%>
-                    <%--                                <input name="submit" type="submit" value="add to cart"/>--%>
-                    <%--                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>--%>
-                    <%--                            </form>--%>
-                    <%--                        </td>--%>
-                    <%--                    </tr>--%>
                 </c:forEach>
 
             </div>
