@@ -36,7 +36,8 @@ public class CartController {
     {
 
         CartDTO cart = cartService.getCartDtoByPrincipal(principal, cartDto);
-        cart.setFromCart(false);
+        cart.setFromCart(true);
+        cartDto.setFromCart(true);
         model.addAttribute("cart", cart);
 
         return CART_BASE;
@@ -90,7 +91,7 @@ public class CartController {
 
         model.addAttribute("cart", cartDto);
         String redirect = cartDto.isFromCart() ? "cart" : path;
-        cartDto.setFromCart(false);
+        //cartDto.setFromCart(false);
 
         return "redirect:/" + redirect;
     }
@@ -112,7 +113,7 @@ public class CartController {
         model.addAttribute("cart", cartDto);
 
         String redirect = cartDto.isFromCart() ? "cart" : path;
-        cartDto.setFromCart(false);
+//        cartDto.setFromCart(false);
 
         return "redirect:/" + redirect;
     }
@@ -134,7 +135,7 @@ public class CartController {
         model.addAttribute("cart", cartDto);
 
         String redirect = cartDto.isFromCart() ? "cart" : path;
-        cartDto.setFromCart(false);
+//        cartDto.setFromCart(false);
 
         return "redirect:/" + redirect;
     }
