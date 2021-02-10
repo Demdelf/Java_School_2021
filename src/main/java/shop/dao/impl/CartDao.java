@@ -43,4 +43,8 @@ public class CartDao extends AbstractDao<Cart> implements Dao<Cart> {
         }
         return cart;
     }
+
+    public void updateR(Cart c) {
+        entityManager.refresh(c);
+    }
 }

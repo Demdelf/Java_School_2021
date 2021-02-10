@@ -118,86 +118,91 @@
     <a class="btn btn-outline-primary" href="http://localhost:8080/account">Account</a>
 </header>
 <body>
-<h2>Add product</h2>
-<form:form action="create" method="post" modelAttribute="productDto">
-    <table>
-        <tr>
-            <td>Name</td>
-            <td>
-                <form:input path="name"/> <br/>
-                <form:errors path="name" cssClass="error"/>
-            </td>
-        </tr>
-        <tr>
-            <td>Price</td>
-            <td>
-                <form:input path="price"/> <br/>
-                <form:errors path="price" cssClass="error"/>
-            </td>
-        </tr>
-        <tr>
-            <td>Category</td>
-            <td>
-                <select id="dropdown" name="category">
-                    <c:forEach var="category" items="${categories}">
-                        <option value="<c:out value='${category.name}' />"
-                                <c:if test="${param.selectValue == category.name})"> selected </c:if>  >
-                            <c:out value="${category.name}"/>
-                        </option>
-                    </c:forEach>
-                </select>
-            </td>
-        </tr>
+<div class="container py-3">
+    <h2>Add product</h2>
 
-        <tr>
-            <td></td>
-            <td><input type="submit" value="Submit"></td>
-            <td></td>
-        </tr>
-    </table>
-</form:form>
-<h2>All products</h2>
+    <div class="row">
+        <div class="col-sm-6">
+            <form:form action="create" method="post" modelAttribute="productDto">
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label form-control-label">Name</label>
+                    <div class="col-lg-9">
+                        <input class="form-control" type="text" name="name"
+                               value="${productDto.name}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label form-control-label">Price</label>
+                    <div class="col-lg-9">
+                        <input class="form-control" type="text" name="price"
+                               value="${productDto.price}">
+                    </div>
+                </div>
 
-
-<div class="tab-content py-4">
-    <div class="row  mb-3" id="prodDiv${product.id}">
-        <div class="col-md-2 themed-grid-col">
-            Name
-        </div>
-        <div class="col-md-2 themed-grid-col">
-            Image
-        </div>
-        <div class="col-md-2 themed-grid-col">Price</div>
-        <div class="col-md-1 themed-grid-col">Category</div>
-        <div class="col-md-2 themed-grid-col">
-            Edit
+                <div class="form-group row">
+                    <label for="category" class="col-lg-3 col-form-label form-control-label">Category</label>
+                    <select class="form-select col-lg-9" name="category" id="category" required>
+                        <c:forEach var="category" items="${categories}">
+                            <option value="${category.name}">
+                                    ${category.name}
+                            </option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label form-control-label"></label>
+                    <div class="col-lg-9">
+                        <button class="w-100 btn btn-lg btn-primary" type="submit">Add
+                        </button>
+                    </div>
+                </div>
+            </form:form>
         </div>
     </div>
-    <c:forEach items="${products}" var="product">
 
-        <div class="row  mb-3" id="prodDiv${product.id}">
+    <h2>All products</h2>
+
+
+    <div class="tab-content py-4">
+        <div class="row mb-3" id="prodDiv${product.id}">
             <div class="col-md-2 themed-grid-col">
-                <form name='addToCart' action="/customer/products/${product.id}" method='Get'>
-                    <input name="submit" type="submit" value="${product.name}"/>
-                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                </form>
+                Name
             </div>
             <div class="col-md-2 themed-grid-col">
-                <a href="/customer/products/${product.id}"><img class="card-img-top"
+                Image
+            </div>
+            <div class="col-md-2 themed-grid-col">Price</div>
+            <div class="col-md-1 themed-grid-col">Category</div>
+            <div class="col-md-2 themed-grid-col">
+                Edit
+            </div>
+        </div>
+        <c:forEach items="${products}" var="product">
+
+            <div class="row  mb-3" id="prodDiv${product.id}">
+                <div class="col-md-2 themed-grid-col">
+                    <form name='addToCart' action="/customer/products/${product.id}" method='Get'>
+                        <input name="submit" type="submit" value="${product.name}"/>
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    </form>
+                </div>
+                <div class="col-md-2 themed-grid-col">
+                    <a href="/customer/products/${product.id}"><img class="card-img-top"
                                                                     src="/products-images/${product.id}"
                                                                     alt=""></a>
-            </div>
-            <div class="col-md-2 themed-grid-col">${product.price}</div>
-            <div class="col-md-1 themed-grid-col">${product.category.name}</div>
-            <div class="col-md-2 themed-grid-col">
-                <form name='edit' action="/manage/products/edit/${product.id}" method='Get'>
-                    <input name="submit" type="submit" value="Edit"/>
-                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                </form>
-            </div>
+                </div>
+                <div class="col-md-2 themed-grid-col">${product.price}</div>
+                <div class="col-md-1 themed-grid-col">${product.category.name}</div>
+                <div class="col-md-2 themed-grid-col">
+                    <form name='edit' action="/manage/products/edit/${product.id}" method='Get'>
+                        <input name="submit" type="submit" value="Edit"/>
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    </form>
+                </div>
 
-        </div>
-    </c:forEach>
+            </div>
+        </c:forEach>
+    </div>
 </div>
 
 </body>

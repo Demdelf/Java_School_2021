@@ -43,7 +43,7 @@ public class HomeController {
     public String loginPage(
             @RequestParam(value = "error", required = false) String error,
             @RequestParam(value = "logout", required = false) String logout,
-            @SessionAttribute(value = "cart") CartDTO cartDto,
+//            @SessionAttribute(value = "cart") CartDTO cartDto,
 			Model model
     ) {
         String errorMessge = null;
@@ -54,7 +54,7 @@ public class HomeController {
             errorMessge = "You have been successfully logged out !!";
         }
         model.addAttribute("errorMessge", errorMessge);
-        model.addAttribute("cart", cartDto);
+//        model.addAttribute("cart", cartDto);
         return "login";
     }
 
@@ -71,12 +71,12 @@ public class HomeController {
 
     @GetMapping(value = "/logout")
     public String logoutPage(HttpServletRequest request, HttpServletResponse response,
-            @SessionAttribute(value = "cart") CartDTO cartDto, Model model) {
+            /*@SessionAttribute(value = "cart") CartDTO cartDto,*/ Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
-        model.addAttribute("cart", cartDto);
+//        model.addAttribute("cart", cartDto);
         return "redirect:/login?logout=true";
     }
 }

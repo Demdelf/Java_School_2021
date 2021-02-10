@@ -142,11 +142,11 @@ public class CartService implements shop.service.CartService {
                 carDtoFromDB.addProductsFromAnotherDto(cartDto);
             }
             updateCartByUser(user, carDtoFromDB);
-            carDtoFromDB.setFromCart(true);
+//            carDtoFromDB.setFromCart(true);
             request.getSession().setAttribute("cartDto", getFreshCartDTOForUser(user));
             return carDtoFromDB;
         } else {
-            cartDto.setFromCart(true);
+//            cartDto.setFromCart(true);
             return cartDto;
         }
     }
@@ -248,8 +248,10 @@ public class CartService implements shop.service.CartService {
         List<Cart> carts = convertDtoToCarts(dto);
         for (Cart c: carts
         ) {
-            if (cartDao.findByUserAndProduct(c) != null){
-                cartDao.update(c);
+            Cart cartFromDB = cartDao.findByUserAndProduct(c);
+            if ( cartFromDB != null){
+                cartFromDB.setQuantity(c.getQuantity());
+                cartDao.updateR(cartFromDB);
             }else {
                 cartDao.create(c);
             }
