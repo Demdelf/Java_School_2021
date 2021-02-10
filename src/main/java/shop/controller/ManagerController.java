@@ -71,9 +71,9 @@ public class ManagerController {
     @GetMapping("/products/all")
     public String userForm(Locale locale, Model model) {
         log.info("Ask all products for manage");
-        model.addAttribute("products", productService.findAll(10));
-        model.addAttribute("categories", categoryService.findAll(10));
-        model.addAttribute("values", propertyValueService.findAll(10));
+        model.addAttribute("products", productService.findAll(100));
+        model.addAttribute("categories", categoryService.findAll(100));
+        model.addAttribute("values", propertyValueService.findAll(100));
         return "manage/products";
     }
 
@@ -84,7 +84,7 @@ public class ManagerController {
         ProductDto productDto = productService.getDtoById(id);
 
         model.addAttribute("productDto", productDto);
-        model.addAttribute("categories", categoryService.getAllCategoryDto(10));
+        model.addAttribute("categories", categoryService.getAllCategoryDto(100));
 
         return "manage/editProduct";
     }
@@ -96,12 +96,14 @@ public class ManagerController {
             @ModelAttribute("productDto") @Valid ProductDto product,
             @ModelAttribute("productDtoFlash") ProductDto productDtoFlash
     ) {
-        String fileName = String.valueOf(id);
-        String uploadDir = "products-images";
-        try {
-            FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (!multipartFile.isEmpty()){
+            String fileName = String.valueOf(id);
+            String uploadDir = "products-images";
+            try {
+                FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         productService.update(product);
         return "redirect:/manage/products/all";
@@ -114,9 +116,9 @@ public class ManagerController {
     ) {
 
         if (result.hasErrors()) {
-            model.addAttribute("products", productService.findAll(10));
-            model.addAttribute("categories", categoryService.findAll(10));
-            model.addAttribute("values", propertyValueService.findAll(10));
+            model.addAttribute("products", productService.findAll(100));
+            model.addAttribute("categories", categoryService.findAll(100));
+            model.addAttribute("values", propertyValueService.findAll(100));
             return "manage/products";
         }
 
@@ -130,7 +132,7 @@ public class ManagerController {
 
     @GetMapping("/categories/all")
     public String getAllCategories(Locale locale, Model model) {
-        model.addAttribute("categories", categoryService.findAll(10));
+        model.addAttribute("categories", categoryService.findAll(100));
         return "manage/categories";
     }
 
@@ -211,7 +213,7 @@ public class ManagerController {
 
         model.addAttribute("categoryDto", categoryDto);
         model.addAttribute("properties", propertyService.findAllUniq());
-        model.addAttribute("categories", categoryService.getAllCategoryDto(10));
+        model.addAttribute("categories", categoryService.getAllCategoryDto(100));
 
         return "manage/editCategory";
     }

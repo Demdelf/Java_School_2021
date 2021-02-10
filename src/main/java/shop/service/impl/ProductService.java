@@ -107,11 +107,6 @@ public class ProductService implements shop.service.ProductService {
     @Transactional
     public ProductDto update(ProductDto productDtoFlash) {
         Product product = convertProductDtoToExistProduct(productDtoFlash);
-//        for (PropertyValue p: product.getPropertyValues()
-//        ) {
-//            p.setProduct(product);
-//            propertyValueService.update(p);
-//        }
         dao.update(product);
         return convertProductToDto(product);
     }

@@ -2,6 +2,7 @@ package shop.controller;
 
 import java.security.Principal;
 import lombok.RequiredArgsConstructor;
+import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,7 +39,11 @@ public class CartController {
         CartDTO cart = cartService.getCartDtoByPrincipal(principal, cartDto);
         cart.setFromCart(true);
         cartDto.setFromCart(true);
+
+        JSONObject jsonObject = new JSONObject(cart.getFrontProducts(cart.getProducts()));
+        String jsonStr = jsonObject.toString();
         model.addAttribute("cart", cart);
+        model.addAttribute("productsMap", jsonStr);
 
         return CART_BASE;
     }

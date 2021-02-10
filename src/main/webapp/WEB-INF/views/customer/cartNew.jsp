@@ -112,32 +112,56 @@
     <script>
         var q = ${cart.quantity};
         var prodMap = new Map();
-        prodMap = ${product}
-            function addProd(id) {
-                var xhttp = new XMLHttpRequest();
-                xhttp.open("POST", "/cart/add/" + id, true);
-                xhttp.send();
-                q = q + 1
-                var pq = prodMap.get(id) + 1;
-                prodMap.set(id, pq);
-                document.getElementById("cartQ").innerHTML = q;
-                document.getElementById("prodValue" + id).innerHTML = pq;
+        <c:forEach var="prod" items="${cart.products}">
+        var pid = ${prod.key.id};
+        var pv = ${prod.value};
+        prodMap.set(pid, pv);
+        </c:forEach>
+
+        function checkEmptyCart() {
+            if (q === 0) {
+                document.getElementById("creatOrderBut").setAttribute('disabled', 'disabled');
+                document.getElementById("creatOrderBut").innerHTML = "Empty cart";
             }
-        function subProd(id, pq) {
+        }
+
+        function addProd(id) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("POST", "/cart/add/" + id, true);
+            xhttp.send();
+            q = q + 1;
+            var pq = prodMap.get(id);
+            prodMap.set(id, pq + 1);
+            document.getElementById("cartQ").innerHTML = q;
+            document.getElementById("prodValue" + id).innerHTML = pq + 1;
+        }
+
+        function subProd(id) {
             var xhttp = new XMLHttpRequest();
             xhttp.open("POST", "/cart/sub/" + id, true);
             xhttp.send();
-            q = q - 1
+            q = q - 1;
+            var pq = prodMap.get(id);
+            prodMap.set(id, pq - 1);
             document.getElementById("cartQ").innerHTML = q;
-            document.getElementById("prodValue" + id).innerHTML = pq - 1;
+            if (pq === 1) {
+                var element = document.getElementById("prodDiv" + id);
+                element.parentNode.removeChild(element);
+            } else {
+                document.getElementById("prodValue" + id).innerHTML = pq - 1;
+            }
+            checkEmptyCart()
         }
+
         function delProd(id) {
             var xhttp = new XMLHttpRequest();
             xhttp.open("POST", "/cart/delete/" + id, true);
             xhttp.send();
-            q = q - pq
+            q = q - prodMap.get(id);
             document.getElementById("cartQ").innerHTML = q;
-            // document.getElementById("prodValue" + id).innerHTML = q;
+            var element = document.getElementById("prodDiv" + id);
+            element.parentNode.removeChild(element);
+            checkEmptyCart();
         }
     </script>
 </head>
@@ -158,10 +182,11 @@
 </header>
 
 <body>
+
 <div class="tab-content py-4">
     <c:forEach items="${cart.products}" var="product">
 
-        <div class="row  mb-3">
+        <div class="row  mb-3" id="prodDiv${product.key.id}">
             <div class="col-md-2 themed-grid-col">
                 <form name='addToCart' action="/customer/products/${product.key.id}" method='Get'>
                     <input name="submit" type="submit" value="${product.key.name}"/>
@@ -189,12 +214,8 @@
                 </td>
                 <td>
                     <div class="card-footer">
-                        <input type="button" value="delete" onClick="delProd(${product.key.id}, ${product.value})">
+                        <input type="button" value="delete" onClick="delProd(${product.key.id})">
                     </div>
-<%--                    <form name='addToCart' action="/cart/delete/${product.key.id}" method='Post'>--%>
-<%--                        <input name="submit" type="submit" value="delete"/>--%>
-<%--                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>--%>
-<%--                    </form>--%>
                 </td>
             </div>
 
@@ -215,18 +236,18 @@
 <div class="col mb-2">
     <div class="row">
         <div class="col-sm-12  col-md-6">
-            <button class="btn btn-block btn-light">Continue Shopping</button>
+            <%--            <button class="btn btn-block btn-light">Continue Shopping</button>--%>
         </div>
         <div class="col-sm-12 col-md-6 text-right">
             <form name='create' action="/customer/orders/create" method='Get'>
-                <button class="btn btn-lg btn-block btn-success text-uppercase" type="submit">
+                <button class="btn btn-lg btn-block btn-success text-uppercase" type="submit" id="creatOrderBut">
                     Create order
                 </button>
             </form>
         </div>
     </div>
 </div>
-
+<script>checkEmptyCart();</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
         crossorigin="anonymous"></script>

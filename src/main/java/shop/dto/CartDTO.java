@@ -1,5 +1,6 @@
 package shop.dto;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import lombok.Getter;
@@ -14,6 +15,15 @@ public class CartDTO {
     private Map<ProductDto, Integer> products;
     private boolean fromCart = false;
     private Double sum;
+
+    public Map<Long, Integer> getFrontProducts(Map<ProductDto, Integer> products){
+        Map<Long, Integer> map = new HashMap<>();
+        for (Entry<ProductDto, Integer> e : products.entrySet()
+        ) {
+            map.put(e.getKey().getId(), e.getValue());
+        }
+        return map;
+    }
 
     public void addProductDto(ProductDto dto){
         if (products.containsKey(dto)){

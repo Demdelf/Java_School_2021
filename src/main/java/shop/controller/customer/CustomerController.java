@@ -102,8 +102,8 @@ public class CustomerController {
             Locale locale, Model model, @ModelAttribute("cart") CartDTO cartDTO, @ModelAttribute("path") String path,
             RedirectAttributes redirectAttributes, Principal principal, HttpServletRequest request
     ) {
-        model.addAttribute("products", productService.findAll(10));
-        model.addAttribute("categories", categoryService.findAll(10));
+        model.addAttribute("products", productService.findAll(100));
+        model.addAttribute("categories", categoryService.findAll(100));
         CartDTO cart = cartService.getCartDtoAfterLogin(principal, cartDTO, request);
         cart.setFromCart(false);
         model.addAttribute("cart", cart);
@@ -118,8 +118,8 @@ public class CustomerController {
             Locale locale, Model model, @ModelAttribute("cart") CartDTO cartDTO, @ModelAttribute("path") String path,
             Principal principal, @ModelAttribute("filterDto") FilterDto filterDto
     ) {
-        model.addAttribute("products", productService.findAll(10));
-        model.addAttribute("categories", categoryService.findAll(10));
+        model.addAttribute("products", productService.findAll(100));
+        model.addAttribute("categories", categoryService.findAll(100));
 
         CartDTO cart = cartService.getCartDtoByPrincipal(principal, cartDTO);
         cart.setFromCart(false);
@@ -141,7 +141,7 @@ public class CustomerController {
             Principal principal, @ModelAttribute("filterDto") FilterDto filterDto
     ) {
         model.addAttribute("products", productService.findAllFiltered(filterDto));
-        model.addAttribute("categories", categoryService.findAll(10));
+        model.addAttribute("categories", categoryService.findAll(100));
         model.addAttribute("filterDto", filterDto);
         CartDTO cart = cartService.getCartDtoByPrincipal(principal, cartDTO);
         cart.setFromCart(false);
@@ -156,9 +156,9 @@ public class CustomerController {
             Locale locale, Model model, @ModelAttribute("cart") CartDTO cartDTO, @ModelAttribute("path") String path,
             Principal principal
     ) {
-        model.addAttribute("products", productService.findAll(10));
-        model.addAttribute("categories", categoryService.findAll(10));
-        model.addAttribute("values", propertyValueService.findAll(10));
+        model.addAttribute("products", productService.findAll(100));
+        model.addAttribute("categories", categoryService.findAll(100));
+        model.addAttribute("values", propertyValueService.findAll(100));
         CartDTO cart = cartService.getCartDtoByPrincipal(principal, cartDTO);
         cart.setFromCart(false);
         model.addAttribute("cart", cart);
@@ -171,7 +171,7 @@ public class CustomerController {
             @PathVariable("id") Long id, Locale locale, Model model, @ModelAttribute("cart") CartDTO cartDTO,
             @ModelAttribute("path") String path, Principal principal, HttpServletRequest request
     ) {
-        model.addAttribute("categories", categoryService.findAll(10));
+        model.addAttribute("categories", categoryService.findAll(100));
         ProductDto productDto = productService.getDtoById(id);
         List<String> properties = new ArrayList<>(productDto.getProperties().values());
         model.addAttribute("properties", properties);
@@ -190,7 +190,7 @@ public class CustomerController {
             Locale locale, Model model, @ModelAttribute("cart") CartDTO cartDTO, @ModelAttribute("path") String path,
             Principal principal, HttpServletRequest request
     ) {
-        model.addAttribute("categories", categoryService.findAll(10));
+        model.addAttribute("categories", categoryService.findAll(100));
         CartDTO cart = cartService.getCartDtoByPrincipal(principal, cartDTO);
         cart.setFromCart(false);
         model.addAttribute("cart", cart);
@@ -216,7 +216,7 @@ public class CustomerController {
         CartDTO cart = cartService.getCartDtoByPrincipal(principal, cartDTO);
         cart.setFromCart(false);
         model.addAttribute("cart", cart);
-        model.addAttribute("categories", categoryService.findAll(10));
+        model.addAttribute("categories", categoryService.findAll(100));
         model.addAttribute("path", "customer/categories/" + id);
         return "customer/category";
     }
@@ -228,7 +228,7 @@ public class CustomerController {
     ) {
         model.addAttribute("categoryDto", categoryService.getDtoById(id));
         model.addAttribute("products", productService.findAllByCategoryIdFiltered(id, filterDto));
-        model.addAttribute("categories", categoryService.findAll(10));
+        model.addAttribute("categories", categoryService.findAll(100));
         model.addAttribute("filterDto", filterDto);
         CartDTO cart = cartService.getCartDtoByPrincipal(principal, cartDTO);
         cart.setFromCart(false);
