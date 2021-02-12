@@ -124,8 +124,15 @@
                 document.getElementById("creatOrderBut").innerHTML = "Empty cart";
             }
         }
+        function checkStock(id, stock, q) {
+            if (stock <= q) {
+                document.getElementById("addToCart" + id).setAttribute('disabled', 'disabled');
+            }else {
+                document.getElementById("addToCart" + id).setAttribute('enabled', 'enabled');
+            }
+        }
 
-        function addProd(id) {
+        function addProd(id, stock) {
             var xhttp = new XMLHttpRequest();
             xhttp.open("POST", "/cart/add/" + id, true);
             xhttp.send();
@@ -134,9 +141,10 @@
             prodMap.set(id, pq + 1);
             document.getElementById("cartQ").innerHTML = q;
             document.getElementById("prodValue" + id).innerHTML = pq + 1;
+            checkStock(id, stock, pq+1)
         }
 
-        function subProd(id) {
+        function subProd(id, stock) {
             var xhttp = new XMLHttpRequest();
             xhttp.open("POST", "/cart/sub/" + id, true);
             xhttp.send();
@@ -150,7 +158,8 @@
             } else {
                 document.getElementById("prodValue" + id).innerHTML = pq - 1;
             }
-            checkEmptyCart()
+            checkEmptyCart();
+            checkStock(id, stock, pq-1);
         }
 
         function delProd(id) {
@@ -163,6 +172,17 @@
             element.parentNode.removeChild(element);
             checkEmptyCart();
         }
+
+        function checkStock() {
+            <c:forEach var="product" items="${cart.products}">
+            var s = ${product.key.stock};
+            var v = ${product.value}
+            if (s <= v) {
+                document.getElementById("addToCart${product.key.id}").setAttribute('disabled', 'disabled');
+            }
+            </c:forEach>
+        }
+
     </script>
 </head>
 <header class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
@@ -204,17 +224,29 @@
             <div class="col-md-2 themed-grid-col">
                 <td>
                     <div class="card-footer">
-                        <input type="button" value="+" onClick="addProd(${product.key.id})">
+                        <button class="btn btn-success btn-sm ml-3" type="submit"
+                                onClick="addProd(${product.key.id}, ${product.key.stock})" id="addToCart${product.key.id}">
+                            +
+                        </button>
+<%--                        <input type="button" class="btn-success" value="+" onClick="addProd(${product.key.id})">--%>
                     </div>
                 </td>
                 <td>
                     <div class="card-footer">
-                        <input type="button" value="-" onClick="subProd(${product.key.id})">
+                        <button class="btn btn-success btn-sm ml-3" type="submit"
+                                onClick="subProd(${product.key.id}, ${product.key.stock})">
+                            -
+                        </button>
+<%--                        <input type="button"  value="-" onClick="subProd(${product.key.id})">--%>
                     </div>
                 </td>
                 <td>
                     <div class="card-footer">
-                        <input type="button" value="delete" onClick="delProd(${product.key.id})">
+                        <button class="btn btn-danger btn-sm ml-3" type="submit"
+                                onClick="delProd(${product.key.id})">
+                            delete
+                        </button>
+<%--                        <input type="button" class="btn-danger" value="delete" onClick="delProd(${product.key.id})">--%>
                     </div>
                 </td>
             </div>
@@ -247,7 +279,8 @@
         </div>
     </div>
 </div>
-<script>checkEmptyCart();</script>
+<script>checkEmptyCart();
+checkStock();</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
         crossorigin="anonymous"></script>

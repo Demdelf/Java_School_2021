@@ -74,12 +74,22 @@
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <script>
         var q = ${cart.quantity}
-        function addProd(id) {
-            var xhttp = new XMLHttpRequest();
-            xhttp.open("POST", "/cart/add/" + id, true);
-            xhttp.send();
-            q = q + 1
-            document.getElementById("cartQ").innerHTML = q;
+            function addProd(id) {
+                var xhttp = new XMLHttpRequest();
+                xhttp.open("POST", "/cart/add/" + id, true);
+                xhttp.send();
+                q = q + 1
+                document.getElementById("cartQ").innerHTML = q;
+            }
+
+        function checkStock() {
+            <c:forEach var="prod" items="${products}">
+            var s = ${prod.stock};
+            if (s === 0) {
+                document.getElementById("addToCart${prod.id}").setAttribute('disabled', 'disabled');
+                document.getElementById("addToCart${prod.id}").innerHTML = "out of stock";
+            }
+            </c:forEach>
         }
     </script>
     <script type="text/html" src="../resources/js/filter.js"></script>
@@ -181,7 +191,10 @@
                                 <h5>${product.price} $</h5>
                             </div>
                             <div class="card-footer">
-                                <input type="button" value="add to cart" onClick="addProd(${product.id}, ${cart.quantity})">
+                                <button class="btn btn-success btn-sm ml-3" type="submit"
+                                        onClick="addProd(${product.id}, ${cart.quantity})" id="addToCart${product.id}">
+                                    add to cart
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -201,7 +214,7 @@
     </div>
     <!-- /.container -->
 </footer>
-
+<script>checkStock();</script>
 <script type="text/html" src="../resources/js/filter.js"></script>
 </body>
 </html>

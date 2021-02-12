@@ -97,6 +97,13 @@
                 q = q + 1
                 document.getElementById("cartQ").innerHTML = q;
             }
+        function checkStock() {
+            var s = ${productDto.stock};
+            if (s === 0) {
+                document.getElementById("addToCart${productDto.id}").setAttribute('disabled', 'disabled');
+                document.getElementById("addToCart${productDto.id}").innerHTML = "out of stock";
+            }
+        }
     </script>
     <script type="text/html" src="../resources/js/filter.js"></script>
 </head>
@@ -155,7 +162,11 @@
 
                         </div>
                         <div class="card-footer">
-                            <input type="button" value="add to cart" onClick="addProd(${productDto.id}, ${cart.quantity})">
+                            <button class="btn btn-success btn-sm ml-3" type="submit"
+                                    onClick="addProd(${productDto.id}, ${cart.quantity})" id="addToCart${productDto.id}">
+                                add to cart
+                            </button>
+<%--                            <input type="button" value="add to cart" onClick="addProd(${productDto.id}, ${cart.quantity})">--%>
                         </div>
                     </div>
                 </div>
@@ -180,7 +191,7 @@
     </div>
     <!-- /.container -->
 </footer>
-
+<script>checkStock();</script>
 <script type="text/html" src="../resources/js/filter.js"></script>
 </body>
 </html>

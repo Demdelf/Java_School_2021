@@ -165,15 +165,21 @@
                 q = q + 1
                 document.getElementById("cartQ").innerHTML = q;
             }
+        function checkStock() {
+            <c:forEach var="prod" items="${products}">
+            var s = ${prod.stock};
+            if (s === 0) {
+                document.getElementById("addToCart${prod.id}").setAttribute('disabled', 'disabled');
+                document.getElementById("addToCart${prod.id}").innerHTML = "out of stock";
+            }
+            </c:forEach>
+        }
     </script>
     <script type="text/html" src="../resources/js/filter.js"></script>
 </head>
 <header class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
     <a class="h5 my-0 me-md-auto fw-normal text-dark" href="http://localhost:8080/">Russianholds</a>
     <nav class="my-2 my-md-0 me-md-3">
-        <%--        <a class="p-2 text-dark" href="#">Features</a>--%>
-        <%--        <a class="p-2 text-dark" href="#">Enterprise</a>--%>
-        <%--        <a class="p-2 text-dark" href="#">Support</a>--%>
         <a class="p-2 text-dark" href="http://localhost:8080/customer">Catalog</a>
         <a class="btn btn-success btn-sm ml-3" href="http://localhost:8080/cart">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart"
@@ -276,7 +282,11 @@
 
                             </div>
                             <div class="card-footer">
-                                <input type="button" value="add to cart" onClick="addProd(${product.id}, ${cart.quantity})">
+                                <button class="btn btn-success btn-sm ml-3" type="submit"
+                                        onClick="addProd(${product.id}, ${cart.quantity})" id="addToCart${product.id}">
+                                    add to cart
+                                </button>
+<%--                                <input type="button" value="add to cart" onClick="addProd(${product.id}, ${cart.quantity})">--%>
                             </div>
                         </div>
                     </div>
@@ -307,7 +317,7 @@
 <%--<script src="vendor/jquery/jquery.min.js"></script>--%>
 <%--<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>--%>
 
-
+<script>checkStock();</script>
 <script type="text/html" src="../resources/js/filter.js"></script>
 </body>
 </html>
