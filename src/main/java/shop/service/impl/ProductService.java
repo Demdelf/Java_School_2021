@@ -4,18 +4,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.dao.impl.ProductDao;
 import shop.domain.Category;
+import shop.domain.OrderProduct;
 import shop.domain.Product;
 import shop.domain.Property;
 import shop.domain.PropertyValue;
 import shop.dto.FilterDto;
 import shop.dto.ProductDto;
 import shop.dto.ProductsDto;
+import shop.util.exception.EmptyStockException;
 
 
 @Service
@@ -95,7 +98,7 @@ public class ProductService implements shop.service.ProductService {
     }
 
     @Transactional
-    private void setProductForPropertyValues(Product product) {
+    void setProductForPropertyValues(Product product) {
         for (PropertyValue p: product.getPropertyValues()
         ) {
             p.setProduct(product);
@@ -112,7 +115,7 @@ public class ProductService implements shop.service.ProductService {
     }
 
     @Transactional
-    private Product convertProductDtoToExistProduct(ProductDto dto) {
+    Product convertProductDtoToExistProduct(ProductDto dto) {
         Product product = dao.findOne(dto.getId()).get();
         product.setName(dto.getName());
         product.setPrice(dto.getPrice());
@@ -161,7 +164,7 @@ public class ProductService implements shop.service.ProductService {
     }
 
     @Transactional
-    private Product convertProductDtoToNewProduct(ProductDto dto) {
+    Product convertProductDtoToNewProduct(ProductDto dto) {
 
         Product product = new Product();
         product.setName(dto.getName());
@@ -209,5 +212,42 @@ public class ProductService implements shop.service.ProductService {
     @Transactional
     public Product update(Product p) {
         return dao.update(p);
+    }
+
+    @Transactional
+    public Integer updateAfterOrder(ProductDto o, Integer q) throws EmptyStockException {
+        Product product = findOne(o.getId());
+        int stock = product.getStock();
+        if (q <= stock){
+            product.setStock(stock - q);
+            update(product);
+            return q;
+        }else if (stock > 0){
+            product.setStock(0);
+            update(product);
+            return stock;
+        }else throw new EmptyStockException();
+    }
+
+    @Transactional
+    public Map<ProductDto, Integer> checkAndUpdateOrderedProducts(Map<ProductDto, Integer> products) {
+        List<ProductDto> unableToOrderProduct = new ArrayList<>();
+        for (Entry<ProductDto, Integer> e: products.entrySet()
+        ) {
+            int value = 0;
+            try {
+                value = updateAfterOrder(e.getKey(), e.getValue());
+                e.setValue(value);
+                products.put(e.getKey(), e.getValue());
+            } catch (EmptyStockException emptyStockException) {
+                emptyStockException.printStackTrace();
+                unableToOrderProduct.add(e.getKey());
+            }
+        }
+        for (ProductDto p: unableToOrderProduct
+        ) {
+            products.remove(p);
+        }
+        return products;
     }
 }

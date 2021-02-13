@@ -144,11 +144,14 @@
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 </form>
             </div>
+            <div class="col-md-2 themed-grid-col">
+                <img class="card-img-top" src="/products-images/${product.key.id}"
+                     alt="">
+            </div>
             <div class="col-md-2 themed-grid-col">${product.key.price}</div>
             <div class="col-md-1 themed-grid-col">${product.key.category}</div>
             <div class="col-md-2 themed-grid-col">${product.value}</div>
-            <img class="card-img-top" src="/products-images/${product.key.id}"
-                 alt="">
+
         </div>
     </c:forEach>
     <div class="row  mb-3">
@@ -189,7 +192,7 @@
                             <div class="col-lg-9">
                                 <select id="payment_method" class="form-control" size="0" name="paymentMethod">
                                     <c:forEach items="${paymentMethods}" var="pm">
-                                    <option value="${pm.name}">${pm.name}</option>
+                                        <option value="${pm.name}">${pm.name}</option>
                                     </c:forEach>
                                 </select>
                             </div>

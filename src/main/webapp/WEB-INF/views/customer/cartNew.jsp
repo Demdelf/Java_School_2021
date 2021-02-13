@@ -111,6 +111,7 @@
 
     <script>
         var q = ${cart.quantity};
+        var total = ${cart.sum};
         var prodMap = new Map();
         <c:forEach var="prod" items="${cart.products}">
         var pid = ${prod.key.id};
@@ -124,15 +125,23 @@
                 document.getElementById("creatOrderBut").innerHTML = "Empty cart";
             }
         }
+
         function checkStock(id, stock, q) {
             if (stock <= q) {
                 document.getElementById("addToCart" + id).setAttribute('disabled', 'disabled');
-            }else {
-                document.getElementById("addToCart" + id).setAttribute('enabled', 'enabled');
+                document.getElementById("addToCartRight" + id).innerHTML = "No more on stock";
+            }
+            if (stock > q) {
+                document.getElementById("addToCart" + id).disabled = false;
+                document.getElementById("addToCartRight" + id).innerHTML = "";
             }
         }
+        function changeTotal(sign, price){
+            total = total + price*sign;
+            document.getElementById("total").innerHTML = total + ".0 $";
+        }
 
-        function addProd(id, stock) {
+        function addProd(id, stock, price) {
             var xhttp = new XMLHttpRequest();
             xhttp.open("POST", "/cart/add/" + id, true);
             xhttp.send();
@@ -141,28 +150,30 @@
             prodMap.set(id, pq + 1);
             document.getElementById("cartQ").innerHTML = q;
             document.getElementById("prodValue" + id).innerHTML = pq + 1;
-            checkStock(id, stock, pq+1)
+            changeTotal(1, price);
+            checkStock(id, stock, pq + 1)
         }
 
-        function subProd(id, stock) {
+        function subProd(id, stock, price) {
             var xhttp = new XMLHttpRequest();
             xhttp.open("POST", "/cart/sub/" + id, true);
             xhttp.send();
             q = q - 1;
             var pq = prodMap.get(id);
-            prodMap.set(id, pq - 1);
+            var newpq = pq - 1;
+            prodMap.set(id, newpq);
             document.getElementById("cartQ").innerHTML = q;
             if (pq === 1) {
                 var element = document.getElementById("prodDiv" + id);
                 element.parentNode.removeChild(element);
             } else {
-                document.getElementById("prodValue" + id).innerHTML = pq - 1;
+                document.getElementById("prodValue" + id).innerHTML = newpq;
             }
-            checkEmptyCart();
-            checkStock(id, stock, pq-1);
+            changeTotal(-1, price);
+            checkStock(id, stock, newpq);
         }
 
-        function delProd(id) {
+        function delProd(id, price) {
             var xhttp = new XMLHttpRequest();
             xhttp.open("POST", "/cart/delete/" + id, true);
             xhttp.send();
@@ -170,15 +181,18 @@
             document.getElementById("cartQ").innerHTML = q;
             var element = document.getElementById("prodDiv" + id);
             element.parentNode.removeChild(element);
+            changeTotal(-1, price * prodMap.get(id));
             checkEmptyCart();
         }
 
-        function checkStock() {
+        function checkStockAll() {
             <c:forEach var="product" items="${cart.products}">
             var s = ${product.key.stock};
-            var v = ${product.value}
+            var v =
+            ${product.value}
             if (s <= v) {
                 document.getElementById("addToCart${product.key.id}").setAttribute('disabled', 'disabled');
+                document.getElementById("addToCartRight${product.key.id}").innerHTML = "No more on stock";
             }
             </c:forEach>
         }
@@ -202,85 +216,87 @@
 </header>
 
 <body>
+<div class="container py-3">
+    <div class="tab-content py-4">
+        <c:forEach items="${cart.products}" var="product">
 
-<div class="tab-content py-4">
-    <c:forEach items="${cart.products}" var="product">
+            <div class="row  mb-3" id="prodDiv${product.key.id}">
+                <div class="col-md-2 themed-grid-col">
+                    <form name='addToCart' action="/customer/products/${product.key.id}" method='Get'>
+                        <input name="submit" type="submit" value="${product.key.name}"/>
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    </form>
+                </div>
+                <div class="col-md-2 themed-grid-col">
+                    <a href="/customer/products/${product.key.id}"><img class="card-img-top"
+                                                                        src="/products-images/${product.key.id}"
+                                                                        alt=""></a>
+                </div>
+                <div class="col-md-2 themed-grid-col">${product.key.price}</div>
+                <div class="col-md-1 themed-grid-col">${product.key.category}</div>
+                <div class="col-md-2 themed-grid-col" id="prodValue${product.key.id}">${product.value}</div>
+                <div class="col-md-2 themed-grid-col">
+                    <td>
+                        <div class="card-footer">
+                            <button class="btn btn-success btn-sm ml-3" type="submit"
+                                    onClick="addProd(${product.key.id}, ${product.key.stock}, ${product.key.price})"
+                                    id="addToCart${product.key.id}">
+                                +
+                            </button>
+                            <h6 id="addToCartRight${product.key.id}"></h6>
+                                <%--                        <input type="button" class="btn-success" value="+" onClick="addProd(${product.key.id})">--%>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="card-footer">
+                            <button class="btn btn-success btn-sm ml-3" type="submit"
+                                    onClick="subProd(${product.key.id}, ${product.key.stock}, ${product.key.price})">
+                                -
+                            </button>
+                                <%--                        <input type="button"  value="-" onClick="subProd(${product.key.id})">--%>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="card-footer">
+                            <button class="btn btn-danger btn-sm ml-3" type="submit"
+                                    onClick="delProd(${product.key.id}, ${product.key.price})">
+                                delete
+                            </button>
+                                <%--                        <input type="button" class="btn-danger" value="delete" onClick="delProd(${product.key.id})">--%>
+                        </div>
+                    </td>
+                </div>
 
-        <div class="row  mb-3" id="prodDiv${product.key.id}">
-            <div class="col-md-2 themed-grid-col">
-                <form name='addToCart' action="/customer/products/${product.key.id}" method='Get'>
-                    <input name="submit" type="submit" value="${product.key.name}"/>
-                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            </div>
+        </c:forEach>
+        <div class="row  mb-3">
+
+                <td><strong>Total</strong></td>
+            <strong>
+                <div class="text-right font-weight-bold" id="total">${cart.sum} $</div>
+            </strong>
+
+
+        </div>
+    </div>
+
+    <div class="col mb-2">
+        <div class="row">
+            <div class="col-sm-12  col-md-6">
+                <%--            <button class="btn btn-block btn-light">Continue Shopping</button>--%>
+            </div>
+            <div class="col-sm-12 col-md-6 text-right">
+                <form name='create' action="/customer/orders/create" method='Get'>
+                    <button class="btn btn-lg btn-block btn-success text-uppercase" type="submit" id="creatOrderBut">
+                        Create order
+                    </button>
                 </form>
             </div>
-            <div class="col-md-2 themed-grid-col">
-                <a href="/customer/products/${product.key.id}"><img class="card-img-top"
-                                                                    src="/products-images/${product.key.id}"
-                                                                    alt=""></a>
-            </div>
-            <div class="col-md-2 themed-grid-col">${product.key.price}</div>
-            <div class="col-md-1 themed-grid-col">${product.key.category}</div>
-            <div class="col-md-2 themed-grid-col" id="prodValue${product.key.id}">${product.value}</div>
-            <div class="col-md-2 themed-grid-col">
-                <td>
-                    <div class="card-footer">
-                        <button class="btn btn-success btn-sm ml-3" type="submit"
-                                onClick="addProd(${product.key.id}, ${product.key.stock})" id="addToCart${product.key.id}">
-                            +
-                        </button>
-<%--                        <input type="button" class="btn-success" value="+" onClick="addProd(${product.key.id})">--%>
-                    </div>
-                </td>
-                <td>
-                    <div class="card-footer">
-                        <button class="btn btn-success btn-sm ml-3" type="submit"
-                                onClick="subProd(${product.key.id}, ${product.key.stock})">
-                            -
-                        </button>
-<%--                        <input type="button"  value="-" onClick="subProd(${product.key.id})">--%>
-                    </div>
-                </td>
-                <td>
-                    <div class="card-footer">
-                        <button class="btn btn-danger btn-sm ml-3" type="submit"
-                                onClick="delProd(${product.key.id})">
-                            delete
-                        </button>
-<%--                        <input type="button" class="btn-danger" value="delete" onClick="delProd(${product.key.id})">--%>
-                    </div>
-                </td>
-            </div>
-
-        </div>
-    </c:forEach>
-    <div class="row  mb-3">
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td><strong>Total</strong></td>
-            <td class="text-right"><strong>${cart.sum}</strong></td>
-        </tr>
-    </div>
-</div>
-
-<div class="col mb-2">
-    <div class="row">
-        <div class="col-sm-12  col-md-6">
-            <%--            <button class="btn btn-block btn-light">Continue Shopping</button>--%>
-        </div>
-        <div class="col-sm-12 col-md-6 text-right">
-            <form name='create' action="/customer/orders/create" method='Get'>
-                <button class="btn btn-lg btn-block btn-success text-uppercase" type="submit" id="creatOrderBut">
-                    Create order
-                </button>
-            </form>
         </div>
     </div>
 </div>
 <script>checkEmptyCart();
-checkStock();</script>
+checkStockAll();</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
         crossorigin="anonymous"></script>

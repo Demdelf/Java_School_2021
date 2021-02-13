@@ -432,10 +432,14 @@ public class OrderService implements shop.service.OrderService {
         User user = (User) userService.loadUserByUsername(principal.getName());
         orderDto.setUserId(user.getId());
         Map<ProductDto, Integer> products = getProductsDtoFromCartsByUser(user);
+        products = productService.checkAndUpdateOrderedProducts(products);
         orderDto.setFullCost(getFullCostOfProductDtoMap(products));
         orderDto.setOrderProducts(products);
         Order order = orderDao.create(convertDtoToOrder(orderDto));
-        order.getOrderProducts().stream().forEach(o -> orderDao.saveOrderProduct(o));
+        order.getOrderProducts().stream().forEach(o -> {
+            orderDao.saveOrderProduct(o);
+//            productService.updateAfterOrder(o);
+        });
         request.getSession().setAttribute("cartDto", cartService.clearCart(user));
     }
 
