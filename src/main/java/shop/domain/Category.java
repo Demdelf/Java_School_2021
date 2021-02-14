@@ -23,6 +23,9 @@ public class Category extends AbstractEntity {
     @Column(name = "NAME")
     private String name;
 
+    @Column(name = "VISIBLE")
+    private Boolean visible;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
 //    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Property> properties;

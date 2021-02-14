@@ -49,4 +49,11 @@ public class CategoryDao extends AbstractDao<Category> implements Dao<Category> 
         return p;
     }
 
+    public List<Category> findAllVisible() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Category> query = criteriaBuilder.createQuery(Category.class);
+        Root<Category> root = query.from(Category.class);
+        query.select(root).where(criteriaBuilder.equal(root.get("visible"), true));
+        return entityManager.createQuery(query).getResultList();
+    }
 }

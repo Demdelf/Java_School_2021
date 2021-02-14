@@ -163,6 +163,16 @@
                         </div>
 
                         <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label">Visible</label>
+                            <div class="col-lg-9">
+                                <select class="form-select" aria-label="Default select example" name="visible">
+                                    <option selected value="true">true</option>
+                                    <option value="false">false</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label for="category" class="col-lg-3 col-form-label form-control-label">Category</label>
                             <select class="form-select col-lg-9" name="category" id="category" required>
                                 <c:forEach var="category" items="${categories}">
@@ -198,7 +208,7 @@
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label form-control-label">Image: </label>
                             <div class="col-lg-9">
-                                <input type="file" name="image" accept="image/png, image/jpeg, image/jpg" value="/products-images/${productDto.id}"/>
+                                <input type="file" name="imageM" accept="image/png, image/jpeg, image/jpg" value="/products-images/${productDto.id}"/>
                             </div>
                         </div>
 

@@ -64,6 +64,11 @@ public class CategoryService implements shop.service.CategoryService {
         return null;
     }
 
+    @Override
+    public List<Category> findAllVisible(int i) {
+        return dao.findAllVisible();
+    }
+
 
     private Category convertCategoryDtoToCategory(CategoryDto dto) {
         Category category;
@@ -73,6 +78,7 @@ public class CategoryService implements shop.service.CategoryService {
             category = dao.findOne(dto.getId()).orElse(new Category());
         }
         category.setName(dto.getName());
+        category.setVisible(dto.getVisible());
         List<Property> list = new ArrayList<>();
         if (dto.getProperties() != null && !dto.getProperties().isEmpty()){
             for (PropertyDto propertyDto: dto.getProperties()
@@ -108,6 +114,7 @@ public class CategoryService implements shop.service.CategoryService {
         CategoryDto dto = new CategoryDto();
         dto.setId(category.getId());
         dto.setName(category.getName());
+        dto.setVisible(category.getVisible());
         ArrayList<PropertyDto> propertyDtos = new ArrayList<>();
         for (Property p: category.getProperties()
         ) {

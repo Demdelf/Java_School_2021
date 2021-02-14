@@ -143,7 +143,7 @@
             <div class="row">
                 <div class="col-8">
                     <div class="card mt-4">
-                        <img class="card-img-top" src="/products-images/${productDto.id}"
+                        <img class="card-img-top" src="data:image/png;base64,${productDto.stringImage}"
                              alt="">
                         <div class="card-body">
                             <h4 class="card-title">

@@ -1,5 +1,7 @@
 package shop.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.Locale;
@@ -92,7 +94,7 @@ public class ManagerController {
     @PostMapping("/products/edit/{id}")
     public String saveEditOne(
             @PathVariable("id") Long id, Locale locale, Model model,
-            @RequestParam("image") MultipartFile multipartFile,
+            @RequestParam("imageM") MultipartFile multipartFile,
             @ModelAttribute("productDto") @Valid ProductDto product,
             @ModelAttribute("productDtoFlash") ProductDto productDtoFlash
     ) {
@@ -101,6 +103,7 @@ public class ManagerController {
             String uploadDir = "products-images";
             try {
                 FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+                product.setImage(multipartFile.getBytes());
             } catch (IOException e) {
                 e.printStackTrace();
             }

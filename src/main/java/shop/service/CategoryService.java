@@ -21,4 +21,6 @@ public interface CategoryService extends Service<Category> {
     Object getAllProperties();
 
     List<Category> findAllFiltered(FilterDto filterDto);
+
+    List<Category> findAllVisible(int i);
 }

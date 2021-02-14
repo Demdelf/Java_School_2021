@@ -1,11 +1,11 @@
-insert into CATEGORIES (ID, NAME) values (1, 'Intellect');
-insert into CATEGORIES (ID, NAME) values (2, 'Standard');
+insert into CATEGORIES (ID, NAME, VISIBLE) values (1, 'Intellect', true);
+insert into CATEGORIES (ID, NAME, VISIBLE) values (2, 'Standard', true);
 insert into PROPERTIES (ID, NAME, TYPE, CATEGORY_ID) values (1, 'Number of holds', 'items', 1);
 insert into PROPERTIES (ID, NAME, TYPE, CATEGORY_ID) values (2, 'Number of holds', 'items', 2);
 insert into PROPERTIES (ID, NAME, CATEGORY_ID) values (3, 'Color', 1);
 insert into PROPERTIES (ID, NAME, CATEGORY_ID) values (4, 'Color', 2);
-insert into PRODUCTS (ID, NAME, PRICE, WEIGHT, VOLUME, STOCK, CATEGORY_ID) values (1, 'CASUS', 105, 2.8, 0.01, 100, 1);
-insert into PRODUCTS (ID, NAME, PRICE, WEIGHT, VOLUME, STOCK, CATEGORY_ID) values (2, 'START PACK 1', 150, 6.65, 0.01, 100, 2);
+insert into PRODUCTS (ID, NAME, PRICE, WEIGHT, VOLUME, STOCK, VISIBLE, CATEGORY_ID) values (1, 'CASUS', 105, 2.8, 0.01, 5, true, 1);
+insert into PRODUCTS (ID, NAME, PRICE, WEIGHT, VOLUME, STOCK, VISIBLE, CATEGORY_ID) values (2, 'START PACK 1', 150, 6.65, 0.01, 2, true, 2);
 insert into property_values (ID, VALUE, PROPERTY_ID, PRODUCT_ID) values (1, '6', 1, 1);
 insert into property_values (ID, VALUE, PROPERTY_ID, PRODUCT_ID) values (2, '16', 2, 2);
 insert into property_values (ID, VALUE, PROPERTY_ID, PRODUCT_ID) values (3, 'red', 3, 1);

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import lombok.RequiredArgsConstructor;
+import org.apache.xerces.impl.dv.util.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -78,6 +79,11 @@ public class ProductService implements shop.service.ProductService {
     }
 
     @Override
+    public List<Product> findAllVisible(int i) {
+        return dao.findAllVisible();
+    }
+
+    @Override
     public List<Product> findAll(int pageSize) {
         return dao.findAll(pageSize);
     }
@@ -121,6 +127,8 @@ public class ProductService implements shop.service.ProductService {
         product.setPrice(dto.getPrice());
         product.setStock(dto.getStock());
         product.setVolume(dto.getVolume());
+        product.setVisible(dto.getVisible());
+        product.setImage(dto.getImage());
         product.setWeight(dto.getWeight());
         /**Пока не придумал как добавлять новые значения характеристик при изменении категории
          * в иделале менять на фронте отображение редактируемой таблицы с названиями и значениями характеристик*/
@@ -150,7 +158,10 @@ public class ProductService implements shop.service.ProductService {
         productDto.setPrice(product.getPrice());
         productDto.setStock(product.getStock());
         productDto.setVolume(product.getVolume());
+        productDto.setVisible(product.getVisible());
         productDto.setWeight(product.getWeight());
+        productDto.setImage(product.getImage());
+        productDto.setStringImage(Base64.encode(product.getImage()));
         productDto.setCategory(product.getCategory().getName());
         Map<Long, String> propertyValues = new HashMap<>();
         Map<Long, String> properties = new HashMap<>();
@@ -172,7 +183,8 @@ public class ProductService implements shop.service.ProductService {
         product.setStock(dto.getStock());
         product.setVolume(dto.getVolume());
         product.setWeight(dto.getWeight());
-
+        product.setVisible(dto.getVisible());
+        product.setImage(dto.getImage());
         Map<Long, String> map = new HashMap<>();
         Category category = categoryService.findByName(dto.getCategory());
         product.setCategory(category);

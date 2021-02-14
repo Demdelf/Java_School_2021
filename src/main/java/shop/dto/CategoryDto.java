@@ -14,6 +14,7 @@ public class CategoryDto {
     private Long id;
 
     private String name;
+    private Boolean visible;
     private List<PropertyDto> properties;
     private String[] prop;
 }

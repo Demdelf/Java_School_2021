@@ -23,4 +23,6 @@ public interface ProductService extends Service<Product> {
     List<Product> findAllFiltered(FilterDto filterDto);
 
     List<Product> findAllByCategoryIdFiltered(Long id, FilterDto filterDto);
+
+    List<Product> findAllVisible(int i);
 }

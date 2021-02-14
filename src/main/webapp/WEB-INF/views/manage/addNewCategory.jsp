@@ -117,6 +117,17 @@
                                                value="">
                                     </div>
                                 </div>
+
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label form-control-label">Visible</label>
+                                    <div class="col-lg-9">
+                                        <select class="form-select" aria-label="Default select example" name="visible">
+                                            <option selected value="true">true</option>
+                                            <option value="false">false</option>
+                                        </select>
+                                    </div>
+                                </div>
+
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label form-control-label"></label>
                                     <div class="col-lg-9">

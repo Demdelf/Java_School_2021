@@ -33,6 +33,11 @@ public class ProductDto {
 
     private Integer stock;
 
+    private Boolean visible;
+
+    private byte[] image;
+    private String stringImage;
+
     private Map<Long, String> propertyValues;
     private Map<Long, String> properties;
 

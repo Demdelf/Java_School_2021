@@ -136,6 +136,16 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label">Visible</label>
+                            <div class="col-lg-9">
+                                <select class="form-select" aria-label="Default select example" name="visible">
+                                    <option selected value="true">true</option>
+                                    <option value="false">false</option>
+                                </select>
+                            </div>
+                        </div>
+
 
 <%--                        <c:forEach items="${properties}" var="property" varStatus="status">--%>
 <%--                            <li class="dropdown-input"><label><input  class="cb" id="prop" type="checkbox" &lt;%&ndash;name="properties[${status.index}]"&ndash;%&gt;> ${property.name}</label></li>--%>
@@ -158,7 +168,7 @@
                             <div class="col-lg-9">
                                 <input type="reset" class="btn btn-secondary" value="Cancel">
                                     <%--                                                    <input type="button" class="btn btn-primary" value="Save Changes">--%>
-                                <button class="w-100 btn btn-lg btn-primary" type="submit">Update name
+                                <button class="w-100 btn btn-lg btn-primary" type="submit">Update
                                 </button>
                             </div>
                         </div>

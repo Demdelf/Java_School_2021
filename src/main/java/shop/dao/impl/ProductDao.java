@@ -27,6 +27,14 @@ public class ProductDao  extends AbstractDao<Product> implements Dao<Product> {
         return entityManager.createQuery(query).getResultList();
     }
 
+    public List<Product> findAllVisible() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Product> query = criteriaBuilder.createQuery(Product.class);
+        Root<Product> root = query.from(Product.class);
+        query.select(root).where(criteriaBuilder.equal(root.get("visible"), true));
+        return entityManager.createQuery(query).getResultList();
+    }
+
 //    public Product findByName(String name) {
 //        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 //        CriteriaQuery<Product> query = criteriaBuilder.createQuery(Product.class);
