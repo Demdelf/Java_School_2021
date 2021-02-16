@@ -50,15 +50,15 @@ public class ManagerController {
     private Service<PropertyValue> propertyValueService;
     private final PropertyService propertyService;
 
-    @ModelAttribute("product")
-    public Product formBackingObject() {
-        return new Product();
-    }
-
-    @ModelAttribute("productDto")
-    public ProductDto getNewDto() {
-        return new ProductDto();
-    }
+//    @ModelAttribute("product")
+//    public Product formBackingObject() {
+//        return new Product();
+//    }
+//
+//    @ModelAttribute("productDto")
+//    public ProductDto getNewDto() {
+//        return new ProductDto();
+//    }
 
     @ModelAttribute("categoryDto")
     public CategoryDto getNewCategoryDto() {

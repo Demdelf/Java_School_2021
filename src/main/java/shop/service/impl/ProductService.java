@@ -42,9 +42,16 @@ public class ProductService implements shop.service.ProductService {
         return product;
     }
 
+    @Transactional
+    public Product findOneForOrder(long id) {
+        // TODO: 14.02.2021 add select to update
+        Product product = dao.findOne(id).orElse(null);
+        return product;
+    }
+
     @Override
     @Transactional
-    public ProductDto getDtoById(long id){
+    public ProductDto getDtoById(long id) {
         Product product = dao.findOne(id).orElse(null);
         return convertProductToDto(product);
     }
@@ -62,10 +69,9 @@ public class ProductService implements shop.service.ProductService {
 
     private List<Product> getFilteredProducts(FilterDto filterDto, List<Product> products) {
         List<Product> result = new ArrayList<>();
-        for (Product p: products
-        ) {
+        for (Product p : products) {
             double price = p.getPrice();
-            if (price >= filterDto.getMinPrice() && price <= filterDto.getMaxPrice()){
+            if (price >= filterDto.getMinPrice() && price <= filterDto.getMaxPrice()) {
                 result.add(p);
             }
         }
@@ -105,8 +111,7 @@ public class ProductService implements shop.service.ProductService {
 
     @Transactional
     void setProductForPropertyValues(Product product) {
-        for (PropertyValue p: product.getPropertyValues()
-        ) {
+        for (PropertyValue p : product.getPropertyValues()) {
             p.setProduct(product);
             propertyValueService.create(p);
         }
@@ -128,16 +133,17 @@ public class ProductService implements shop.service.ProductService {
         product.setStock(dto.getStock());
         product.setVolume(dto.getVolume());
         product.setVisible(dto.getVisible());
-        product.setImage(dto.getImage());
+        if (dto.getImage() != null) {
+            product.setImage(dto.getImage());
+        }
         product.setWeight(dto.getWeight());
         /**Пока не придумал как добавлять новые значения характеристик при изменении категории
          * в иделале менять на фронте отображение редактируемой таблицы с названиями и значениями характеристик*/
 //        Category category = categoryService.findByName(dto.getCategory());
 //        product.setCategory(category);
         List<PropertyValue> propertyValues = new ArrayList<>();
-        if(dto.getPropertyValues()!=null){
-            for (Map.Entry<Long, String> e: dto.getPropertyValues().entrySet()
-            ) {
+        if (dto.getPropertyValues() != null) {
+            for (Map.Entry<Long, String> e : dto.getPropertyValues().entrySet()) {
                 Property property = propertyService.findOne(e.getKey());
 
                 PropertyValue propertyValue = propertyValueService.findByProductAndProperty(product, property);
@@ -165,7 +171,7 @@ public class ProductService implements shop.service.ProductService {
         productDto.setCategory(product.getCategory().getName());
         Map<Long, String> propertyValues = new HashMap<>();
         Map<Long, String> properties = new HashMap<>();
-        for (PropertyValue p: product.getPropertyValues()){
+        for (PropertyValue p : product.getPropertyValues()) {
             propertyValues.put(p.getProperty().getId(), p.getValue());
             properties.put(p.getProperty().getId(), p.getProperty().getName());
         }
@@ -184,21 +190,21 @@ public class ProductService implements shop.service.ProductService {
         product.setVolume(dto.getVolume());
         product.setWeight(dto.getWeight());
         product.setVisible(dto.getVisible());
-        product.setImage(dto.getImage());
+        if (dto.getImage() != null) {
+            product.setImage(dto.getImage());
+        }
         Map<Long, String> map = new HashMap<>();
         Category category = categoryService.findByName(dto.getCategory());
         product.setCategory(category);
 
-        for (Property p: category.getProperties()
-        ) {
+        for (Property p : category.getProperties()) {
             map.put(p.getId(), p.getType());
         }
         dto.setPropertyValues(map);
 
         List<PropertyValue> propertyValues = new ArrayList<>();
-        if(dto.getPropertyValues()!=null){
-            for (Map.Entry<Long, String> e: dto.getPropertyValues().entrySet()
-            ) {
+        if (dto.getPropertyValues() != null) {
+            for (Map.Entry<Long, String> e : dto.getPropertyValues().entrySet()) {
                 PropertyValue propertyValue = new PropertyValue();
                 propertyValue.setProperty(propertyService.findOne(e.getKey()));
                 propertyValue.setValue(e.getValue());
@@ -228,24 +234,25 @@ public class ProductService implements shop.service.ProductService {
 
     @Transactional
     public Integer updateAfterOrder(ProductDto o, Integer q) throws EmptyStockException {
-        Product product = findOne(o.getId());
+        Product product = findOneForOrder(o.getId());
         int stock = product.getStock();
-        if (q <= stock){
+        if (q <= stock) {
             product.setStock(stock - q);
             update(product);
             return q;
-        }else if (stock > 0){
+        } else if (stock > 0) {
             product.setStock(0);
             update(product);
             return stock;
-        }else throw new EmptyStockException();
+        } else {
+            throw new EmptyStockException();
+        }
     }
 
     @Transactional
     public Map<ProductDto, Integer> checkAndUpdateOrderedProducts(Map<ProductDto, Integer> products) {
         List<ProductDto> unableToOrderProduct = new ArrayList<>();
-        for (Entry<ProductDto, Integer> e: products.entrySet()
-        ) {
+        for (Entry<ProductDto, Integer> e : products.entrySet()) {
             int value = 0;
             try {
                 value = updateAfterOrder(e.getKey(), e.getValue());
@@ -256,8 +263,7 @@ public class ProductService implements shop.service.ProductService {
                 unableToOrderProduct.add(e.getKey());
             }
         }
-        for (ProductDto p: unableToOrderProduct
-        ) {
+        for (ProductDto p : unableToOrderProduct) {
             products.remove(p);
         }
         return products;

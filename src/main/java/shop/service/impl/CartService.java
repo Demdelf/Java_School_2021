@@ -39,7 +39,7 @@ public class CartService implements shop.service.CartService {
     }
 
     @Transactional
-    private CartDTO convertCartToCartDto(Cart cart) {
+    CartDTO convertCartToCartDto(Cart cart) {
         CartDTO cartDTO = new CartDTO();
         if (cart.getProduct() != null){
             cartDTO.setSum(cart.getProduct().getPrice() * cartDTO.getQuantity());
@@ -237,7 +237,30 @@ public class CartService implements shop.service.CartService {
         User user = (User) userService.loadUserByUsername(principal.getName());
         dto = getCartDtoByUserOrCreate(user);
         if (!cartDTO.getProducts().isEmpty()) {
-            dto.addProductsFromAnotherDto(cartDTO);
+//            dto.addProductsFromAnotherDto(cartDTO);
+            Map<ProductDto, Integer> sumProducts = dto.getProducts();
+            Double sum = dto.getSum();
+            Integer quantity = dto.getQuantity();
+            for (Entry<ProductDto, Integer> sessionProduct: cartDTO.getProducts().entrySet()
+            ) {
+                Integer q = sessionProduct.getValue();
+                Integer stock = sessionProduct.getKey().getStock();
+                Integer resultQuantity = 0;
+                if (sumProducts.containsKey(sessionProduct.getKey())){
+                    Integer productQuantityFromBD = sumProducts.get(sessionProduct.getKey());
+                    resultQuantity = productQuantityFromBD + q < stock ? productQuantityFromBD + q : stock;
+                    sumProducts.put(sessionProduct.getKey(),  resultQuantity);
+                }else {
+                    resultQuantity = q < stock ? q : stock;
+                    sumProducts.put(sessionProduct.getKey(), resultQuantity);
+                }
+
+                sum += sessionProduct.getKey().getPrice()*resultQuantity;
+                quantity += resultQuantity;
+            }
+            dto.setProducts(sumProducts);
+            dto.setSum(sum);
+            dto.setQuantity(quantity);
             save(dto);
             request.getSession().setAttribute("cartDto", getFreshCartDTO());
         }

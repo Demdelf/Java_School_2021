@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,7 +43,6 @@ import shop.util.exception.EmailExistsException;
 @RequestMapping("customer")
 @RequiredArgsConstructor
 @SessionAttributes({"cart", "path", "cartAfterLogin"})
-
 public class CustomerController {
 
     private static final String CUSTOMER_NEW = "customer/new";
@@ -53,15 +53,15 @@ public class CustomerController {
     @Autowired
     private Service<PropertyValue> propertyValueService;
 
-    @ModelAttribute("product")
-    public Product formBackingObject() {
-        return new Product();
-    }
-
-    @ModelAttribute("productDto")
-    public ProductDto getNewDto() {
-        return new ProductDto();
-    }
+//    @ModelAttribute("product")
+//    public Product formBackingObject() {
+//        return new Product();
+//    }
+//
+//    @ModelAttribute("productDto")
+//    public ProductDto getNewDto() {
+//        return new ProductDto();
+//    }
 
     @ModelAttribute("categoryDto")
     public CategoryDto getNewCategoryDto() {
@@ -113,11 +113,13 @@ public class CustomerController {
     }
 
 
+
     @GetMapping("")
     public String homeInit(
             Locale locale, Model model, @ModelAttribute("cart") CartDTO cartDTO, @ModelAttribute("path") String path,
             Principal principal, @ModelAttribute("filterDto") FilterDto filterDto
     ) {
+
         model.addAttribute("products", productService.findAllVisible(100));
         model.addAttribute("categories", categoryService.findAllVisible(100));
 

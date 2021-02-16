@@ -163,6 +163,30 @@
                         </div>
 
                         <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label">Stock</label>
+                            <div class="col-lg-9">
+                                <input class="form-control" type="text" name="stock"
+                                       value="${productDto.stock}">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label">Weight</label>
+                            <div class="col-lg-9">
+                                <input class="form-control" type="text" name="weight"
+                                       value="${productDto.weight}">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label">Volume</label>
+                            <div class="col-lg-9">
+                                <input class="form-control" type="text" name="volume"
+                                       value="${productDto.volume}">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label class="col-lg-3 col-form-label form-control-label">Visible</label>
                             <div class="col-lg-9">
                                 <select class="form-select" aria-label="Default select example" name="visible">

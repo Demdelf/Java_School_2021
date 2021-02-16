@@ -72,20 +72,76 @@
     </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <script>
-        var q = ${cart.quantity}
-            function addProd(id) {
-                var xhttp = new XMLHttpRequest();
-                xhttp.open("POST", "/cart/add/" + id, true);
-                xhttp.send();
-                q = q + 1
-                document.getElementById("cartQ").innerHTML = q;
-            }
 
-        function checkStock() {
+    <script>
+        var q = ${cart.quantity};
+
+        var cartProdMap = new Map();
+        var prodMap = new Map();
+
+        function setCartProdMap() {
+            alert("setCartProdMap");
+            <c:forEach var="prod" items="${cart.products}">
+            var cpid = ${prod.key.id};
+            var cpv = ${prod.value};
+            cartProdMap.set(cpid, cpv);
+            </c:forEach>
+        }
+        setCartProdMap();
+
+        function checkProdMap() {
+            alert("checkProdMap");
+            <c:forEach var="prod" items="${products}">
+            var pid = ${prod.id};
+            var ps = ${prod.stock};
+            if (cartProdMap.size > 0) {
+                var inc = cartProdMap.get(pid)
+                if (!inc) {
+                    ps = ps - inc;
+                    alert(pid + " already in cart: " + inc)
+                }
+            }
+            prodMap.set(pid, ps);
+            </c:forEach>
+        }
+        checkProdMap();
+
+        function checkStock(id) {
+            if (!prodMap.has(id)){
+                alert("Has not");
+            }
+            alert("checkStock");
+            if (prodMap.get(id) <= 0) {
+                alert(" already in cart: ${id}")
+                document.getElementById("addToCart" + id).setAttribute('disabled', 'disabled');
+                document.getElementById("addToCart" + id).innerHTML = "No more on stock";
+            }
+        }
+
+        function addProd(id) {
+            alert("addProd");
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("POST", "/cart/add/" + id, true);
+            xhttp.send();
+            q = q + 1
+            document.getElementById("cartQ").innerHTML = q;
+            var pq = prodMap.get(id);
+            prodMap.set(id, pq - 1);
+            checkStock(id)
+        }
+
+
+        function checkStockAll() {
+            alert("checkStockAll")
             <c:forEach var="prod" items="${products}">
             var s = ${prod.stock};
-            if (s === 0) {
+            if (cartProdMap.size > 0) {
+                var inc = cartProdMap.get(pid)
+                if (!inc) {
+                    s = s - inc;
+                }
+            }
+            if (s <= 0) {
                 document.getElementById("addToCart${prod.id}").setAttribute('disabled', 'disabled');
                 document.getElementById("addToCart${prod.id}").innerHTML = "out of stock";
             }
@@ -192,7 +248,7 @@
                             </div>
                             <div class="card-footer">
                                 <button class="btn btn-success btn-sm ml-3" type="submit"
-                                        onClick="addProd(${product.id}, ${cart.quantity})" id="addToCart${product.id}">
+                                        onClick="addProd(${product.id})" id="addToCart${product.id}">
                                     add to cart
                                 </button>
                             </div>
@@ -214,7 +270,15 @@
     </div>
     <!-- /.container -->
 </footer>
-<script>checkStock();</script>
+<script>
+    setCartProdMap();
+    checkProdMap();
+    <c:forEach var="prod" items="${products}">
+    var checkid = ${prod.id};
+    checkStock(checkid);
+    </c:forEach>
+    checkStockAll();
+</script>
 <script type="text/html" src="../resources/js/filter.js"></script>
 </body>
 </html>
