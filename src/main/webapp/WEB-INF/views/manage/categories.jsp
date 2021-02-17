@@ -72,35 +72,6 @@
     <a class="btn btn-outline-primary" href="http://localhost:8080/account">Account</a>
 </header>
 <body>
-<%--<h1>Add category</h1>--%>
-<%--<form:form action="create" method="post" modelAttribute="categoryDto">--%>
-<%--    <table>--%>
-<%--        <tr>--%>
-<%--            <td>Name</td>--%>
-<%--            <td>--%>
-<%--                <form:input path="name" /> <br />--%>
-<%--                <form:errors path="name" cssClass="error" />--%>
-<%--            </td>--%>
-<%--        </tr>--%>
-
-<%--        <tr>--%>
-<%--            <td></td>--%>
-<%--            <td><input type="submit" value="Submit"></td>--%>
-<%--            <td></td>--%>
-<%--        </tr>--%>
-
-<%--        <table>--%>
-<%--            <tr>--%>
-<%--                <td><strong>Name</strong></td>--%>
-<%--            </tr>--%>
-<%--            <c:forEach items="${categories}" var="category">--%>
-<%--                <tr>--%>
-<%--                    <td>${category.name}</td>--%>
-<%--                </tr>--%>
-<%--            </c:forEach>--%>
-<%--        </table>--%>
-<%--    </table>--%>
-<%--</form:form>--%>
 
 <div class="container">
     <div class="row my-2">

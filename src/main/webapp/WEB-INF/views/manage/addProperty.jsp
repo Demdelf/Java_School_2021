@@ -40,6 +40,7 @@
             border: 1px solid #565454;
             padding: 20px;
         }
+
         .dropdown-input label {
 
             display: block;
@@ -57,6 +58,7 @@
             white-space: nowrap;
 
         }
+
         .themed-grid-col {
             padding-top: .75rem;
             padding-bottom: .75rem;
@@ -104,46 +106,48 @@
 
 <body>
 <h1>Add property for ${propertyDto.category}</h1>
-<div class="tab-content py-4">
-    <div class="tab-pane active" id="profile">
-        <div class="container py-3">
-            <div class="row">
-                <div class="mx-auto col-sm-6">
+<div class="container">
+    <div class="tab-content py-4">
+        <div class="tab-pane active" id="profile">
+            <div class="container py-3">
+                <div class="row">
+                    <div class="mx-auto col-sm-6">
 
-                    <form:form class="form" role="form" autocomplete="off" name="create"
-                               action="/manage/properties/${categoryId}/add" method="POST"
-                               modelAttribute="propertyDto">
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Name</label>
-                            <div class="col-lg-9">
-                                <input class="form-control" type="text" name="name"
-                                       value="${propertyDto.name}">
+                        <form:form class="form" role="form" autocomplete="off" name="create"
+                                   action="/manage/properties/${categoryId}/add" method="POST"
+                                   modelAttribute="propertyDto">
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">Name</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="text" name="name"
+                                           value="${propertyDto.name}">
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Type</label>
-                            <div class="col-lg-9">
-                                <input class="form-control" type="text" name="type"
-                                       value="${propertyDto.type}">
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">Type</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="text" name="type"
+                                           value="${propertyDto.type}">
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Category</label>
-                            <div class="col-lg-9">
-                                <input class="form-control" type="text" name="category"
-                                       value="${propertyDto.category}">
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">Category</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="text" name="category"
+                                           value="${propertyDto.category}">
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label"></label>
-                            <div class="col-lg-9">
-                                <input type="reset" class="btn btn-secondary" value="Cancel">
-                                    <%--                                                    <input type="button" class="btn btn-primary" value="Save Changes">--%>
-                                <button class="w-100 btn btn-lg btn-primary" type="submit">Add property
-                                </button>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label"></label>
+                                <div class="col-lg-9">
+                                    <input type="reset" class="btn btn-secondary" value="Cancel">
+                                        <%--                                                    <input type="button" class="btn btn-primary" value="Save Changes">--%>
+                                    <button class="w-100 btn btn-lg btn-primary" type="submit">Add property
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    </form:form>
+                        </form:form>
+                    </div>
                 </div>
             </div>
         </div>

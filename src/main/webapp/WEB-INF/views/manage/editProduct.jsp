@@ -133,125 +133,128 @@
 </header>
 <body>
 <h1>Edit product</h1>
+<div class="container">
+    <div class="tab-content py-4">
+        <div class="tab-pane active" id="profile">
+            <div class="container py-3">
+                <div class="row">
+                    <a href="/customer/products/${productDto.id}">
+                        <img class="img-fluid rounded mx-auto d-block" alt="Responsive image"
+                             src="/products-images/${productDto.id}">
+                    </a>
+                    <div class="mx-auto col-sm-6">
 
-<div class="tab-content py-4">
-    <div class="tab-pane active" id="profile">
-        <div class="container py-3">
-            <div class="row">
-                <a href="/customer/products/${productDto.id}">
-                    <img class="img-fluid rounded mx-auto d-block" alt="Responsive image" src="/products-images/${productDto.id}">
-                </a>
-                <div class="mx-auto col-sm-6">
-
-                    <form:form class="form" role="form" autocomplete="off" name="edit"
-                               method="post" modelAttribute="productDto"
-                               action="/manage/products/edit/${productDto.id}"
-                               enctype="multipart/form-data">
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Name</label>
-                            <div class="col-lg-9">
-                                <input class="form-control" type="text" name="name"
-                                       value="${productDto.name}">
+                        <form:form class="form" role="form" autocomplete="off" name="edit"
+                                   method="post" modelAttribute="productDto"
+                                   action="/manage/products/edit/${productDto.id}"
+                                   enctype="multipart/form-data">
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">Name</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="text" name="name"
+                                           value="${productDto.name}">
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Price</label>
-                            <div class="col-lg-9">
-                                <input class="form-control" type="text" name="price"
-                                       value="${productDto.price}">
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">Price</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="text" name="price"
+                                           value="${productDto.price}">
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Stock</label>
-                            <div class="col-lg-9">
-                                <input class="form-control" type="text" name="stock"
-                                       value="${productDto.stock}">
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">Stock</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="text" name="stock"
+                                           value="${productDto.stock}">
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Weight</label>
-                            <div class="col-lg-9">
-                                <input class="form-control" type="text" name="weight"
-                                       value="${productDto.weight}">
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">Weight</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="text" name="weight"
+                                           value="${productDto.weight}">
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Volume</label>
-                            <div class="col-lg-9">
-                                <input class="form-control" type="text" name="volume"
-                                       value="${productDto.volume}">
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">Volume</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="text" name="volume"
+                                           value="${productDto.volume}">
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Visible</label>
-                            <div class="col-lg-9">
-                                <select class="form-select" aria-label="Default select example" name="visible">
-                                    <option selected value="true">true</option>
-                                    <option value="false">false</option>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">Visible</label>
+                                <div class="col-lg-9">
+                                    <select class="form-select" aria-label="Default select example" name="visible">
+                                        <option selected value="true">true</option>
+                                        <option value="false">false</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="category"
+                                       class="col-lg-3 col-form-label form-control-label">Category</label>
+                                <select class="form-select col-lg-9" name="category" id="category" required>
+                                    <c:forEach var="category" items="${categories}">
+                                        <option value="${category.name}" ${productDto.category == category.name ? 'selected' : ''}>
+                                                ${category.name}
+                                        </option>
+                                    </c:forEach>
                                 </select>
                             </div>
-                        </div>
+                            <div class="row g-2">
+                                <div class="col-sm-6">
+                                    <label class="col-lg-3 col-form-label form-control-label">Property</label>
+                                    <c:forEach var="property" items="${productDto.properties}">
+                                        <div class="col-lg-9">
+                                            <label class="col-lg-3 col-form-label form-control-label">${property.value}</label>
+                                        </div>
+                                    </c:forEach>
+                                </div>
 
-                        <div class="form-group row">
-                            <label for="category" class="col-lg-3 col-form-label form-control-label">Category</label>
-                            <select class="form-select col-lg-9" name="category" id="category" required>
-                                <c:forEach var="category" items="${categories}">
-                                    <option value="${category.name}" ${productDto.category == category.name ? 'selected' : ''}>
-                                            ${category.name}
-                                    </option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                        <div class="row g-2">
-                            <div class="col-sm-6">
-                                <label class="col-lg-3 col-form-label form-control-label">Property</label>
-                                <c:forEach var="property" items="${productDto.properties}">
-                                    <div class="col-lg-9">
-                                        <label class="col-lg-3 col-form-label form-control-label">${property.value}</label>
-                                    </div>
-                                </c:forEach>
+                                <div class="col-sm-6">
+                                    <label class="col-lg-3 col-form-label form-control-label">Value</label>
+                                    <c:forEach var="propertyValues" items="${productDto.propertyValues}">
+                                        <div class="col-lg-9">
+                                            <input class="form-control" type="text"
+                                                   name="propertyValues['${propertyValues.key}']"
+                                                   value="${propertyValues.value}"/>
+                                        </div>
+                                    </c:forEach>
+
+                                </div>
                             </div>
 
-                            <div class="col-sm-6">
-                                <label class="col-lg-3 col-form-label form-control-label">Value</label>
-                                <c:forEach var="propertyValues" items="${productDto.propertyValues}">
-                                    <div class="col-lg-9">
-                                        <input class="form-control" type="text"
-                                               name="propertyValues['${propertyValues.key}']"
-                                               value="${propertyValues.value}"/>
-                                    </div>
-                                </c:forEach>
-
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">Image: </label>
+                                <div class="col-lg-9">
+                                    <input type="file" name="imageM" accept="image/png, image/jpeg, image/jpg"
+                                           value="/products-images/${productDto.id}"/>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Image: </label>
-                            <div class="col-lg-9">
-                                <input type="file" name="imageM" accept="image/png, image/jpeg, image/jpg" value="/products-images/${productDto.id}"/>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label"></label>
+                                <div class="col-lg-9">
+                                    <input type="reset" class="btn btn-secondary" value="Cancel">
+                                    <button class="w-100 btn btn-lg btn-primary" type="submit">Save Changes
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label"></label>
-                            <div class="col-lg-9">
-                                <input type="reset" class="btn btn-secondary" value="Cancel">
-                                <button class="w-100 btn btn-lg btn-primary" type="submit">Save Changes
-                                </button>
-                            </div>
-                        </div>
-                    </form:form>
+                        </form:form>
+                    </div>
                 </div>
             </div>
-        </div>
 
+        </div>
     </div>
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
         crossorigin="anonymous"></script>

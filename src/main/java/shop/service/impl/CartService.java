@@ -41,9 +41,9 @@ public class CartService implements shop.service.CartService {
     @Transactional
     CartDTO convertCartToCartDto(Cart cart) {
         CartDTO cartDTO = new CartDTO();
-        if (cart.getProduct() != null){
+        if (cart.getProduct() != null) {
             cartDTO.setSum(cart.getProduct().getPrice() * cartDTO.getQuantity());
-        }else {
+        } else {
             cartDTO.setSum(0.0);
         }
 
@@ -174,7 +174,7 @@ public class CartService implements shop.service.CartService {
     }
 
     @Transactional
-    private CartDTO convertCartsToCartDto(List<Cart> carts) {
+    CartDTO convertCartsToCartDto(List<Cart> carts) {
         CartDTO cartDTO = new CartDTO();
         Map<ProductDto, Integer> products = new HashMap<>();
         int q = 0;
@@ -241,26 +241,26 @@ public class CartService implements shop.service.CartService {
             Map<ProductDto, Integer> sumProducts = dto.getProducts();
             Double sum = dto.getSum();
             Integer quantity = dto.getQuantity();
-            for (Entry<ProductDto, Integer> sessionProduct: cartDTO.getProducts().entrySet()
-            ) {
+//            Integer quantity = 0;
+            for (Entry<ProductDto, Integer> sessionProduct : cartDTO.getProducts().entrySet()) {
                 Integer q = sessionProduct.getValue();
                 Integer stock = sessionProduct.getKey().getStock();
                 Integer resultQuantity = 0;
-                if (sumProducts.containsKey(sessionProduct.getKey())){
+                if (sumProducts.containsKey(sessionProduct.getKey())) {
                     Integer productQuantityFromBD = sumProducts.get(sessionProduct.getKey());
                     resultQuantity = productQuantityFromBD + q < stock ? productQuantityFromBD + q : stock;
-                    sumProducts.put(sessionProduct.getKey(),  resultQuantity);
-                }else {
+                    sumProducts.put(sessionProduct.getKey(), resultQuantity);
+                } else {
                     resultQuantity = q < stock ? q : stock;
                     sumProducts.put(sessionProduct.getKey(), resultQuantity);
                 }
 
-                sum += sessionProduct.getKey().getPrice()*resultQuantity;
+                sum += sessionProduct.getKey().getPrice() * resultQuantity;
                 quantity += resultQuantity;
             }
             dto.setProducts(sumProducts);
             dto.setSum(sum);
-            dto.setQuantity(quantity);
+            dto.setQuantity(sumProducts.values().stream().mapToInt(Integer::intValue).sum());
             save(dto);
             request.getSession().setAttribute("cartDto", getFreshCartDTO());
         }
@@ -269,13 +269,12 @@ public class CartService implements shop.service.CartService {
 
     private void save(CartDTO dto) {
         List<Cart> carts = convertDtoToCarts(dto);
-        for (Cart c: carts
-        ) {
+        for (Cart c : carts) {
             Cart cartFromDB = cartDao.findByUserAndProduct(c);
-            if ( cartFromDB != null){
+            if (cartFromDB != null) {
                 cartFromDB.setQuantity(c.getQuantity());
                 cartDao.updateR(cartFromDB);
-            }else {
+            } else {
                 cartDao.create(c);
             }
         }
@@ -284,8 +283,7 @@ public class CartService implements shop.service.CartService {
 
     private List<Cart> convertDtoToCarts(CartDTO dto) {
         List<Cart> carts = new ArrayList<>();
-        for (Entry<ProductDto, Integer> e: dto.getProducts().entrySet()
-        ) {
+        for (Entry<ProductDto, Integer> e : dto.getProducts().entrySet()) {
             Cart cart = new Cart();
             cart.setQuantity(e.getValue());
             cart.setUser(userService.find(dto.getUserId()));
@@ -297,9 +295,11 @@ public class CartService implements shop.service.CartService {
 
 
     public CartDTO getCartDtoByPrincipal(Principal principal, CartDTO cartDTO) {
-        if (isAuthorized(principal)){
+        if (isAuthorized(principal)) {
             User user = (User) userService.loadUserByUsername(principal.getName());
             return getCartDtoByUserOrCreate(user);
-        }else return cartDTO;
+        } else {
+            return cartDTO;
+        }
     }
 }

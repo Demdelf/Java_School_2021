@@ -117,62 +117,63 @@
         <%--        <a class="p-2 text-dark" href="#">Support</a>--%>
 
         <a class="p-2 text-dark" href="http://localhost:8080/customer">Catalog</a>
-            <a class="btn btn-outline-primary" href="http://localhost:8080/manage">Manage</a>
+        <a class="btn btn-outline-primary" href="http://localhost:8080/manage">Manage</a>
     </nav>
     <a class="btn btn-outline-primary" href="http://localhost:8080/account">Account</a>
 </header>
 
 <body>
-<h1>Manage drytooling holds shop</h1>
+<div class="container">
+    <h1>Manage drytooling holds shop</h1>
 
-<div class="col mb-2">
-    <div class="row">
-        <div class="col-sm-12 col-md-6 text-right">
-            <form name='create' action="/manage/categories/all" method='Get'>
-                <button class="btn btn-lg btn-block btn-success text-uppercase" type="submit">
-                    Manage categories
-                </button>
-            </form>
+    <div class="col mb-2">
+        <div class="row">
+            <div class="col-sm-12 col-md-6 text-right">
+                <form name='create' action="/manage/categories/all" method='Get'>
+                    <button class="btn btn-lg btn-block btn-success text-uppercase" type="submit">
+                        Manage categories
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col mb-2">
+        <div class="row">
+            <div class="col-sm-12 col-md-6 text-right">
+                <form name='create' action="/manage/products/all" method='Get'>
+                    <button class="btn btn-lg btn-block btn-success text-uppercase" type="submit">
+                        Manage products
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col mb-2">
+        <div class="row">
+            <div class="col-sm-12 col-md-6 text-right">
+                <form name='create' action="/manage/orders" method='Get'>
+                    <button class="btn btn-lg btn-block btn-success text-uppercase" type="submit">
+                        Manage orders
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col mb-2">
+        <div class="row">
+            <div class="col-sm-12 col-md-6 text-right">
+                <form name='create' action="/manage/stat" method='Get'>
+                    <button class="btn btn-lg btn-block btn-success text-uppercase" type="submit">
+                        Statistic
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
-
-<div class="col mb-2">
-    <div class="row">
-        <div class="col-sm-12 col-md-6 text-right">
-            <form name='create' action="/manage/products/all" method='Get'>
-                <button class="btn btn-lg btn-block btn-success text-uppercase" type="submit">
-                    Manage products
-                </button>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div class="col mb-2">
-    <div class="row">
-        <div class="col-sm-12 col-md-6 text-right">
-            <form name='create' action="/manage/orders" method='Get'>
-                <button class="btn btn-lg btn-block btn-success text-uppercase" type="submit">
-                    Manage orders
-                </button>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div class="col mb-2">
-    <div class="row">
-        <div class="col-sm-12 col-md-6 text-right">
-            <form name='create' action="/manage/stat" method='Get'>
-                <button class="btn btn-lg btn-block btn-success text-uppercase" type="submit">
-                    Statistic
-                </button>
-            </form>
-        </div>
-    </div>
-</div>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
         crossorigin="anonymous"></script>

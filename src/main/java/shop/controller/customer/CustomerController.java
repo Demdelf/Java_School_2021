@@ -39,12 +39,16 @@ import shop.service.impl.CartService;
 import shop.service.impl.UserService;
 import shop.util.exception.EmailExistsException;
 
+import org.apache.log4j.Logger;
+
 @Controller
 @RequestMapping("customer")
 @RequiredArgsConstructor
 @SessionAttributes({"cart", "path", "cartAfterLogin"})
+@Slf4j
 public class CustomerController {
-
+    private static final Logger logger =
+            Logger.getLogger(CustomerController.class);
     private static final String CUSTOMER_NEW = "customer/new";
     private final ProductService productService;
     private final CartService cartService;
@@ -119,7 +123,8 @@ public class CustomerController {
             Locale locale, Model model, @ModelAttribute("cart") CartDTO cartDTO, @ModelAttribute("path") String path,
             Principal principal, @ModelAttribute("filterDto") FilterDto filterDto
     ) {
-
+        log.info("Log Alive");
+        logger.info("Handle log Alive");
         model.addAttribute("products", productService.findAllVisible(100));
         model.addAttribute("categories", categoryService.findAllVisible(100));
 

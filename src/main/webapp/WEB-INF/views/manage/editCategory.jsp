@@ -33,6 +33,7 @@
             border: 1px solid #565454;
             padding: 20px;
         }
+
         .dropdown-input label {
 
             display: block;
@@ -50,6 +51,7 @@
             white-space: nowrap;
 
         }
+
         .themed-grid-col {
             padding-top: .75rem;
             padding-bottom: .75rem;
@@ -91,144 +93,129 @@
         <%--        <a class="p-2 text-dark" href="#">Enterprise</a>--%>
         <%--        <a class="p-2 text-dark" href="#">Support</a>--%>
         <a class="p-2 text-dark" href="http://localhost:8080/customer">Catalog</a>
-            <a class="btn btn-outline-primary" href="http://localhost:8080/manage">Manage</a>
+        <a class="btn btn-outline-primary" href="http://localhost:8080/manage">Manage</a>
     </nav>
     <a class="btn btn-outline-primary" href="http://localhost:8080/account">Account</a>
 </header>
 
 <body>
 <h1>Edit ${categoryDto.name} category</h1>
-<%--<form:form method="post" modelAttribute="categoryDto" action="/manage/categories/edit/${categoryDto.id}">--%>
-<%--    <table>--%>
-<%--        <tr>--%>
-<%--            <td><strong>Name</strong></td>--%>
-<%--            <td><input type="text" name="name" value="${categoryDto.name}"/></td>--%>
-<%--        </tr>--%>
-<%--    </table>--%>
-
-<%--    <tr>--%>
-<%--        <td><input type="submit" value="Update"></td>--%>
-<%--    </tr>--%>
-<%--</form:form>--%>
-<div class="tab-content py-4">
-    <div class="tab-pane active" id="profile">
-
-
-
-
-
-
-
-<div class="tab-content py-4">
-    <div class="tab-pane active" id="profile2">
-        <div class="container py-3">
-            <div class="row">
-                <div class="mx-auto col-sm-6">
-
-                    <form:form class="form" role="form" autocomplete="off" name="edit"
-                               action="/manage/categories/edit/${categoryDto.id}" method="POST"
-                               modelAttribute="categoryDto">
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Name</label>
-                            <div class="col-lg-9">
-                                <input class="form-control" type="text" name="name"
-                                       value="${categoryDto.name}">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Visible</label>
-                            <div class="col-lg-9">
-                                <select class="form-select" aria-label="Default select example" name="visible">
-                                    <option selected value="true">true</option>
-                                    <option value="false">false</option>
-                                </select>
-                            </div>
-                        </div>
-
-
-<%--                        <c:forEach items="${properties}" var="property" varStatus="status">--%>
-<%--                            <li class="dropdown-input"><label><input  class="cb" id="prop" type="checkbox" &lt;%&ndash;name="properties[${status.index}]"&ndash;%&gt;> ${property.name}</label></li>--%>
-<%--                        </c:forEach>--%>
-
-<%--                        <form id="myForm">--%>
-<%--                            <select id="mySelect" name="prop">--%>
-<%--                                <c:forEach items="${properties}" var="property" varStatus="status">--%>
-<%--                                    <option value="${property.id}">${property.name}</option>--%>
-<%--&lt;%&ndash;                                    <li class="dropdown-input"><label><input  class="cb" id="prop" type="checkbox" &lt;%&ndash;name="properties[${status.index}]"&ndash;%&gt;> ${property.name}</label></li>&ndash;%&gt;--%>
-<%--                                </c:forEach>--%>
-<%--                            </select>--%>
-<%--                            <input type="button" onclick="multipleFunc()" value="Select multiple options">--%>
-<%--&lt;%&ndash;                        </form>&ndash;%&gt;--%>
-<%--                        <p>Press CTRL and click above button to select multiple properties at once.</p>--%>
-
-
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label"></label>
-                            <div class="col-lg-9">
-                                <input type="reset" class="btn btn-secondary" value="Cancel">
-                                    <%--                                                    <input type="button" class="btn btn-primary" value="Save Changes">--%>
-                                <button class="w-100 btn btn-lg btn-primary" type="submit">Update
-                                </button>
-                            </div>
-                        </div>
-
-                    </form:form>
-
-                </div>
-                </div>
-            </div>
-        </div>
-    <h5 class="mt-2"><span class="fa fa-clock-o ion-clock float-right"></span> Properties</h5>
+<div class="container">
     <div class="tab-content py-4">
+        <div class="tab-pane active" id="profile">
 
-        <c:forEach items="${categoryDto.properties}" var="property">
+            <div class="tab-content py-4">
+                <div class="tab-pane active" id="profile2">
+                    <div class="container py-3">
+                        <div class="row">
+                            <div class="mx-auto col-sm-6">
 
-            <div class="row  mb-3">
-                <div class="col-md-2 themed-grid-col">${property.name}</div>
-                <div class="col-md-2 themed-grid-col">${property.type}</div>
-                <div class="col-md-1 themed-grid-col">
-                    <form name='get' action="/account/addresses/edit/${address.id}" method='Get'>
-                        <input name="submit" type="submit" value="Edit"/>
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                    </form>
+                                <form:form class="form" role="form" autocomplete="off" name="edit"
+                                           action="/manage/categories/edit/${categoryDto.id}" method="POST"
+                                           modelAttribute="categoryDto">
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Name</label>
+                                        <div class="col-lg-9">
+                                            <input class="form-control" type="text" name="name"
+                                                   value="${categoryDto.name}">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Visible</label>
+                                        <div class="col-lg-9">
+                                            <select class="form-select" aria-label="Default select example"
+                                                    name="visible">
+                                                <option selected value="true">true</option>
+                                                <option value="false">false</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                    <%--                        <c:forEach items="${properties}" var="property" varStatus="status">--%>
+                                    <%--                            <li class="dropdown-input"><label><input  class="cb" id="prop" type="checkbox" &lt;%&ndash;name="properties[${status.index}]"&ndash;%&gt;> ${property.name}</label></li>--%>
+                                    <%--                        </c:forEach>--%>
+
+                                    <%--                        <form id="myForm">--%>
+                                    <%--                            <select id="mySelect" name="prop">--%>
+                                    <%--                                <c:forEach items="${properties}" var="property" varStatus="status">--%>
+                                    <%--                                    <option value="${property.id}">${property.name}</option>--%>
+                                    <%--&lt;%&ndash;                                    <li class="dropdown-input"><label><input  class="cb" id="prop" type="checkbox" &lt;%&ndash;name="properties[${status.index}]"&ndash;%&gt;> ${property.name}</label></li>&ndash;%&gt;--%>
+                                    <%--                                </c:forEach>--%>
+                                    <%--                            </select>--%>
+                                    <%--                            <input type="button" onclick="multipleFunc()" value="Select multiple options">--%>
+                                    <%--&lt;%&ndash;                        </form>&ndash;%&gt;--%>
+                                    <%--                        <p>Press CTRL and click above button to select multiple properties at once.</p>--%>
+
+
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label"></label>
+                                        <div class="col-lg-9">
+                                            <input type="reset" class="btn btn-secondary" value="Cancel">
+                                                <%--                                                    <input type="button" class="btn btn-primary" value="Save Changes">--%>
+                                            <button class="w-100 btn btn-lg btn-primary" type="submit">Update
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </form:form>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <h5 class="mt-2"><span class="fa fa-clock-o ion-clock float-right"></span> Properties</h5>
+                <div class="tab-content py-4">
+
+                    <c:forEach items="${categoryDto.properties}" var="property">
+
+                        <div class="row  mb-3">
+                            <div class="col-md-2 themed-grid-col">${property.name}</div>
+                            <div class="col-md-2 themed-grid-col">${property.type}</div>
+                            <div class="col-md-1 themed-grid-col">
+                                <form name='get' action="/account/addresses/edit/${address.id}" method='Get'>
+                                    <input name="submit" type="submit" value="Edit"/>
+                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                </form>
+                            </div>
+                        </div>
+                    </c:forEach>
+                    <a class="btn btn-outline-primary"
+                       href="http://localhost:8080/manage/properties/${categoryDto.id}/add">Add property</a>
+                </div>
+                <a class="btn btn-outline-info" href="http://localhost:8080/manage/categories/all">View all
+                    categories</a>
             </div>
-        </c:forEach>
-        <a class="btn btn-outline-primary" href="http://localhost:8080/manage/properties/${categoryDto.id}/add">Add property</a>
+
+
+        </div>
     </div>
-    <a class="btn btn-outline-info" href="http://localhost:8080/manage/categories/all">View all categories</a>
-    </div>
+    <script>
+        // var addProp = $("#prop");
+        //
+        // addProp.click(function() {
+        //     $('ul').html("");
+        //     $(".cb").each(function(){
+        //         if($(this).is(":checked")){
+        //             $('ul').append('<li>'+$(this).val()+'</li>')
+        //         }
+        //     });
+        // });
 
+        // $('.cb').click(function() {
+        //     $('ul').html("");
+        //     $(".cb").each(function(){
+        //         if($(this).is(":checked")){
+        //             $('ul').append('<li>'+$(this).val()+'</li>')
+        //         }
+        //     });
+        // });
 
-</div>
-
-<script>
-    // var addProp = $("#prop");
-    //
-    // addProp.click(function() {
-    //     $('ul').html("");
-    //     $(".cb").each(function(){
-    //         if($(this).is(":checked")){
-    //             $('ul').append('<li>'+$(this).val()+'</li>')
-    //         }
-    //     });
-    // });
-
-    // $('.cb').click(function() {
-    //     $('ul').html("");
-    //     $(".cb").each(function(){
-    //         if($(this).is(":checked")){
-    //             $('ul').append('<li>'+$(this).val()+'</li>')
-    //         }
-    //     });
-    // });
-
-    function multipleFunc() {
-        document.getElementById("mySelect").multiple = true;
-    }
-</script>
-
+        function multipleFunc() {
+            document.getElementById("mySelect").multiple = true;
+        }
+    </script>
 
 
 </body>

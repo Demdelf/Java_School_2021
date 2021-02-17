@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -26,6 +27,11 @@ public abstract class AbstractDao<T> {
 
     public Optional<T> findOne(long id) {
         return Optional.ofNullable(entityManager.find(clazz, id));
+    }
+
+    public Optional<T> findOneSFU(long id) {
+        // TODO: 17.02.2021 add custom select for update
+        return Optional.ofNullable(entityManager.find(clazz, id, LockModeType.PESSIMISTIC_WRITE));
     }
 
     public List<T> findAll(int pageSize) {

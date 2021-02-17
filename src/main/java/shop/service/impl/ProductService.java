@@ -45,7 +45,7 @@ public class ProductService implements shop.service.ProductService {
     @Transactional
     public Product findOneForOrder(long id) {
         // TODO: 14.02.2021 add select to update
-        Product product = dao.findOne(id).orElse(null);
+        Product product = dao.findOneSFU(id).orElse(null);
         return product;
     }
 

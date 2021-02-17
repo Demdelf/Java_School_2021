@@ -33,6 +33,7 @@
             border: 1px solid #565454;
             padding: 20px;
         }
+
         .dropdown-input label {
 
             display: block;
@@ -50,6 +51,7 @@
             white-space: nowrap;
 
         }
+
         .themed-grid-col {
             padding-top: .75rem;
             padding-bottom: .75rem;
@@ -98,47 +100,49 @@
 
 <body>
 <h1>Add new category</h1>
+<div class="container">
+    <div class="tab-content py-4">
+        <div class="tab-pane active" id="profile">
+            <div class="tab-content py-4">
+                <div class="tab-pane active" id="profile2">
+                    <div class="container py-3">
+                        <div class="row">
+                            <div class="mx-auto col-sm-6">
 
-<div class="tab-content py-4">
-    <div class="tab-pane active" id="profile">
-        <div class="tab-content py-4">
-            <div class="tab-pane active" id="profile2">
-                <div class="container py-3">
-                    <div class="row">
-                        <div class="mx-auto col-sm-6">
-
-                            <form:form class="form" role="form" autocomplete="off" name="edit"
-                                       action="/manage/categories/add" method="POST"
-                                       modelAttribute="categoryDto">
-                                <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label form-control-label">Name</label>
-                                    <div class="col-lg-9">
-                                        <input class="form-control" type="text" name="name"
-                                               value="">
+                                <form:form class="form" role="form" autocomplete="off" name="edit"
+                                           action="/manage/categories/add" method="POST"
+                                           modelAttribute="categoryDto">
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Name</label>
+                                        <div class="col-lg-9">
+                                            <input class="form-control" type="text" name="name"
+                                                   value="">
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label form-control-label">Visible</label>
-                                    <div class="col-lg-9">
-                                        <select class="form-select" aria-label="Default select example" name="visible">
-                                            <option selected value="true">true</option>
-                                            <option value="false">false</option>
-                                        </select>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Visible</label>
+                                        <div class="col-lg-9">
+                                            <select class="form-select" aria-label="Default select example"
+                                                    name="visible">
+                                                <option selected value="true">true</option>
+                                                <option value="false">false</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label form-control-label"></label>
-                                    <div class="col-lg-9">
-                                        <input type="reset" class="btn btn-secondary" value="Cancel">
-                                        <button class="w-100 btn btn-lg btn-primary" type="submit">Continue
-                                        </button>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label"></label>
+                                        <div class="col-lg-9">
+                                            <input type="reset" class="btn btn-secondary" value="Cancel">
+                                            <button class="w-100 btn btn-lg btn-primary" type="submit">Continue
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
 
-                            </form:form>
+                                </form:form>
 
+                            </div>
                         </div>
                     </div>
                 </div>
