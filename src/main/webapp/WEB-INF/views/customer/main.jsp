@@ -96,9 +96,9 @@
             var ps = ${prod.stock};
             if (cartProdMap.size > 0) {
                 var inc = cartProdMap.get(pid)
-                if (!inc) {
+                if (inc) {
                     ps = ps - inc;
-                    alert(pid + " already in cart: " + inc)
+                    alert("${pid} already in cart: ${inc}" + pid.toString());
                 }
             }
             prodMap.set(pid, ps);
@@ -112,7 +112,7 @@
             }
             alert("checkStock");
             if (prodMap.get(id) <= 0) {
-                alert(" already in cart: ${id}")
+                alert(" no more on stock: ${id}" + id.toString())
                 document.getElementById("addToCart" + id).setAttribute('disabled', 'disabled');
                 document.getElementById("addToCart" + id).innerHTML = "No more on stock";
             }
@@ -130,17 +130,10 @@
             checkStock(id)
         }
 
-
         function checkStockAll() {
             alert("checkStockAll")
             <c:forEach var="prod" items="${products}">
             var s = ${prod.stock};
-            if (cartProdMap.size > 0) {
-                var inc = cartProdMap.get(pid)
-                if (!inc) {
-                    s = s - inc;
-                }
-            }
             if (s <= 0) {
                 document.getElementById("addToCart${prod.id}").setAttribute('disabled', 'disabled');
                 document.getElementById("addToCart${prod.id}").innerHTML = "out of stock";
