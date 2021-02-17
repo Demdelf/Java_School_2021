@@ -89,15 +89,57 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <script>
-        var q = ${cart.quantity}
-            function addProd(id) {
-                var xhttp = new XMLHttpRequest();
-                xhttp.open("POST", "/cart/add/" + id, true);
-                xhttp.send();
-                q = q + 1
-                document.getElementById("cartQ").innerHTML = q;
+        var q = ${cart.quantity};
+        var pid = ${productDto.id};
+        var ps = ${productDto.stock};
+
+        var cartProdMap = new Map();
+
+        function setCartProdMap() {
+            // alert("setCartProdMap");
+            <c:forEach var="prod" items="${cart.products}">
+            var cpid = ${prod.key.id};
+            var cpv = ${prod.value};
+            cartProdMap.set(cpid, cpv);
+            </c:forEach>
+        }
+
+        setCartProdMap();
+
+        function checkProductStock() {
+            // alert("checkProductStock compare with cart");
+            if (cartProdMap.size > 0) {
+                var inc = cartProdMap.get(pid)
+                if (inc) {
+                    ps = ps - inc;
+                    <%--alert("${pid} already in cart: ${inc}" + pid.toString());--%>
+                }
             }
-        function checkStock() {
+        }
+
+        checkProductStock();
+
+        function checkStock(id) {
+            // alert("check stock");
+            if (ps <= 0) {
+                <%--alert(" no more on stock: ${id}" + id.toString());--%>
+                document.getElementById("addToCart${productDto.id}").setAttribute('disabled', 'disabled');
+                document.getElementById("addToCart${productDto.id}").innerHTML = "No more on stock";
+            }
+        }
+
+        function addProd(id) {
+            // alert("add prod")
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("POST", "/cart/add/" + id, true);
+            xhttp.send();
+            q = q + 1
+            document.getElementById("cartQ").innerHTML = q;
+            ps = ps - 1;
+            checkStock(id);
+        }
+
+        function checkStockFirst() {
             var s = ${productDto.stock};
             if (s === 0) {
                 document.getElementById("addToCart${productDto.id}").setAttribute('disabled', 'disabled');
@@ -163,10 +205,11 @@
                         </div>
                         <div class="card-footer">
                             <button class="btn btn-success btn-sm ml-3" type="submit"
-                                    onClick="addProd(${productDto.id}, ${cart.quantity})" id="addToCart${productDto.id}">
+                                    onClick="addProd(${productDto.id}, ${cart.quantity})"
+                                    id="addToCart${productDto.id}">
                                 add to cart
                             </button>
-<%--                            <input type="button" value="add to cart" onClick="addProd(${productDto.id}, ${cart.quantity})">--%>
+                            <%--                            <input type="button" value="add to cart" onClick="addProd(${productDto.id}, ${cart.quantity})">--%>
                         </div>
                     </div>
                 </div>
@@ -191,7 +234,11 @@
     </div>
     <!-- /.container -->
 </footer>
-<script>checkStock();</script>
+<script>
+    checkProductStock();
+    checkStock(${productDto.id})
+    checkStockFirst();
+</script>
 <script type="text/html" src="../resources/js/filter.js"></script>
 </body>
 </html>

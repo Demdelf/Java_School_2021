@@ -1,94 +1,9 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: User
-  Date: 12.01.2021
-  Time: 23:55
-  To change this template use File | Settings | File Templates.
---%>
-<%--<%@ page language="java" contentType="text/html; charset=ISO-8859-1"--%>
-<%--         pageEncoding="ISO-8859-1" %>--%>
-<%--<%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>--%>
-<%--<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>--%>
-<%--<!DOCTYPE html>--%>
-<%--<html>--%>
-<%--<head>--%>
-<%--    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">--%>
-<%--    <title>Product</title>--%>
-<%--    <style type="text/css">--%>
-<%--        .error {--%>
-<%--            color: red;--%>
-<%--        }--%>
-
-<%--        table {--%>
-<%--            width: 50%;--%>
-<%--            border-collapse: collapse;--%>
-<%--            border-spacing: 0px;--%>
-<%--        }--%>
-
-<%--        table td {--%>
-<%--            border: 1px solid #565454;--%>
-<%--            padding: 20px;--%>
-<%--        }--%>
-<%--    </style>--%>
-<%--</head>--%>
-<%--<body>--%>
-<%--<h1>${categoryDto.name}</h1>--%>
-
-<%--<table>--%>
-<%--    <tr>--%>
-<%--        <td>--%>
-<%--            <form name='get' action="/cart" method='Get'>--%>
-<%--                <input name="submit" type="submit" value="CART" />--%>
-<%--                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />--%>
-<%--            </form>--%>
-<%--        </td>--%>
-<%--        <td><strong>${cart.quantity}</strong></td>--%>
-<%--    </tr>--%>
-<%--</table>--%>
-
-<%--<form name='create' action="/customer" method='Get'>--%>
-<%--    <table>--%>
-<%--        <tr>--%>
-<%--            <td colspan='2'><input name="submit" type="submit" value="To catalog" /></td>--%>
-<%--        </tr>--%>
-<%--    </table>--%>
-<%--    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />--%>
-<%--</form>--%>
-
-<%--<table>--%>
-<%--    <tr>--%>
-<%--        <td><strong>Name</strong></td>--%>
-<%--        <td><strong>Price</strong></td>--%>
-<%--        <td><strong>Category</strong></td>--%>
-<%--    </tr>--%>
-<%--    <c:forEach items="${products}" var="product">--%>
-<%--        <tr>--%>
-<%--            <td>--%>
-<%--                <form name='addToCart' action="/customer/products/${product.id}" method='Get'>--%>
-<%--                    <input name="submit" type="submit" value="${product.name}" />--%>
-<%--                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />--%>
-<%--                </form>--%>
-<%--            </td>--%>
-<%--            <td>${product.price}</td>--%>
-<%--            <td>${product.category.name}</td>--%>
-<%--            <td>--%>
-<%--                <form name='addToCart' action="/cart/add/${product.id}" method='Post'>--%>
-<%--                    <input name="submit" type="submit" value="add to cart" />--%>
-<%--                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />--%>
-<%--                </form>--%>
-<%--            </td>--%>
-<%--        </tr>--%>
-<%--    </c:forEach>--%>
-<%--</table>--%>
-<%--</body>--%>
-<%--</html>--%>
-<%--
-  Created by IntelliJ IDEA.
+<%--  Created by IntelliJ IDEA.
   User: User
   Date: 12.01.2021
   Time: 18:04
-  To change this template use File | Settings | File Templates.
---%>
+  To change this template use File | Settings | File Templates.--%>
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
          pageEncoding="ISO-8859-1" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
@@ -157,15 +72,65 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <script>
-        var q = ${cart.quantity}
-            function addProd(id) {
-                var xhttp = new XMLHttpRequest();
-                xhttp.open("POST", "/cart/add/" + id, true);
-                xhttp.send();
-                q = q + 1
-                document.getElementById("cartQ").innerHTML = q;
+        var q = ${cart.quantity};
+
+        var cartProdMap = new Map();
+        var prodMap = new Map();
+
+        function setCartProdMap() {
+            // alert("setCartProdMap");
+            <c:forEach var="prod" items="${cart.products}">
+            var cpid = ${prod.key.id};
+            var cpv = ${prod.value};
+            cartProdMap.set(cpid, cpv);
+            </c:forEach>
+        }
+
+        setCartProdMap();
+
+        function checkProdMap() {
+            // alert("checkProdMap");
+            <c:forEach var="prod" items="${products}">
+            var pid = ${prod.id};
+            var ps = ${prod.stock};
+            if (cartProdMap.size > 0) {
+                var inc = cartProdMap.get(pid)
+                if (inc) {
+                    ps = ps - inc;
+                    alert("${pid} already in cart: ${inc}" + pid.toString());
+                }
             }
-        function checkStock() {
+            prodMap.set(pid, ps);
+            </c:forEach>
+        }
+
+        checkProdMap();
+
+        function checkStock(id) {
+            if (!prodMap.has(id)) {
+                // alert("Has not");
+            }
+            // alert("checkStock");
+            if (prodMap.get(id) <= 0) {
+                <%--alert(" no more on stock: ${id}" + id.toString())--%>
+                document.getElementById("addToCart" + id).setAttribute('disabled', 'disabled');
+                document.getElementById("addToCart" + id).innerHTML = "No more on stock";
+            }
+        }
+
+
+        function addProd(id) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("POST", "/cart/add/" + id, true);
+            xhttp.send();
+            q = q + 1;
+            document.getElementById("cartQ").innerHTML = q;
+            var pq = prodMap.get(id);
+            prodMap.set(id, pq - 1);
+            checkStock(id);
+        }
+
+        function checkStockAll() {
             <c:forEach var="prod" items="${products}">
             var s = ${prod.stock};
             if (s === 0) {
@@ -286,7 +251,7 @@
                                         onClick="addProd(${product.id}, ${cart.quantity})" id="addToCart${product.id}">
                                     add to cart
                                 </button>
-<%--                                <input type="button" value="add to cart" onClick="addProd(${product.id}, ${cart.quantity})">--%>
+                                    <%--                                <input type="button" value="add to cart" onClick="addProd(${product.id}, ${cart.quantity})">--%>
                             </div>
                         </div>
                     </div>
@@ -317,7 +282,15 @@
 <%--<script src="vendor/jquery/jquery.min.js"></script>--%>
 <%--<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>--%>
 
-<script>checkStock();</script>
+<script>
+    setCartProdMap();
+    checkProdMap();
+    <c:forEach var="prod" items="${products}">
+    var checkid = ${prod.id};
+    checkStock(checkid);
+    </c:forEach>
+    checkStockAll();
+</script>
 <script type="text/html" src="../resources/js/filter.js"></script>
 </body>
 </html>

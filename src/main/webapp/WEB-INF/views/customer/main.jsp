@@ -80,7 +80,7 @@
         var prodMap = new Map();
 
         function setCartProdMap() {
-            alert("setCartProdMap");
+            // alert("setCartProdMap");
             <c:forEach var="prod" items="${cart.products}">
             var cpid = ${prod.key.id};
             var cpv = ${prod.value};
@@ -90,7 +90,7 @@
         setCartProdMap();
 
         function checkProdMap() {
-            alert("checkProdMap");
+            // alert("checkProdMap");
             <c:forEach var="prod" items="${products}">
             var pid = ${prod.id};
             var ps = ${prod.stock};
@@ -98,7 +98,7 @@
                 var inc = cartProdMap.get(pid)
                 if (inc) {
                     ps = ps - inc;
-                    alert("${pid} already in cart: ${inc}" + pid.toString());
+                    <%--alert("${pid} already in cart: ${inc}" + pid.toString());--%>
                 }
             }
             prodMap.set(pid, ps);
@@ -108,18 +108,18 @@
 
         function checkStock(id) {
             if (!prodMap.has(id)){
-                alert("Has not");
+                // alert("Has not");
             }
-            alert("checkStock");
+            // alert("checkStock");
             if (prodMap.get(id) <= 0) {
-                alert(" no more on stock: ${id}" + id.toString())
+                <%--alert(" no more on stock: ${id}" + id.toString())--%>
                 document.getElementById("addToCart" + id).setAttribute('disabled', 'disabled');
                 document.getElementById("addToCart" + id).innerHTML = "No more on stock";
             }
         }
 
         function addProd(id) {
-            alert("addProd");
+            // alert("addProd");
             var xhttp = new XMLHttpRequest();
             xhttp.open("POST", "/cart/add/" + id, true);
             xhttp.send();
@@ -131,7 +131,7 @@
         }
 
         function checkStockAll() {
-            alert("checkStockAll")
+            // alert("checkStockAll")
             <c:forEach var="prod" items="${products}">
             var s = ${prod.stock};
             if (s <= 0) {
