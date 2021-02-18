@@ -1,12 +1,19 @@
 <%--
   Created by IntelliJ IDEA.
   User: User
+  Date: 19.02.2021
+  Time: 0:23
+  To change this template use File | Settings | File Templates.
+--%>
+<%--
+  Created by IntelliJ IDEA.
+  User: User
   Date: 12.01.2021
   Time: 0:19
   To change this template use File | Settings | File Templates.
 --%>
 <html>
-<head><title>404</title>
+<head><title>403</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
@@ -22,7 +29,7 @@
 
 <body>
 <h1>Ups!</h1>
-<h2>We can't found what you are looking for.</h2>
+<h2>Sorry, you do not have permission to view this page.</h2>
 
 <form name='home' action="/" method='Get'>
     <table>
@@ -34,3 +41,4 @@
 </form>
 </body>
 </html>
+

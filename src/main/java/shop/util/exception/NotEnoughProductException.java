@@ -4,13 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 import shop.dto.ProductDto;
 
+
 @Getter
 @Setter
-public class EmptyStockException extends Throwable {
+public class NotEnoughProductException extends Throwable {
 
     private ProductDto productDto;
 
-    public EmptyStockException(ProductDto productDto) {
-        this.productDto = productDto;
+    public NotEnoughProductException(ProductDto o) {
+        this.productDto = o;
     }
 }

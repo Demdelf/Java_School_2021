@@ -20,6 +20,7 @@ import shop.dto.FilterDto;
 import shop.dto.ProductDto;
 import shop.dto.ProductsDto;
 import shop.util.exception.EmptyStockException;
+import shop.util.exception.NotEnoughProductException;
 
 
 @Service
@@ -233,24 +234,28 @@ public class ProductService implements shop.service.ProductService {
     }
 
     @Transactional
-    public Integer updateAfterOrder(ProductDto o, Integer q) throws EmptyStockException {
+    public Integer updateAfterOrder(ProductDto o, Integer q) throws EmptyStockException, NotEnoughProductException {
         Product product = findOneForOrder(o.getId());
         int stock = product.getStock();
+        int result = 0;
         if (q <= stock) {
             product.setStock(stock - q);
             update(product);
-            return q;
+            result = q;
         } else if (stock > 0) {
             product.setStock(0);
             update(product);
-            return stock;
+            result = stock;
+            throw new NotEnoughProductException(o);
         } else {
-            throw new EmptyStockException();
+            throw new EmptyStockException(o);
         }
+        return result;
     }
 
     @Transactional
-    public Map<ProductDto, Integer> checkAndUpdateOrderedProducts(Map<ProductDto, Integer> products) {
+    public Map<ProductDto, Integer> checkAndUpdateOrderedProducts(Map<ProductDto, Integer> products)
+            throws EmptyStockException, NotEnoughProductException {
         List<ProductDto> unableToOrderProduct = new ArrayList<>();
         for (Entry<ProductDto, Integer> e : products.entrySet()) {
             int value = 0;
@@ -258,9 +263,10 @@ public class ProductService implements shop.service.ProductService {
                 value = updateAfterOrder(e.getKey(), e.getValue());
                 e.setValue(value);
                 products.put(e.getKey(), e.getValue());
-            } catch (EmptyStockException emptyStockException) {
+            } catch (EmptyStockException | NotEnoughProductException emptyStockException) {
                 emptyStockException.printStackTrace();
                 unableToOrderProduct.add(e.getKey());
+                throw emptyStockException;
             }
         }
         for (ProductDto p : unableToOrderProduct) {

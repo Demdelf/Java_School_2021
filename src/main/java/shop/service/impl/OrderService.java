@@ -30,6 +30,8 @@ import shop.dto.OrderDto;
 import shop.dto.ProductDto;
 import shop.dto.StatisticDto;
 import shop.dto.UserAccountDto;
+import shop.util.exception.EmptyStockException;
+import shop.util.exception.NotEnoughProductException;
 
 @Service
 @RequiredArgsConstructor
@@ -428,7 +430,8 @@ public class OrderService implements shop.service.OrderService {
     }
 
 
-    public void create(Principal principal, OrderDto orderDto, HttpServletRequest request) {
+    public void create(Principal principal, OrderDto orderDto, HttpServletRequest request)
+            throws EmptyStockException, NotEnoughProductException {
         User user = (User) userService.loadUserByUsername(principal.getName());
         orderDto.setUserId(user.getId());
         Map<ProductDto, Integer> products = getProductsDtoFromCartsByUser(user);
@@ -512,7 +515,10 @@ public class OrderService implements shop.service.OrderService {
         double revenueForUser = 0.0;
         for (Order o: u.getOrders()
         ) {
-            revenueForUser += orderDao.getRevenueForUserOrder(o);
+            if (o.getOrderProducts().size() > 0){
+                revenueForUser += orderDao.getRevenueForUserOrder(o);
+            }
+
         }
         return revenueForUser;
     }

@@ -33,6 +33,12 @@ public class HomeController {
         return "redirect:/customer";
     }
 
+    @GetMapping("/403")
+    public String access(Locale locale, Model model) {
+
+        return "403";
+    }
+
 
     @ModelAttribute("user")
     public User formBackingObject() {

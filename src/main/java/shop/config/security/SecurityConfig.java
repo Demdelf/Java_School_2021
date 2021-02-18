@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        .withUser("admin").password(passwordEncoder().encode("123456")).roles("USER", "ADMIN");
         auth.authenticationProvider(authenticationProvider());
     }
- 
+
 
 
     @Bean
@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.setPasswordEncoder(passwordEncoder);
         return auth;
     }
- 
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
@@ -63,6 +63,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
              .hasAnyRole("MANAGER")
         .antMatchers("/client")
             .permitAll()
+        .and()
+            .exceptionHandling().accessDeniedPage("/403")
         .and()
             .formLogin()
             .loginPage("/login")

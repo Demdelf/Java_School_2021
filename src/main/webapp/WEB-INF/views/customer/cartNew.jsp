@@ -136,6 +136,49 @@
                 document.getElementById("addToCartRight" + id).innerHTML = "";
             }
         }
+
+        function checkStockAll() {
+            alert("checkStockAll")
+            if (q > 0){
+                alert("q more null")
+                var sumCartProd = 0;
+                <c:forEach var="product" items="${cart.products}">
+                sumCartProd++;
+                var s = ${product.key.stock};
+                var id = ${product.key.id};
+                alert(s);
+                var v = prodMap.get(id);
+                alert(v);
+                if(s > v){
+                    alert("good");
+                    document.getElementById("addToCart${product.key.id}").disabled = false;
+                    document.getElementById("addToCartRight${product.key.id}").innerHTML = "";
+                    document.getElementById("creatOrderBut").disabled = false;
+                    document.getElementById("creatOrderBut").innerHTML = "Create order";
+                }
+
+                if (s === v) {
+                    alert("norm");
+                    document.getElementById("addToCart${product.key.id}").setAttribute('disabled', 'disabled');
+                    document.getElementById("addToCartRight${product.key.id}").innerHTML = "No more on stock";
+                    document.getElementById("creatOrderBut").disabled = false;
+                    document.getElementById("creatOrderBut").innerHTML = "Create order";
+                }
+                if (s < v){
+                    alert("bad");
+                    document.getElementById("addToCart${product.key.id}").setAttribute('disabled', 'disabled');
+                    document.getElementById("addToCartRight${product.key.id}").innerHTML = "Not enough on stock";
+                    sumCartProd--;
+                }
+                </c:forEach>
+                if (sumCartProd < prodMap.size){
+                    alert(" very bad")
+                    document.getElementById("creatOrderBut").setAttribute('disabled', 'disabled');
+                    document.getElementById("creatOrderBut").innerHTML = "Not enough products on stock";
+                }
+            }
+        }
+
         function changeTotal(sign, price){
             total = total + price*sign;
             document.getElementById("total").innerHTML = total + ".0 $";
@@ -171,6 +214,7 @@
             }
             changeTotal(-1, price);
             checkStock(id, stock, newpq);
+            checkStockAll();
         }
 
         function delProd(id, price) {
@@ -183,19 +227,10 @@
             element.parentNode.removeChild(element);
             changeTotal(-1, price * prodMap.get(id));
             checkEmptyCart();
+            checkStockAll();
         }
 
-        function checkStockAll() {
-            <c:forEach var="product" items="${cart.products}">
-            var s = ${product.key.stock};
-            var v =
-            ${product.value}
-            if (s <= v) {
-                document.getElementById("addToCart${product.key.id}").setAttribute('disabled', 'disabled');
-                document.getElementById("addToCartRight${product.key.id}").innerHTML = "No more on stock";
-            }
-            </c:forEach>
-        }
+
 
     </script>
 </head>

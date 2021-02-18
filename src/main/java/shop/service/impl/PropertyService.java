@@ -57,7 +57,7 @@ public class PropertyService implements shop.service.Service<Property> {
         property.setType(dto.getType());
         Category category = categoryService.findByName(dto.getCategory());
         property.setCategory(category);
-        return create(property);
+        return property;
     }
 
     public Property findByName(String name){

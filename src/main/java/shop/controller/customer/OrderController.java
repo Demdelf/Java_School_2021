@@ -18,22 +18,25 @@ import shop.dto.CartDTO;
 import shop.dto.OrderDto;
 import shop.service.impl.OrderService;
 import shop.util.MessageSender;
+import shop.util.exception.EmptyStockException;
+import shop.util.exception.NotEnoughProductException;
 
 @Controller
 @RequestMapping("customer/orders")
 @RequiredArgsConstructor
 public class OrderController {
+
     private final OrderService orderService;
     private final MessageSender messageSender;
 
 
     @GetMapping("/create")
-    public String editOrder(Locale locale, Model model
-            , @ModelAttribute("path") String path, Principal principal
+    public String editOrder(
+            Locale locale, Model model, @ModelAttribute("path") String path, Principal principal
     ) {
         if (isAuthorized(principal)) {
             OrderDto orderDto = orderService.getNewOrderDto(principal);
-            if (orderDto == null){
+            if (orderDto == null) {
                 return "404";
             }
             model.addAttribute("paymentMethods", orderService.getAllPaymentMethods());
@@ -41,18 +44,19 @@ public class OrderController {
             model.addAttribute("addresses", orderService.getAllCustomerAddresses(principal));
             model.addAttribute("orderDto", orderDto);
             return "customer/order";
-        }else {
+        } else {
             return "login";
         }
     }
 
     @GetMapping("/{id}")
-    public String viewOrder(@PathVariable("id") Long id, Locale locale, Model model
-            , @ModelAttribute("path") String path, Principal principal
+    public String viewOrder(
+            @PathVariable("id") Long id, Locale locale, Model model, @ModelAttribute("path") String path,
+            Principal principal
     ) {
         if (isAuthorized(principal)) {
             OrderDto orderDto = orderService.getDtoById(id, principal);
-            if (orderDto == null){
+            if (orderDto == null) {
                 return "404";
             }
 //            model.addAttribute("paymentMethods", orderService.getAllPaymentMethods());
@@ -60,18 +64,17 @@ public class OrderController {
 //            model.addAttribute("addresses", orderService.getAllCustomerAddresses(principal));
             model.addAttribute("orderDto", orderDto);
             return "customer/orderView";
-        }else {
+        } else {
             return "login";
         }
     }
 
     @GetMapping("")
-    public String userOrders(Locale locale, Model model, Principal principal){
+    public String userOrders(Locale locale, Model model, Principal principal) {
         List<OrderDto> orderDtoList = orderService.getAllUserOrders(principal);
         model.addAttribute("orderDtoList", orderDtoList);
         return "customer/ordersHistory";
     }
-
 
 //    @PostMapping("/new")
 //    public String createOrder(Model model,
@@ -86,15 +89,16 @@ public class OrderController {
 //    }
 
     @PostMapping("/create")
-    public String saveOrder(Model model, HttpServletRequest request,
-            Principal principal, @ModelAttribute("orderDto") OrderDto orderDto
-    ) {
+    public String saveOrder(
+            Model model, HttpServletRequest request, Principal principal, @ModelAttribute("orderDto") OrderDto orderDto
+    ) throws EmptyStockException, NotEnoughProductException {
         if (isAuthorized(principal)) {
 
             orderService.create(principal, orderDto, request);
+
             messageSender.sendMessage();
             return "customer/thanks";
-        }else {
+        } else {
             return "login";
         }
     }
