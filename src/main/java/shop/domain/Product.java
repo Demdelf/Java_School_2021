@@ -11,6 +11,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.xerces.impl.dv.util.Base64;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.Type;
@@ -52,4 +53,8 @@ public class Product extends AbstractEntity{
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
 //    @LazyCollection(LazyCollectionOption.FALSE)
     private List<PropertyValue> propertyValues;
+
+    public String stringImage(){
+        return Base64.encode(getImage());
+    }
 }

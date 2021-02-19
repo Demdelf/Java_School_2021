@@ -107,6 +107,7 @@ public class OrderService implements shop.service.OrderService {
         OrderDto orderDto = new OrderDto();
         orderDto.setId(order.getId());
         orderDto.setUserId(order.getUser().getId());
+        orderDto.setUserEmail(order.getUser().getEmail());
         Map<ProductDto, Integer> products = new HashMap<>();
         int numberOfProducts = 0;
         double fullCost = 0.0;

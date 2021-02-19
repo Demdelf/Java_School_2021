@@ -140,7 +140,7 @@
                 <div class="row">
                     <a href="/customer/products/${productDto.id}">
                         <img class="img-fluid rounded mx-auto d-block" alt="Responsive image"
-                             src="/products-images/${productDto.id}">
+                             src="data:image/png;base64,${productDto.stringImage}">
                     </a>
                     <div class="mx-auto col-sm-6">
 

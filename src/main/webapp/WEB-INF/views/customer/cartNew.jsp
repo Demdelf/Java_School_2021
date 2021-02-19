@@ -279,7 +279,7 @@
                 </div>
                 <div class="col-md-2 themed-grid-col">
                     <a href="/customer/products/${product.key.id}"><img class="card-img-top"
-                                                                        src="/products-images/${product.key.id}"
+                                                                        src="data:image/png;base64,${product.key.stringImage}"
                                                                         alt=""></a>
                 </div>
                 <div class="col-md-2 themed-grid-col">${product.key.price}</div>

@@ -145,7 +145,7 @@
                     </form>
                 </div>
                 <div class="col-md-2 themed-grid-col">
-                    <img class="card-img-top" src="/products-images/${product.key.id}"
+                    <img class="card-img-top" src="data:image/png;base64,${product.key.stringImage}"
                          alt="">
                 </div>
                 <div class="col-md-2 themed-grid-col">${product.key.price}</div>

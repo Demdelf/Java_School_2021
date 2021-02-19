@@ -49,7 +49,7 @@ public class PropertyValueService implements shop.service.PropertyValueService {
     }
 
     @Transactional
-    private PropertyValue convertPropertyValueDtoToPropertyValue(PropertyValueDto dto) {
+    PropertyValue convertPropertyValueDtoToPropertyValue(PropertyValueDto dto) {
         PropertyValue propertyValue = new PropertyValue();
         propertyValue.setName(dto.getName());
         propertyValue.setValue(dto.getValue());

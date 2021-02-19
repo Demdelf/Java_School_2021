@@ -78,23 +78,26 @@
 
                     <div class="row  mb-3">
                         <div class="col-md-1 themed-grid-col">${order.id}</div>
+                        <div class="col-md-2 themed-grid-col">${order.userEmail}</div>
                         <div class="col-md-2 themed-grid-col">кол-во товаров: <strong>${order.numberOfProducts}</strong>
                         </div>
                         <div class="col-md-2 themed-grid-col">${order.deliveryStatus}</div>
-                        <div class="col-md-3 themed-grid-col">${order.deliveryMethod}</div>
+                        <div class="col-md-2 themed-grid-col">${order.deliveryMethod}</div>
                         <div class="col-md-1 themed-grid-col">${order.fullCost} <strong>$</strong></div>
                         <div class="col-md-1 themed-grid-col">
                             <form name='get' action="/customer/orders/${order.id}" method='Get'>
                                 <input name="submit" type="submit" value="View"/>
                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                             </form>
-                        </div>
-                        <div class="col-md-2 themed-grid-col">
                             <form name='get' action="/manage/orders/${order.id}" method='Get'>
                                 <input name="submit" type="submit" value="Manage"/>
                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                             </form>
+
                         </div>
+<%--                        <div class="col-md-2 themed-grid-col">--%>
+<%--                            --%>
+<%--                        </div>--%>
                     </div>
                 </c:forEach>
             </div>

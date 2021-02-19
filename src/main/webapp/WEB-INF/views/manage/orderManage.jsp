@@ -174,6 +174,13 @@
                                    modelAttribute="orderDto">
 
                             <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">Customer</label>
+                                <div class="col-lg-9">
+                                        ${orderDto.userEmail}
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
                                 <label class="col-lg-3 col-form-label form-control-label">Customer address</label>
                                 <div class="col-lg-9">
                                     <select id="customer_address" class="form-control" size="0" name="addressId">
