@@ -138,41 +138,54 @@
         }
 
         function checkStockAll() {
-            alert("checkStockAll")
+            // alert("checkStockAll")
             if (q > 0){
-                alert("q more null")
+                // alert("q more null")
                 var sumCartProd = 0;
                 <c:forEach var="product" items="${cart.products}">
                 sumCartProd++;
                 var s = ${product.key.stock};
                 var id = ${product.key.id};
-                alert(s);
+                // alert(s);
                 var v = prodMap.get(id);
-                alert(v);
+                // alert(v);
                 if(s > v){
-                    alert("good");
-                    document.getElementById("addToCart${product.key.id}").disabled = false;
-                    document.getElementById("addToCartRight${product.key.id}").innerHTML = "";
+                    // alert("good");
+                    var prodElement =  document.getElementById("addToCart${product.key.id}");
+                    if (typeof(prodElement) != 'undefined' && prodElement != null)
+                    {
+                        document.getElementById("addToCart${product.key.id}").disabled = false;
+                        document.getElementById("addToCartRight${product.key.id}").innerHTML = "";
+                    }
+
                     document.getElementById("creatOrderBut").disabled = false;
                     document.getElementById("creatOrderBut").innerHTML = "Create order";
                 }
 
                 if (s === v) {
-                    alert("norm");
-                    document.getElementById("addToCart${product.key.id}").setAttribute('disabled', 'disabled');
-                    document.getElementById("addToCartRight${product.key.id}").innerHTML = "No more on stock";
+                    // alert("norm");
+                    var prodElement =  document.getElementById("addToCart${product.key.id}");
+                    if (typeof(prodElement) != 'undefined' && prodElement != null)
+                    {
+                        document.getElementById("addToCart${product.key.id}").setAttribute('disabled', 'disabled');
+                        document.getElementById("addToCartRight${product.key.id}").innerHTML = "No more on stock";
+                    }
                     document.getElementById("creatOrderBut").disabled = false;
                     document.getElementById("creatOrderBut").innerHTML = "Create order";
                 }
                 if (s < v){
-                    alert("bad");
-                    document.getElementById("addToCart${product.key.id}").setAttribute('disabled', 'disabled');
-                    document.getElementById("addToCartRight${product.key.id}").innerHTML = "Not enough on stock";
+                    // alert("bad");
+                    var prodElement =  document.getElementById("addToCart${product.key.id}");
+                    if (typeof(prodElement) != 'undefined' && prodElement != null)
+                    {
+                        document.getElementById("addToCart${product.key.id}").setAttribute('disabled', 'disabled');
+                        document.getElementById("addToCartRight${product.key.id}").innerHTML = "Not enough on stock";
+                    }
                     sumCartProd--;
                 }
                 </c:forEach>
                 if (sumCartProd < prodMap.size){
-                    alert(" very bad")
+                    // alert(" very bad")
                     document.getElementById("creatOrderBut").setAttribute('disabled', 'disabled');
                     document.getElementById("creatOrderBut").innerHTML = "Not enough products on stock";
                 }
@@ -213,7 +226,9 @@
                 document.getElementById("prodValue" + id).innerHTML = newpq;
             }
             changeTotal(-1, price);
-            checkStock(id, stock, newpq);
+            if(newpq > 0){
+                checkStock(id, stock, newpq);
+            }
             checkStockAll();
         }
 

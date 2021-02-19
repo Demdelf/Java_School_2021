@@ -234,7 +234,7 @@
                             <div class="form-group row">
                                 <label class="col-lg-3 col-form-label form-control-label">Image: </label>
                                 <div class="col-lg-9">
-                                    <input type="file" name="imageM" accept="image/png, image/jpeg, image/jpg"
+                                    <input type="file" name="imageM" accept="image/*"
                                            value="/products-images/${productDto.id}"/>
                                 </div>
                             </div>
